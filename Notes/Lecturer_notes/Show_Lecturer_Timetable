@@ -1,0 +1,12 @@
+So to show our lecturer our time table we need to know.
+- The lecture - we will use the lecturer to show the lecturer his timetable.
+
+------------------------
+SQL statements involved
+-----------------------
+
+SELECT a.vanue, a.module_code, a.start_time, a.end_time, a.day
+FROM lecture a, lecture_lecturer b, lecturer c
+WHERE b.staff_number = c.staff_number
+AND b.lecture_id = a.lecture_id
+AND c.staff_number = 10023;
