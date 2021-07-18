@@ -6,8 +6,37 @@ include "student.php";
 include "form.php";
 echo "<h1>Tetsing Functions</h1><br><br><br>";
 $string = "Shikoa";
-$id_nr = "9511275418082 ";
+$id_nr = "-9511275418082 ";
 $id_nr = trim($id_nr," ");
+$int_id = (int)$id_nr;
+$phone = "076";
+if( (int)$phone >0)
+{
+  echo $phone . "<br>";
+  echo "We are getting into another if <br>";
+  if(1 > 0)
+  {
+    echo "We are in another if check this out <br>";
+  }
+}
+echo substr($phone, 0,1);
+if($int_id < 0)
+{
+echo "<br>ID Numbre is $int_id<br>";
+}
+else
+{
+  echo "We are not working here";
+}
+if(ctype_digit($id_nr))
+{
+  echo "<h3>Problem here</h3>";
+}
+else
+{
+  echo "<h3>The ID string length is </h3>" . strlen($id_nr) . "\n<br>";
+}
+
 if(ctype_digit($id_nr) && strlen($id_nr) ==13)
 {
   if(substr($id_nr,2,2) != "00")
@@ -42,6 +71,7 @@ else
 }
 echo "<h1>Testing student.php class</h1><br><br><br>";
 $student = new Student();
+$student->set_link($link);
 $first_name = "Shiko ";
 $last_name = "Matlala";
 $id_nr = "9511275418082";
@@ -55,7 +85,7 @@ if($student->check_id($id_nr, $link) == 1)
   $student->set_id($id_nr);
 }
 echo $student->get_id();
-echo "<br>" . "The gender of this person is  " . $student->validate_sex($id_nr);
+echo "<br>" . "The gender of this person is  " . $student->validate_sex($id_nr, "M");
 $select = new Select();
 $select->set_select("gender","gender", "");
 $select->set_option("M", "Male");

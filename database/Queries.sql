@@ -102,3 +102,10 @@ AND b.module_code = "DSO34BT";
 SELECT *
 FROM student
 WHERE 'id_nr' = "8604265257084"
+
+
+
+-- INSERT Student
+$sql = "INSERT INTO student  (`stud_number`, `first_name`, `last_name`, `id_nr`, `gender`, `phone`, `email`, `address`) VALUES\n"
+
+    . "(218995412, \'Shiko\', \'Matlala\', \'9511275418082\', \'M\', \'0765870538\', \'218995412@tut4life.ac.za\', \"6328 Block S, Mabopane, 0190\")";

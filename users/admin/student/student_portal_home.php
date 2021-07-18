@@ -1,5 +1,5 @@
 <?php
-include "form.php";
+include_once "form.php";
 //let us create students create the first form.
 //insert student;
 $form = new Form();
