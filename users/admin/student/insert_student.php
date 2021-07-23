@@ -86,9 +86,6 @@ if(isset($_POST['submit']))
       $input_wrapper .= $input->get_input() ."<br>\n";
       echo $form->get_form_wrapper($input_wrapper);
     }
-
-    //echo "<br>" . $stud_number;
-
 }
 
 

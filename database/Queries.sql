@@ -89,7 +89,7 @@ AND a.staff_number = 10023
 AND b.module_code = "DSO34BT";
 
 -- This needs a femail query as well as a male query
-SELECT c.stud_number, first_name, last_name, phone, email
+SELECT c.stud_number, d.first_name, d.last_name, d.phone, d.email
 FROM lecture_group a, lecture b, lecture_student c, student d
 WHERE a.lecture_id = b.lecture_id
 AND c.lecture_id = b.lecture_id
@@ -109,3 +109,24 @@ WHERE 'id_nr' = "8604265257084"
 $sql = "INSERT INTO student  (`stud_number`, `first_name`, `last_name`, `id_nr`, `gender`, `phone`, `email`, `address`) VALUES\n"
 
     . "(218995412, \'Shiko\', \'Matlala\', \'9511275418082\', \'M\', \'0765870538\', \'218995412@tut4life.ac.za\', \"6328 Block S, Mabopane, 0190\")";
+
+
+
+SELECT c.module_code, c.module_name, c.credit
+FROM course a, course_module b, module c
+WHERE a.course_id = b.course_id
+AND b.module_code = c.module_code
+AND a.course_id = 1;
+
+
+SELECT SUM(credit)
+FROM course a, course_module b, module c
+WHERE a.course_id = b.course_id
+AND b.module_code = c.module_code;
+
+
+$sql = "SELECT c.module_code, c.module_name, c.credit\n"
+    . "FROM course a, course_module b, module c\n"
+    . "WHERE a.course_id = b.course_id\n"
+    . "AND b.module_code = c.module_code\n"
+    . "AND a.course_id = 1";

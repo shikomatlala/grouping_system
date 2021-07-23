@@ -292,7 +292,7 @@ CREATE TABLE group_member
  `group_member_id` INT(11) PRIMARY KEY AUTO_INCREMENT,
  `member_mark` DECIMAL(5,2) NOT NULL,
  `stud_number` INT(11) NOT NULL,
- `group_id` INT(11),      
+ `group_id` INT(11),
  `lecture_group_id` INT(11) NOT NULL,
  FOREIGN KEY(`group_id`) REFERENCES `group`(`group_id`),
  FOREIGN KEY(`stud_number`) REFERENCES `student`(`stud_number`),

@@ -6,6 +6,24 @@ class Select
   private $class;
   private $value;
   private $caption;
+  private $event;
+  private $event_type;
+  public function set_select_more($name, $id, $class, $event, $event_type)
+  {
+      $this->name = $name;
+      $this->id = $id;
+      $this->class = $class;
+      $this->event = $event;
+      $this->event_type = $event_type;
+  }
+  public function get_select_more($option)
+  {
+    $out = "";
+    $out  =  "\n\t<select class =\"$this->class\"  $this->event_type=\"$this->event\" name=\"$this->name\" id=\"$this->id\">\n";
+    $out .= $option;
+    $out .= "\t</select><br>\n";
+    return $out;
+  }
   public function set_select($name,$id, $class)
   {
       $this->name = $name;
@@ -19,15 +37,15 @@ class Select
   }
   public function get_option()
   {
-    $out = "<option value=\"$this->value\">$this->caption</option>\n";
+    $out = "\t<option value=\"$this->value\">$this->caption</option>\n";
     return $out;
   }
   public function get_select($option)
   {
     $out = "";
-    $out  =  "\n<select class =\"$this->class\" name=\"$this->name\" id=\"$this->id\">\n";
+    $out  =  "\n\t<select class =\"$this->class\" name=\"$this->name\" id=\"$this->id\">\n";
     $out .= $option;
-    $out .= "</select><br>\n";
+    $out .= "\t</select><br>\n";
     return $out;
   }
 
@@ -128,7 +146,7 @@ class Form
   {
     $out = "\n<form class=\"$this->class\" action=\"$this->action\" method=\"$this->method\" >\n";
     $out .= $form_contents;
-    $out .= "</form>\n";
+    $out .= "\n</form>\n";
     return $out;
   }
 
