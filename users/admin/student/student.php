@@ -1,5 +1,6 @@
 <?php
 include_once "../../../connect.php";
+include_once "form.php";
 class Student
 {
   private $stud_number;
@@ -268,6 +269,30 @@ class Student
   public function get_id()
   {
     return $this->id_nr;
+  }
+  public function get_student_label()
+  {
+      $label = new Label();
+      $label_increment = "";
+      $label->set_label("","Student Number: ". $this->stud_number, "");
+      $label_increment .= "\n". $label->get_label() . "<br>";
+      $label->set_label("", "ID Number: ".$this->id_nr, "");
+      $label_increment .= "\n". $label->get_label() . "<br>";
+      $label->set_label("", "First Name: ".$this->first_name, "");
+      $label_increment .= "\n". $label->get_label() . "<br>";
+      $label->set_label("","Last Name: ". $this->last_name, "");
+      $label_increment .= "\n". $label->get_label() . "<br>";
+      $label->set_label("","Sex: ". $this->sex, "");
+      $label_increment .= "\n". $label->get_label() . "<br>";
+      $label->set_label("", "Phone: ".$this->phone, "");
+      $label_increment .= "\n". $label->get_label() . "<br>";
+      $label->set_label("", "Email: ".$this->email, "");
+      $label_increment .= "\n".  $label->get_label() . "<br>";
+      $label->set_label("","Address: ". $this->address, "");
+      $label_increment .= "\n". $label->get_label() . "<br>";
+      return $label_increment;
+
+
   }
   public function validate_sex($id_nr, $sex)
   {

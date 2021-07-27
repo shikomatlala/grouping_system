@@ -130,3 +130,12 @@ $sql = "SELECT c.module_code, c.module_name, c.credit\n"
     . "WHERE a.course_id = b.course_id\n"
     . "AND b.module_code = c.module_code\n"
     . "AND a.course_id = 1";
+
+
+SELECT *
+FROM student a, lecture_student b, lecture c, module d, course_module e, course f
+WHERE f.course_id = e.course_id
+AND d.module_code = c.lecture_id
+AND c.lecture_id = b.lecture_id
+AND a.stud_number = b.stud_number
+AND f.course_id = 1;
