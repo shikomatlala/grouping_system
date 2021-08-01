@@ -139,3 +139,13 @@ AND d.module_code = c.lecture_id
 AND c.lecture_id = b.lecture_id
 AND a.stud_number = b.stud_number
 AND f.course_id = 1;
+
+SELECT *
+FROM lecture a, module_code b, course_module c
+WHERE a.module_code = b.module_code
+AND c.moulde_code = a.module_code;
+
+SELECT *
+FROM module, course_module
+WHERE module.module_code = course_module.module_code
+AND course_module.course_id = 1;
