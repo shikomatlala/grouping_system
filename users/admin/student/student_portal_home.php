@@ -3,8 +3,8 @@ include_once "form.php";
 include_once "../../../connect.php";
 
 
-echo "<!-- CSS only -->
-<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\" crossorigin=\"anonymous\">";
+//echo "<!-- CSS only -->
+//<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\" crossorigin=\"anonymous\">";
 //include_once "even_listener.php";
 //let us create students create the first form.
 //insert student;
@@ -89,6 +89,8 @@ $final_select = $select_course->get_select_more($compile_select);
 //echo $final_select;
 $final_select .= "<br>\t". $input->get_input() . "\n";
 echo $form->get_form_wrapper($final_select);
+//ho ;
+
 
 $course_id = 0;
 if(isset($_POST['click_course']))
@@ -161,6 +163,7 @@ if(isset($_POST['click_course']))
      //echo $module_name .= " modules<br>";
      $module_table .= "\n\t</table>";
      echo $module_table;
+     //
    }
    else
    {

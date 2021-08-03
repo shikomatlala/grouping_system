@@ -114,17 +114,17 @@ class Student
   }
   public function get_phone_status($validate_phone)
   {
-    $out = "";
-    if($validate_phone == 0)
-    {
-      $out = "Phone already taken / Invalid";
-      return $out;
-    }
-    else
-    {
-      $out = "Good";
-      return $out;
-    }
+      $out = "";
+      if($validate_phone == 0)
+      {
+        $out = "Phone already taken / Invalid";
+        return $out;
+      }
+      else
+      {
+        $out = "Good";
+        return $out;
+      }
   }
   public function set_student($stud_number, $first_name, $id_nr, $sex, $phone, $email, $address)
   {
