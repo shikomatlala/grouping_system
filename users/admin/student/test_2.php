@@ -11,6 +11,8 @@ $form = new Form();
 $input = new Input();
 $label = new Label();
 $inputs = "";
+
+echo date();
 //Create a new form with button
 $form->set_form("", "POST", "");
 $input->set_input("hidden", "module", "Shiko_Matlala", "", "");
