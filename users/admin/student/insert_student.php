@@ -8,6 +8,17 @@ $form = new Form();
 $input = new Input();
 $label = new Label();
 $student->set_link($link);
+
+
+echo "<h1>Insert a New Student</h1>\n<br><hr>";
+echo "<h3>Enter The Following Details and then Submit</h3>\n<br>";
+
+
+//create a back button - which is actually a form - 
+$form->set_form("student_portal_home.php", "POST", "");
+//$label->set_label("Click to Register new Student", "First Name", "");
+$input->set_input("submit", "back", "Back", "", "");
+echo $form->get_form_wrapper($input->get_input());
 //what do we need to insert this student -- well we just need to know the current studen stumber - but ai its going to take us time-- wel
 //Create an error list - if we can do so we will be ale to know how to work with out erros - or we can push the person back and then just change a few things to the class -
 //$status_stud_name = "";
@@ -145,7 +156,7 @@ if(isset($_POST['submit']))
       $label->set_label("address", "Home Address", "");
       $input->set_input("text", "address", $student->get_address(), "Home Address", "");
       $input_wrapper .= $label->get_label() . "<br>\n";
-      $input_wrapper .= $input->get_input_text() . "<br>\n";
+      $input_wrapper .= $input->get_input_text() . "<br><br>\n";
       $input->set_input("submit","submit", "Insert Student", "","");
       $input_wrapper .= $input->get_input() ."<br>\n";
       echo $form->get_form_wrapper($input_wrapper);
@@ -181,7 +192,10 @@ if(isset($_POST['click_course']))
     //Create a label
     $label->set_label("", $module_name, "");
     echo "\n<br>" . $label->get_label();
+    //Remember that the student does not register for module he registers for a subject.
+    //So we need to find all the subjects that the are offered by the institution.
     //get the valude of the
+    //Now we need to get the current lecturers that have been offered for the Course which
 
     //Here we show the user the modules that they can register based upon the course that they have chosen.
     //$sql = "SELECT * FROM `module` WHERE course"

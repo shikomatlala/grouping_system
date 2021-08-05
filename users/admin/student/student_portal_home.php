@@ -7,55 +7,68 @@ include_once "../../../connect.php";
 //<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\" crossorigin=\"anonymous\">";
 //include_once "even_listener.php";
 //let us create students create the first form.
+
 //insert student;
 $form = new Form();
 $input = new Input();
 $label = new Label();
 $input_wrapper = "";
-$form->set_form("insert_student.php", "POST", "");
-//first _name
-$label->set_label("first_name", "First Name", "");
-$input->set_input("text", "first_name", "", "First Name", "");
-$input_wrapper .= $label->get_label() . "<br>\n";
-$input_wrapper .= $input->get_input_text() . "<br>\n";
-//Last Name
-$label->set_label("last_name", "Last Name", "");
-$input->set_input("text", "last_name", "", "Last Name", "");
-$input_wrapper .= $label->get_label() . "<br>\n";
-$input_wrapper .= $input->get_input_text() . "<br>\n";
-//first _name
-$label->set_label("id_nr", "ID Number", "");
-$input->set_input("text", "id_nr", "", "ID Number", "");
-$input_wrapper .= $label->get_label() . "<br>\n";
-$input_wrapper .= $input->get_input_text() . "<br>\n";
-//first _name
-$label->set_label("sex", "Gender", "");
-$input_wrapper .= $label->get_label() . "<br>\n";
-$select = new Select();
-$select->set_select("sex","sex", "");
-$select->set_option("M", "Male");
-$gender_option = "\t".$select->get_option();
-$select->set_option("F","Female");
-$gender_option .= "\t".$select->get_option();
-$select->set_option("O","Other");
-$gender_option .= "\t".$select->get_option();
-$select_output = $select->get_select($gender_option);
-$input_wrapper.= $select_output;
-//first _name
-$label->set_label("phone", "Phone Number", "");
-$input->set_input("text", "phone", "", "Phone Number", "");
-$input_wrapper .= $label->get_label() . "<br>\n";
-$input_wrapper .= $input->get_input_text() . "<br>\n";
 
-//first _name
-$label->set_label("address", "Home Address", "");
-$input->set_input("text", "address", "", "Home Address", "");
-$input_wrapper .= $label->get_label() . "<br>\n";
-$input_wrapper .= $input->get_input_text() . "<br>\n";
-$input->set_input("submit","submit", "Insert Student", "","");
-$input_wrapper .= $input->get_input() ."<br>\n";
-echo $form->get_form_wrapper($input_wrapper);
-//End everything here
+
+//Got to Insert student
+echo "<h1>Student Management Portal</h1>\n<br><hr>";
+echo "<h3>Manage all students here</h3>\n<br>";
+$form->set_form("student_form.php", "POST", "");
+//$label->set_label("Click to Register new Student", "First Name", "");
+$input->set_input("submit", "got_insert_student", "Register New Student", "", "");
+echo $form->get_form_wrapper($input->get_input());
+//Let us now manage  your students
+
+
+// $form->set_form("insert_student.php", "POST", "");
+// //first _name
+// $label->set_label("first_name", "First Name", "");
+// $input->set_input("text", "first_name", "", "First Name", "");
+// $input_wrapper .= $label->get_label() . "<br>\n";
+// $input_wrapper .= $input->get_input_text() . "<br>\n";
+// //Last Name
+// $label->set_label("last_name", "Last Name", "");
+// $input->set_input("text", "last_name", "", "Last Name", "");
+// $input_wrapper .= $label->get_label() . "<br>\n";
+// $input_wrapper .= $input->get_input_text() . "<br>\n";
+// //first _name
+// $label->set_label("id_nr", "ID Number", "");
+// $input->set_input("text", "id_nr", "", "ID Number", "");
+// $input_wrapper .= $label->get_label() . "<br>\n";
+// $input_wrapper .= $input->get_input_text() . "<br>\n";
+// //first _name
+// $label->set_label("sex", "Gender", "");
+// $input_wrapper .= $label->get_label() . "<br>\n";
+// $select = new Select();
+// $select->set_select("sex","sex", "");
+// $select->set_option("M", "Male");
+// $gender_option = "\t".$select->get_option();
+// $select->set_option("F","Female");
+// $gender_option .= "\t".$select->get_option();
+// $select->set_option("O","Other");
+// $gender_option .= "\t".$select->get_option();
+// $select_output = $select->get_select($gender_option);
+// $input_wrapper.= $select_output;
+// //first _name
+// $label->set_label("phone", "Phone Number", "");
+// $input->set_input("text", "phone", "", "Phone Number", "");
+// $input_wrapper .= $label->get_label() . "<br>\n";
+// $input_wrapper .= $input->get_input_text() . "<br>\n";
+
+// //first _name
+// $label->set_label("address", "Home Address", "");
+// $input->set_input("text", "address", "", "Home Address", "");
+// $input_wrapper .= $label->get_label() . "<br>\n";
+// $input_wrapper .= $input->get_input_text() . "<br>\n";
+// $input->set_input("submit","submit", "Insert Student", "","");
+// $input_wrapper .= $input->get_input() ."<br>\n";
+// echo $form->get_form_wrapper($input_wrapper);
+// //End everything here
 
 //Let us look up for
 //select all courses and then show then to the user
@@ -174,11 +187,125 @@ if(isset($_POST['click_course']))
     //echo $sql;
     //$form->set_form("", "POST", "");
     //$label->set_label("", "")
+    //Now we need to show all the students that are here - 
 
-    print_r($_POST);
+
+
+
+    //Now we need to select all the students that are in the system - Who are these students - Now let us make sure that we can find them.
+    //
+
+    //print_r($_POST);
 
 }
 
+
+$student_table = "";
+$sql = "SELECT * \n"
+. "FROM student\n";
+$result = mysqli_query($link, $sql);
+echo "<br><h1>Here is a list of all the student</h1><br>";
+//echo "<br>" .  $_SESSION['activity'] . "<br>";
+$count_students = 0;
+if(mysqli_num_rows($result)>0)
+{
+  $student_table = "";
+  $student_table .= "\n\t<table>\n<tr>";
+  $student_table .= "\n\t\t<th>Student Number</th>";
+  $student_table .= "\n\t\t<th>First Name</th>";
+  $student_table .= "\n\t\t<th>Last Name</th>";
+  $student_table .= "\n\t\t<th>Gender</th>";
+  $student_table .= "\n\t\t<th>ID Number</th>";
+  $student_table .= "\n\t\t<th>Email Address</th>";
+  $student_table .= "\n\t\t<th>Phone Number</th>";
+  $student_table .= "\n\t\t<th>Home Address</th>";
+  $student_table .= "\n\t\t<th> </th>";//Delete
+  $student_table .= "\n\t\t<th> </th>";//Udate
+  $student_table .= "\n\t\t<th> </th>";//View Student - This is where we take you to the student home page - now we are going to do that - 
+  $student_table .= "\n\t</tr>";
+  //Select * students
+  $module_name = "";
+
+
+
+  while($row = mysqli_fetch_assoc($result))
+  {
+    $count_students++;
+    //Get the total number of students -- 
+
+    $student_table .= "\n\t<tr>";
+    $student_table .= "\n\t\t<td>" .$row['stud_number'] . "</td>";
+    $student_table .= "\n\t\t<td>" .$row['first_name'] . "</td>";
+    $student_table .= "\n\t\t<td>" .$row['last_name'] . "</td>";
+    $student_table .= "\n\t\t<td>" .$row['gender'] . "</td>";
+    $student_table .= "\n\t\t<td>" .$row['id_nr'] . "</td>";
+    $student_table .= "\n\t\t<td>" .$row['phone'] . "</td>";
+    $student_table .= "\n\t\t<td>" .$row['address'] . "</td>";
+    $student_table .= "\n\t\t<td>" .$row['email'] . "</td>";
+
+    //Cool now we need to create a form which will simply be a button - 
+    //1st Form Delete a Student - student number - this is all that we are going to need.
+    //Set the form to delete a student.
+    $inputs = "";
+    $stud_number = $row['stud_number'];
+    // "Me + " . $row['first_name'];
+    $form->set_form("", "POST", "");
+    $input->set_input("hidden", "stud_number", $stud_number, "", "");
+    $inputs .= $input->get_input();
+    $input->set_input("submit", "delete_student", "Delete", "", "");
+    $inputs .= $input->get_input();
+    $form_out = $form->get_form_wrapper($inputs);
+    $student_table .= "\n\t\t<td>" . $form_out . "</td>";
+
+    //2nd Form Update Student - This form should take us to insert student - but now we are updating student, how are we going to do this?
+    $inputs = "";
+    $form->set_form("student_form.php", "POST", "");
+    $input->set_input("hidden", "stud_number", $stud_number, "", "");
+    $inputs .= $input->get_input();
+    $input->set_input("submit", "update_student", "Update", "", "");
+    $inputs .= $input->get_input();
+    $form_out = $form->get_form_wrapper($inputs);
+    $student_table .= "\n\t\t<td>" . $form_out . "</td>";
+
+
+
+  }
+  $student_table .= "\n\t</table>";
+}
+echo "<hr><h3>Total Students $count_students </h3><hr><br>";
+echo $student_table;
+
+
+//Delete the student - But how are we going to know all that the student is involved in - Remember the delete button here will have to do with a 
+//A lot of thins - so our delete is not yet complete
+if(isset($_POST['delete_student']))
+{
+    //Now we can move on to deleting this student
+    //Le us delete you dude.
+    $stud_number = (int)$_POST['stud_number'];
+    $sql = "DELETE FROM student WHERE stud_number = $stud_number";
+    //We need to make sure that everything about the student is also deleted -
+    //We need to delete a lot of things or else it just will not work - 
+    //Because remember about referential integrity
+
+    if(mysqli_query($link, $sql))
+    {
+        //We have delete the student - now we need to go back - to that page...
+        echo  "Student deleted successfully";
+        //Now jump back to the page
+        //include "student_portal_home.php";
+        //Create a form that is going to jump us back.
+        //Or we can use an a href
+    }
+    else
+    {
+      echo   "Student could not get deleted";
+        //Now jump back to the page
+        //include "student_portal_home.php";
+    }
+}
+//It will be best if if we can show all the students as soon as the user gets there - 
+//Create a table wich shows all the students.
 
 //The next this that we need to do here is to include java script files. --
 //but remember the JavaScript resides in the html document and not on the php documet -but I can call java scrip using php
@@ -188,7 +315,6 @@ if(isset($_POST['click_course']))
 //We need to know what has been clicked and the value contained therein
 //We then need to open another object which will take us to what we have clicked.
 //include_once "java_script.php";
-
 
 
 ?>
