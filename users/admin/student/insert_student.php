@@ -1,19 +1,15 @@
 <?php
+
 include_once "../../../connect.php";
 include_once "student.php";
 include_once "form.php";
-
 $student = new Student();
 $form = new Form();
 $input = new Input();
 $label = new Label();
 $student->set_link($link);
-
-
 echo "<h1>Insert a New Student</h1>\n<br><hr>";
 echo "<h3>Enter The Following Details and then Submit</h3>\n<br>";
-
-
 //create a back button - which is actually a form - 
 $form->set_form("student_portal_home.php", "POST", "");
 //$label->set_label("Click to Register new Student", "First Name", "");
@@ -38,16 +34,11 @@ if(isset($_POST['submit']))
     $student->set_phone($_POST['phone'], $link);
     $student->set_address($_POST['address']);
     $student->set_email($student->get_stud_number());
-
     //here we have stored everything inside our array - .
     array_push($_SESSION['student'], $student->get_stud_number(), $_POST['first_name'],$_POST['last_name'],$_POST['id_nr'], $_POST['sex'], $_POST['phone'],$student->get_email(), $_POST['address']);
+    //Now there is no where we are comparing the sex and ID 
     if(strpos($student->view_sql(), "NULL") == false)//Meaning no string found
     {
-        //echo "<h1>horray we are about to insert the user</h1>";
-        //if (mysqli_query($conn, $sql))
-        //$form = new Form();
-        //$input = new Input();
-        //$label = new Label();
         $sql = $student->view_sql();
         $label_increment = "";
         if(mysqli_query($link, $student->view_sql()))
@@ -98,16 +89,11 @@ if(isset($_POST['submit']))
           $final_select .= "<br>\t". $input->get_input() . "\n";
           echo $form->get_form_wrapper($final_select);
           $_SESSION['select_modules'] = $form->get_form_wrapper($final_select);
-
           //Now let us help the person register for their respecful modules that they wish to enrol
-
           //this is where we create the button and other things that will allow the user to enrol -
           //Now another question comes up - how long will be have the $_POST['first_name'] - If we will continue to have it the we are good.
           //as the user selectes the desired course - let us show them the list of the modules that they are going to take.
-
-
         }
-
     }
     else
     {
@@ -151,7 +137,6 @@ if(isset($_POST['submit']))
       $input->set_input("text", "phone", $student->get_phone(), "Phone Number", "");
       $input_wrapper .= $label->get_label() . "<br>\n";
       $input_wrapper .= $input->get_input_text() . "<br>\n";
-
       //first _name
       $label->set_label("address", "Home Address", "");
       $input->set_input("text", "address", $student->get_address(), "Home Address", "");
@@ -164,84 +149,7 @@ if(isset($_POST['submit']))
 }
 //Let us show the student information the form that we want to use.
 echo "<br>";
-<<<<<<< HEAD
-
 echo "<br>";
-
-$course_id = 0;
-if(isset($_POST['click_course']))
-{
-    //Here are the student details.
-    echo $_SESSION['stud_label'] ;
-    //We display here the student details -
-    echo $_SESSION['select_modules'];
-    $course_id = (int)$_POST['course'];
-    $module_name = "";
-    $sql = "SELECT * \n"
-      . "FROM course\n"
-      . "WHERE course_id = $course_id";
-    $result = mysqli_query($link, $sql);
-    if(mysqli_num_rows($result)>0)
-    {
-      while($row = mysqli_fetch_assoc($result))
-      {
-        $module_name =  $row['course_name'];
-      }
-      //mpho rabora
-    }
-    $module_name .= " modules";
-    //Create a label
-    $label->set_label("", $module_name, "");
-    echo "\n<br>" . $label->get_label();
-    //get the valude of the
-
-    //Here we show the user the modules that they can register based upon the course that they have chosen.
-    //$sql = "SELECT * FROM `module` WHERE course"
-    $sql = "SELECT c.module_code, c.module_name, c.credit\n"
-        . "FROM course a, course_module b, module c\n"
-        . "WHERE a.course_id = b.course_id\n"
-        . "AND b.module_code = c.module_code\n"
-        . "AND a.course_id = $course_id";
-    $result = mysqli_query($link, $sql);
-    $module_table = "";
-    //October - 22
-    //Now we need to make sure that every module - can be registered - and once the registerd button is clicked we need to show the user that they have registered for that module
-    //It think if it was possible to make sure that to do so we need to constantly go to and from connecting to the database and checking if the particular module has been registered or not.
-     if(mysqli_num_rows($result) > 0)
-     {
-       $module_table .= "\n\t<table>\n<tr>";
-       $module_table .= "\n\t\t<th>Module Code</th>";
-       $module_table .= "\n\t\t<th>Module Name</th>";
-       $module_table .= "\n\t\t<th>Module Credit</th>";
-       $module_table .= "\n\t\t<th> </th>";
-       $module_table .= "\n\t\t<th> </th>";
-       $module_table .= "\n\t</tr>";
-       $inputs = "";
-       while($row = mysqli_fetch_assoc($result))
-       {
-         $module_table .= "\n\t<tr>";
-         $module_table .= "\n\t\t<td>" .$row['module_code'] . "<hr></td>";
-         $module_table .= "\n\t\t<td>" .$row['module_name'] . "<hr></td>";
-         $module_table .= "\n\t\t<td>" .$row['credit'] . "<hr></td>";
-         //Here we need to create the form and then upon creating the form we also need to make sure that we now how we are going to communicate with this form.
-         //PHP runs before HTML  -
-         //$input->set_input("")
-         //Create a form here to insert things inside of it
-         //Register
-         $module_name = $row['module_code'];
-         $form->set_form("module_registration.php", "POST", "");
-         $input->set_input("hidden", "module_code", $row['module_code'], "", "");
-         $inputs = "\n\t\t<td>" . $input->get_input() . "</td>";
-         $input->set_input("submit", "reg_module", "Register", "", "");
-         $inputs .= "\n\t\t<td>" . $input->get_input() . "</td>";
-         //Wrap the form together
-         //$_POST[] -- The currently submitted button.
-         $form_out = $form->get_form_wrapper($inputs);
-=======
->>>>>>> 9f50c454f7f1fb4be2a7b7bb7f30c6ffc90c1b5e
-
-echo "<br>";
-
 $course_id = 0;
 if(isset($_POST['click_course']))
 {
@@ -271,7 +179,6 @@ if(isset($_POST['click_course']))
     //So we need to find all the subjects that the are offered by the institution.
     //get the valude of the
     //Now we need to get the current lecturers that have been offered for the Course which
-
     //Here we show the user the modules that they can register based upon the course that they have chosen.
     //$sql = "SELECT * FROM `module` WHERE course"
     $sql = "SELECT c.module_code, c.module_name, c.credit\n"
@@ -333,78 +240,5 @@ if(isset($_POST['click_course']))
      }
 }
 
-
-         $module_table .= "\n\t\t<td>" . $form_out . "</td>";
-         $module_table .= "\n\t\t<td>" . $input->get_input() . "</td>";
-         $module_table .= "\n\t</tr>";
-
-         //Created a form each buton.
-         //echo "<br>" .  $row['module_code'] . " | " . $row['module_name'] . " | " . $row["credit"] . "<br>\n";
-       }
-       $module_table .= "\n\t</table>";
-       echo $module_table;
-     }
-     else
-     {
-       echo "<br>\n -- No Modules for  found" ;
-     }
-}
-
-
-/*
-echo "<br>";
-echo "<br>The ID is " . $student->get_id();
-echo "<br>ID Valid = " . $student->validate_id("9910230093082");
-echo "<br>ID Check = " . $student->check_id("9910230093082", $link);
-echo "<br>ID Valid = " . $student->validate_id($student->get_id());
-echo "<br>";
-echo "<br>";
-echo "<br>Phone Valid = " . $student->validate_phone("0723302232", $link);
-echo $student->view_sql();
-echo "<br>";
-echo $student->get_email();
-
-
-echo "<br>" . $_POST['first_name'];
-echo "<br>" . $_POST['last_name'];
-echo "<br>" . $_POST['id_nr'];
-echo "<br>" . $_POST['sex'];
-echo "<br>" . $_POST['phone'];
-echo "<br>" . $_POST['address'];
-
-echo "<br>" . $stud_number;
-$email;
-$email = $stud_number . "@tut4life.ac.za";
-//echo "<br>" . $email;
-//Now let us insert the student to the base.
-$student = new Student();
-//echo $student->validate_id($_POST['id_nr'], $link);
-if($student->check_id($_POST['id_nr'], $link) == 0 )
-{
-  echo "<br>This ID Number is already in use <br>\n";
-}
-if($student->validate_phone($_POST['phone'], $link) == 0)
-{
-  echo "<br>This phone number is already in use<br>\n";
-}
-$student->validate_id($_POST['id_nr']);
-
-//echo   "<br>". $stud_number. ", " . $_POST['first_name'] . ", " . $_POST['last_name'] . ", " . $_POST['id_nr'] . ", " . $_POST['sex'] . ", " . $_POST['phone'] . ", " . $email . ", " . $_POST['address'];
-
-/*
-if(isset($_POST["submit"]))
-{
-  //Get the students data
-  $sql = "INSERT INTO `student` ('stud_number',	'first_name',	'last_name',	'id_nr',	'sex',	'phone',	'email',	'address')
-          VALUES ($stud_number, \"$_POST['first_name']\" ,  \"$_POST['last_name']\" ,   \"$_POST['id_nr']\" , \"$_POST['sex']\" , \"$_POST['phone']\" , \"$email\", \"$_POST['address']\" ) ";
-  if(mysqli_query($link, $sql))
-  {
-    echo "<h1>Student has been added</h1>";
-  }
-  else
-  {
-     echo "Something went wrong"
-  }
-}*/
 
 ?>
