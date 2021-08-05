@@ -24,6 +24,8 @@ if(isset($_POST['delete_student']))
         //Now jump back to the page
         include "student_portal_home.php";
         //We are going to delete you
+        //Another one
+        
     }
 }
 
