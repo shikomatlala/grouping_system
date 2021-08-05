@@ -10,7 +10,7 @@ include_once "lecture_portal_header.php";
 //Or rather let us do it this way we are going to create all lectures for first and second semester.
 //select * the modules.
 //After doing so we want omke
-//HI there 
+//HI there
 echo $header_title;
 echo $create_lecture;
 if(isset($_POST['auto_create']))
@@ -23,7 +23,7 @@ if(isset($_POST['auto_create']))
     $result = mysqli_query($link, $sql);
     if(mysqli_num_rows($result) > 0)
     {
-        //We need to get all the courses and then we need to create 
+        //We need to get all the courses and then we need to create
         //Lecture contains all the modules - semester, year, prerequisite_module, module_code.
         //Now the question is how are we going to make sure that we are going to assign the modules to where they belong?
         //I am also worried about the part of pre-requisites.
@@ -34,11 +34,25 @@ if(isset($_POST['auto_create']))
             echo "<br>" . $row['module_code'] . " " . $row['module_name'] . " " . $row['date'] . " " ;
             //Let us test pre-requisite.
             $module_code = $row['module_code'];
+            //Now we need to create an insert for all these modules so that we can move forward.
+            //Now the user needs to specify the semester and the year.
+            $sql = " INSERT INTO `lecture` (`semester`, `year`, `module_code`) VALUES (1, 2021, \"$module_code\") ";
+            //echo $sql;
+            if(mysqli_query($link, $sql))
+            {
+              //New Lectures Created - Students may be able to now register.
+              echo "Good <br>";
+            }
+            else
+            {
+                echo "Error" . $sql . "<br>" . mysqli_error($link);
+            }
+
             //Now let us break down this module to know if a few things about it.
             //We can use an array - and bouble sorting.
-            
+
         }
     }
 }
 
-?>  
+?>
