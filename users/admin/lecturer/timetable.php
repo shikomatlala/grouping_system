@@ -1,8 +1,11 @@
 <?php
+//include_once "div_wrapper.php";
+
+
 include_once "../../../connect.php";
 //Can we tell the lecturer his class today.
 echo "<br><a href=\"../admin_home.html\">back</a>\n";
-echo "<h1>Lecturer Portal</h1>\n";
+$content = "<h1>Lecturer Portal</h1>\n";
 //Lect us call on the lectures Information
 $str_sql = "SELECT * FROM lecturer WHERE staff_number = 10023";
 $ul = "<ul>\n";
@@ -20,7 +23,7 @@ if(mysqli_num_rows($ary_result) > 0)
   }
   $ul.= "</ul>\n";
 }
-echo $ul;
+$content .= $ul;
 //This is true
 //Le us give the lecturer the modules that he teaches
 //These modules will come from the lecture_lecturer time table
@@ -29,6 +32,11 @@ $form_link = "action=\"grouping_portal.php\" method=\"POST\">\n";
 $form = "<form " .$form_link;
 //echo $form;
 
+//Lecture Details div.
+//echo header_html();
+echo div("control-group normal_text", $content);
+//Show the Form
+$form_div = "";
 $sql = "SELECT a.module_code , a.semester, a.year\n"
     . "FROM lecture a, lecture_group b, lecturer c\n"
     . "WHERE a.lecture_id = b.lecture_id\n  "
@@ -49,15 +57,16 @@ if(mysqli_num_rows($result) > 0)
     $form .= "</form>\n";
   }
   //Let us show the user
-
-echo $form;
+  $form_div = $form;
+ echo div("form" ,$form_div); 
 }
 else
 {
-  echo "<h3>NB You are not assigned any modules</h3>";
+  echo "<label><h3>NB You are not assigned any modules</h3></label>";
 }
 
-echo "<h3>Your Time table</h3>";
+$time_table_div = "";
+$time_table_div .= "<h3>Your Time table</h3>\n";
 $str_table_days = array("Time", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
 $int_header_length = sizeof($str_table_days);
 $str_sql = " SELECT b.vanue AS vanue, a.module_code AS module_code, b.start_time AS start_time, b.end_time AS end_time, b.day AS day\n "
@@ -90,20 +99,21 @@ if(mysqli_num_rows($ary_result) > 0)//Remember that our array returns rows and w
           if($row['day'] == $str_table_days[$int_x] && $int_x > 0)
           {
               //$str_html_table .= "<th>" .
-              $str_html_table .= "\t\t<td><hr>" .$row["vanue"] ."<br>". $row["module_code"]."</td>\n";
+              $str_html_table .= "\t\t<td>" .$row["vanue"] ."<br>". $row["module_code"]."</td>\n";
           }
           elseif($int_x > 0)
           {
-            $str_html_table .= "\t\t<td><hr>Open</td>\n";
+            $str_html_table .= "\t\t<td>Open</td>\n";
           }
           else
           {
-            $str_html_table .= "\t\t<td><hr>" . $row["start_time"] . "</td>\n";
+            $str_html_table .= "\t\t<td>" . $row["start_time"] . "</td>\n";
           }
     }
     $str_html_table .= "\t</tr>\n";
   }
-  echo $str_html_table . "</table>";
+  $time_table_div .= $str_html_table . "</table>";
+  echo div("body_Footer", $time_table_div);
 }
 else
 {
