@@ -1,4 +1,5 @@
 <?php
+//echo "we are in the Form";
 class Input
 {
   //input attributes
