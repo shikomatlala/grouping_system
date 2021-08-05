@@ -23,6 +23,7 @@ if(isset($_POST['delete_student']))
         echo "Student could not get deleted";
         //Now jump back to the page
         include "student_portal_home.php";
+        //We are going to delete you
     }
 }
 
