@@ -296,7 +296,7 @@ class Student
   }
   public function validate_sex($id_nr, $sex)
   {
-    $out ="Gender Does not Match Your ID";
+    $out ="Sex does not match your ID Number";
     $id_nr = substr($id_nr, 6, 4);
     if((int)$id_nr > 4999 && $sex =="M")
     {
@@ -315,6 +315,7 @@ class Student
   }
   public function view_sql()
   {
+    //I think we need to validate the sex in here - 
     $sql = "INSERT INTO student  (`stud_number`, `first_name`, `last_name`, `id_nr`, `gender`, `phone`, `email`, `address`) VALUES\n"
         . "($this->stud_number, '$this->first_name', '$this->last_name', '$this->id_nr', '$this->sex', '$this->phone', '$this->email', \"$this->address\")";
     return $sql;

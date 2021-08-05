@@ -25,7 +25,7 @@ if(isset($_POST['delete_student']))
         include "student_portal_home.php";
         //We are going to delete you
         //Another one
-        
+        echo "";
     }
 }
 
