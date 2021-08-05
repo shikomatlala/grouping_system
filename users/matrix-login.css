@@ -1,0 +1,278 @@
+html, body {    width: 100%;    height: 100%;}
+/*Bootstrap-overlay*/
+
+body {
+ background-image: url('css/home_background-2.jpg');
+ background-size: cover;
+ overflow-x: hidden;
+ margin-top: -10px;  font-family: 'Open Sans', sans-serif; font-size:12px; color:#666;
+}
+a{color:#666;}
+a:hover, a:focus {
+ text-decoration: none; color:#28b779;
+}
+
+.dropdown-menu .divider{ margin:4px 0px;}
+.dropdown-menu{ min-width:180px;}
+.dropdown-menu > li > a{ padding:3px 10px; color:#666; font-size:12px;}
+.dropdown-menu > li > a i{ padding-right:3px;}
+.userphoto img{ width:19px; height:19px;}
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, .label, .dropdown-menu, .btn, .well, .progress, .table-bordered, .btn-group > .btn:first-child, .btn-group > .btn:last-child, .btn-group > .btn:last-child, .btn-group > .dropdown-toggle, .alert{ border-radius:0px;}
+.btn, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{ box-shadow:none;}
+.progress, .progress-success .bar, .progress .bar-success, .progress-warning .bar, .progress .bar-warning, .progress-danger .bar, .progress .bar-danger, .progress-info .bar, .progress .bar-info, .btn, .btn-primary{background-image:none;}
+.accordion-heading h5{ width:70%; }
+.form-horizontal .form-actions{ padding-left:20px; }
+#footer{ padding:10px; text-align:center;}
+hr{ border-top-color:#dadada;}
+.carousel{ margin-bottom:0px;}
+.fl { float:left}
+.fr {float:right}
+.label-important, .badge-important{ background:#f74d4d;}
+
+/*Metro Background color class*/
+.bg_lb{ background:#27a9e3;}
+.bg_db{ background:#2295c9;}
+.bg_lg{ background:#28b779;}
+.bg_dg{ background:#28b779;}
+.bg_ly{ background:#ffb848;}
+.bg_dy{ background:#da9628;}
+.bg_ls{ background:#2255a4;}
+.bg_lo{ background:#da542e;}
+.bg_lr{ background:#f74d4d;}
+.bg_lv{ background:#603bbc;}
+.bg_lh{ background:#b6b3b3;}
+
+
+/*Shikos styles*/
+.butt {
+   border: inherit;
+   background-color: lightBlue;
+   height:30px;
+   width:200px;
+   cursor:pointer;
+}
+
+.butt:hover {
+   background-color: rgba(128,128,128,.18);
+   color:white;
+}
+
+/*#2E363F*/
+body { background-color:white;    padding: 0;    margin-top:10%;}
+/*This is where the login box starts */
+#logo, #loginbox {    width: 32%;    margin-left: auto;    margin-right: auto;    position: relative;}
+#logo img {  margin: 0 auto;    display: block}
+/*At one point I commented this out and it still funtioned normally as though I did not do anything to it -- 
+When an element is set to a size that is too small for its contents, it is possible to specify what to do with  the content
+that doesn't fit, using the overflow property*/
+#loginbox { overflow: hidden !important;    text-align: center;    position: relative; }
+/*This it style sheet for the login form -- He gave it a relation position, this position for the form is relative to the loginBox position*/
+#loginbox form{ width:100%; background:inherit; position:relative; top:0; left:0; }
+#loginbox .form-actions { padding: 14px 20px 15px;}
+#loginbox .form-actions .pull-left { margin-top:0px;}
+#loginbox form#loginform { z-index: 200; display:block;}
+#loginbox form#recoverform { z-index: 100;     display:none;}
+#loginbox form#recoverform .form-actions {    margin-top: 10px;}
+#loginbox .main_input_box { margin:0 auto; text-align:center; font-size:15px;}
+#loginbox .main_input_box .add-on{  padding:9px 9px; *line-height:31px; vertical-align:top; color:dimgrey;  width:30px; display:inline-block;}
+/*input{text-align:center; font-size:15px;, color:dimgrey;}*/
+#loginbox .main_input_box input{text-align:center; font-size:15px; color:dimgrey; height:30px; vertical-align:top; border:0px; display:inline-block; width:75%; line-height:22px;  margin-bottom:3px;}
+#loginbox .controls{ padding:0 20px;}
+#loginbox .control-group{ padding:20px 0; margin-bottom:0px;}
+.form-vertical, .form-actions {  margin-bottom: 0; background:none; border-top:1px solid grey; } /*#3f4954*/
+/*I am seeing that this guy here created a class to hold all our loginbox -- now where is this login box */
+#loginbox .normal_text{ padding:15px 10px; text-align:center; font-size:20px; line-height:20px; background:rgba(213,213,277,.15); color:purple; font-weight:100;}
+@media (max-width:800px){
+#logo { width: 60%; }
+#loginbox{ width:80%}
+}
+@media (max-width: 480px){
+#logo { width: 40%; }
+#loginbox{ width:90%}
+#loginbox .control-group{ padding:8px 0; margin-bottom:0px;}
+}
+
+
+.cv_header
+{
+    background-color: lightslategrey;
+    height: 300px;
+}
+
+.image_attributes
+{
+    margin-top: 20px;
+    margin-left: 60px;
+    height: 250px;
+    width: 250px;
+
+}
+.body_Left {
+    height: 690px;
+    width: 400px;
+    background-color: rgb(246, 246, 246);
+}
+.body_Right {
+    height: 690px;
+    width: 630px;
+    background-color: mintcream;
+    margin-top: -690px;
+    margin-left: 400px;
+}
+/*DIV BOXES*/
+.body_Left_Profile_Box
+{
+    height: 300px;
+    width: 360px;
+    background-color: rgb(246, 246, 246);
+    margin-left: 17px;
+}
+.body_Right_Box
+{
+
+    height: 220px;
+    width: 600px;
+    background-color: mintcream;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+.body_Footer {
+    height: 500px;
+    width: 1030px;
+    background-color: grey;
+}
+
+/*Headings / Headers*/
+.body_Right_Heading {
+    height: 25px;
+    width: inherit;
+    background-color: lightgray;
+    text-align: center;
+    font-family: Consolas;
+    /*font-weight: bolder;*/
+    color: grey;
+    font-size: 20px;
+}
+.body_Left_Heading
+{
+    height: 25px;
+    width: inherit;
+    background-color: lavender;
+    text-align: center;
+    font-family: Consolas;
+    /*font-weight: bolder;*/
+    color: grey;
+    font-size: 20px;
+}
+.body_Footer_Header
+{
+    height: 25px;
+    width: inherit;
+    background-color: lavender;
+    text-align: center;
+    font-family: Consolas;
+    /*font-weight: bolder;*/
+    color: grey;
+    font-size: 20px;
+}
+
+/*FOOTER ATTRIBUTES*/
+.Footer_Heading
+{
+    color: darkslategrey;
+}
+th{
+    color: darkslategray;
+    font-family: Consolas;
+    background-color: lightgray;
+}
+td,ul {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: mintcream;
+    text-align: unset;
+    color: #1a3b3b;
+}
+
+
+/*PARAGRAPH ATTRIBUTES*/
+p {
+    font-family: Arial;
+    color: #1a3b3b;
+}
+
+
+
+
+caption
+{
+    background-color: aliceblue;
+    font-family: Consolas;
+    font-weight: bold;
+    color: dimgrey;
+    font-size: 20px;
+    text-align: center;
+    width: auto;
+}
+h1 {
+    color: white;
+    font-size: 70px;
+    font-family: Arial;
+    margin-top: -220px;
+    margin-left: 400px;
+}
+h2 {
+    color: azure;
+    font-size: 30px;
+    font-family: Consolas;
+    font-weight: lighter;
+    margin-top: -30px;
+    margin-left: 400px;
+    font-stretch: ultra-expanded;
+}
+hr{
+    width: 90px;
+    color: dimgrey;
+    background-color: dimgray;
+    text-align: left;
+    margin-left: 10px;
+}
+.hr_2 {
+    width: 500px;
+    color: dimgrey;
+    background-color: dimgray;
+    text-align: center;
+}
+h3 {
+    color: azure;
+    font-size: 20px;
+    font-family: 'Lucida Console';
+    font-weight: lighter;
+    margin-top: -10px;
+    margin-left: 400px;
+}
+.p_{
+    text-align: center;
+}
+
+table
+{
+    width: auto;
+}
+p
+{
+    text-align: unset;
+}
+.p_attributes
+{
+    text-align: center;
+
+}
+.ref_size
+{
+    width: 1024px;
+    column-span: all;
+}
+.personal_profile_attributes
+{
+    width: 500px;
+}

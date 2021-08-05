@@ -1,0 +1,260 @@
+Quiz
+Page 5 of 14
+Question 21 (1 point) 
+Saved
+In a database context, a(n) _____ indicates the use of different names to describe the same attribute.
+Question 21 options:
+
+entity
+
+duplicate
+
+synonym
+
+homonym
+Question 22 (1 point) 
+Saved
+In the _____ model, the basic logical structure is represented as an upside-down tree.
+Question 22 options:
+
+hierarchical
+
+network
+
+relational
+
+entity relationship
+Question 23 (1 point) 
+Saved
+From a data analyst's point of view, decision support data differ from operational data in three main areas: time span, granularity, and _____.
+Question 23 options:
+
+usability
+
+dimensionality
+
+transaction processing
+
+sparsity
+Question 24 (1 point) 
+Each table _____ represents an attribute.
+Question 24 options:
+
+column
+
+row
+
+dimension
+
+value
+Question 25 (1 point) 
+In a(n) _____ diagram, the arrows above the attributes indicate all desirable dependencies.
+Question 25 options:
+
+Chen
+
+dependency
+
+functionality
+
+ER
+Page 5 of 14
+
+23 of 70 questions saved
+
+
+Have a look at the dependecy diagram
+
+Quiz
+Page 7 of 14
+Question 31 (1 point) 
+Saved
+“Should the existing system be replaced?” is a question that is asked during the _____ stage of the Systems Development Life Cycle (SDLC).
+Question 31 options:
+
+planning
+
+analysis
+
+implementation
+
+maintenance
+Question 32 (1 point) 
+Saved
+Surrogate primary keys are especially helpful when there is no _____ key.
+Question 32 options:
+
+primary
+
+natural
+
+foreign
+
+composite
+Question 33 (1 point) 
+Saved
+A table that displays data redundancies yields _____.
+Question 33 options:
+
+consistencies
+
+anomalies
+
+fewer attributes
+
+more entities
+Question 34 (1 point) 
+Saved
+The _____ constraint can be placed on a column to ensure that every row in the table has a value for that column.
+Question 34 options:
+
+UNIQUE
+
+NOT NULL
+
+VALUE
+
+EMPTY
+Question 35 (1 point) 
+Saved
+A table is in 4NF if it is in 3NF, and _____.
+Question 35 options:
+
+all attributes must be dependent on the primary key and must be dependent on each other
+
+all attributes are unrelated
+
+it has no multivalued dependencies
+
+no column contains the same values
+Page 7 of 14
+
+35 of 70 questions saved
+
+
+Quiz
+Page 8 of 14
+Question 36 (1 point) 
+Saved
+Specialization is based on grouping _____ characteristics and relationships of the subtypes.
+Question 36 options:
+unique
+Question 37 (1 point) 
+Saved
+A(n) _____ is a relatively simple representation of more complex real-world data structures.
+Question 37 options:
+data model
+Question 38 (1 point) 
+Saved
+Failure to understand the distinction between mandatory and optional _____ in relationships might yield designs in which awkward (and unnecessary) temporary rows (entity instances) must be created just to accommodate the creation of required entities.
+Question 38 options:
+participation
+Question 39 (1 point) 
+Saved
+_____ completeness means that not every supertype occurrence is a member of a subtype.
+Question 39 options:
+Partial
+Question 40 (1 point) 
+Saved
+Subtypes that contain nonunique subsets of the supertype entity set are known as _____ subtypes.
+Question 40 options:
+disjoint
+Page 8 of 14
+
+40 of 70 questions saved
+
+
+Quiz
+Page 9 of 14
+Question 41 (1 point) 
+Saved
+_____ use web-based technologies to present key business performance indicators or information in a single integrated view, generally using graphics in a clear, concise, and easy to understand manner.
+Question 41 options:
+Dashboards
+Question 42 (1 point) 
+Saved
+The _____ catalog can be described as a detailed system data dictionary that describes all objects within the database, including data about table names, the table’s creator and creation date, the number of columns in each table, the data type corresponding to each column, index filenames, index creators, authorized users, and access privileges.
+Question 42 options:
+system
+Question 43 (1 point) 
+Saved
+The Crow’s Foot notation depicts the strong relationship with a(n) _____ line between the entities.
+Question 43 options:
+solid
+Question 44 (1 point) 
+Saved
+_____ allow end users to access the database without being able to download the information from their workstations. 
+Question 44 options:
+Diskless workstations
+Question 45 (1 point) 
+Saving...
+_____ . means to decompose data into more atomic components or data at lower levels of aggregation
+Question 45 options:
+Drill down
+Page 9 of 14
+
+44 of 70 questions saved
+
+Quiz
+Page 13 of 14
+Question 61 (1 point) 
+Saved
+_____ is the process that establishes the need for, and the extent of, an information system.
+Question 61 options:
+System Analysis
+Question 62 (1 point) 
+Saved
+When designing a new database structure based on the business requirements of the end users, the database designer will construct a data model using a technique such as _____.
+Question 62 options:
+Crow's Foot notation
+Question 63 (1 point) 
+Saved
+To avoid nulls, some designers use special codes, known as _____, to indicate the absence of some value.
+Question 63 options:
+flags
+Question 64 (1 point) 
+Saved
+_____ makes a copy of a table and places it in a different location to improve access time.
+Question 64 options:
+Replication
+Question 65 (1 point) 
+Saved
+The proper use of _____ keys is crucial to controlling data redundancy.
+Question 65 options:
+foreign
+Page 13 of 14
+
+64 of 70 questions saved
+
+
+
+Quiz
+Page 14 of 14
+Question 66 (1 point) 
+Saved
+An ERD is created through an _____ process.
+Question 66 options:
+iterative
+Question 67 (1 point) 
+Saved
+From a data modeling point of view, _____ data refer to data whose values change over time and for which one must keep a history of the data changes.
+Question 67 options:
+time-variant
+Question 68 (1 point) 
+Saved
+_____ is the real power behind the relational database, allowing the use of independent tables linked by common attributes.
+Question 68 options:
+JOIN
+Question 69 (1 point) 
+Saved
+A(n) _____ is a carefully designed and constructed repository of facts that is a part of a larger whole known as an information system.
+Question 69 options:
+database
+Question 70 (1 point) 
+Saving...
+In _____, a three-pronged symbol represents the “many” side of the relationship.
+Question 70 options:
+Crow's Foot notation
+Page 14 of 14
+
+68 of 70 questions saved
