@@ -7,7 +7,7 @@ include_once "../../../connect.php";
 echo "<br><a href=\"../admin_home.html\">back</a>\n";
 $content = "<h1>Lecturer Portal</h1>\n";
 //Lect us call on the lectures Information
-$str_sql = "SELECT * FROM lecturer WHERE staff_number = 10023";
+$str_sql = "SELECT * FROM lecturer WHERE staff_number = " . (int)$_SESSION['staff_number'];
 $ul = "<ul>\n";
 //$str_lecturer_information
 $ary_result = mysqli_query($link, $str_sql);

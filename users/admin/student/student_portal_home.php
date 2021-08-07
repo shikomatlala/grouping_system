@@ -14,6 +14,7 @@ include_once "../../../connect.php";
 $form = new Form();
 $input = new Input();
 $label = new Label();
+$_SESSION['stud_number'];
 $input_wrapper = "";
 // $form->set_form("insert_student.php", "POST", "");
 // //first _name
@@ -61,6 +62,7 @@ $input_wrapper = "";
 //End everything here
 
 //Got to Insert student
+back_button("../admin_home.html");
 echo "<h1>Student Management Portal</h1>\n<br><hr>";
 echo "<h3>Manage all students here</h3>\n<br>";
 $form->set_form("student_form.php", "POST", "");
@@ -294,7 +296,7 @@ if(mysqli_num_rows($result)>0)
     $inputs = "";
     $stud_number = $row['stud_number'];
     // "Me + " . $row['first_name'];
-    $form->set_form("", "POST", "");
+    $form->set_form("delete_student.php", "POST", "");
     $input->set_input("hidden", "stud_number", $stud_number, "", "");
     $inputs .= $input->get_input();
     $input->set_input("submit", "delete_student", "Delete", "", "");
@@ -317,7 +319,7 @@ if(mysqli_num_rows($result)>0)
       $form->set_form("view_student.php", "POST", "");
       $input->set_input("hidden", "stud_number", $stud_number, "", "");
       $inputs .= $input->get_input();
-      $input->set_input("submit", "update_student", "View Student", "", "");
+      $input->set_input("submit", "view_student", "View Student", "", "");
       $inputs .= $input->get_input();
       $form_out = $form->get_form_wrapper($inputs);
       $student_table .= "\n\t\t<td>" . $form_out . "</td>";
@@ -387,11 +389,11 @@ if(isset($_POST['search_student']))
       //Set the form to delete a student.
       $inputs = "";
       $stud_number = $row['stud_number'];
-      // "Me + " . $row['first_name'];
-      $form->set_form("", "POST", "");
+      $form->set_form("delete_student.php", "POST", "");
+ 
       $input->set_input("hidden", "stud_number", $stud_number, "", "");
       $inputs .= $input->get_input();
-      $input->set_input("submit", "delete_student", "Delete", "", "");
+      $input->set_input("submit", "submit", "Delete", "", "");
       $inputs .= $input->get_input();
       $form_out = $form->get_form_wrapper($inputs);
       $student_serach .= "\n\t\t<td>" . $form_out . "</td>";
@@ -405,13 +407,12 @@ if(isset($_POST['search_student']))
       $inputs .= $input->get_input();
       $form_out = $form->get_form_wrapper($inputs);
       $student_serach .= "\n\t\t<td>" . $form_out . "</td>";
-  
         //3rd Now let us view the student
         $inputs = "";
         $form->set_form("view_student.php", "POST", "");
         $input->set_input("hidden", "stud_number", $stud_number, "", "");
         $inputs .= $input->get_input();
-        $input->set_input("submit", "update_student", "View Student", "", "");
+        $input->set_input("submit", "view_student", "View Student", "", "");
         $inputs .= $input->get_input();
         $form_out = $form->get_form_wrapper($inputs);
         $student_serach .= "\n\t\t<td>" . $form_out . "</td>";
@@ -427,40 +428,59 @@ if(isset($_POST['search_student']))
 
 echo "<hr><br>";
 
-
+if($_SESSION['crud_result'] != "")
+{
+  echo "<h3>Delete Result: " .$_SESSION['crud_result']  . "<h3><hr>";
+}
 echo $student_table;
-
+$_SESSION['crud_result'] = "";
 
 //Delete the student - But how are we going to know all that the student is involved in - Remember the delete button here will have to do with a 
 //A lot of thins - so our delete is not yet complete
-if(isset($_POST['delete_student']))
+// if(isset($_POST['delete_student']))
+// {
+//     //Now we can move on to deleting this student
+//     //Le us delete you dude.
+//     $stud_number = (int)$_POST['stud_number'];
+//     $sql = "DELETE FROM student WHERE stud_number = $stud_number";
+
+//     //We need to make sure that everything about the student is also deleted -
+//     //We need to delete a lot of things or else it just will not work - 
+//     //Because remember about referential integrity
+
+//     if(mysqli_query($link, $sql))
+//     {
+//         //We have delete the student - now we need to go back - to that page...
+//         echo  "Student deleted successfully";
+//         //echo refresh_page();
+//         //Now jump back to the page
+//         //include "student_portal_home.php";
+//         //Create a form that is going to jump us back.
+//         //Or we can use an a href
+//     }
+//     else
+//     {
+//       echo   "Student could not get deleted";
+//         //Now jump back to the page
+//         //include "student_portal_home.php";
+//     }
+// }
+//FUNCTIONS
+function back_button($back_url)
 {
-    //Now we can move on to deleting this student
-    //Le us delete you dude.
-    $stud_number = (int)$_POST['stud_number'];
-    $sql = "DELETE FROM student WHERE stud_number = $stud_number";
-
-    //We need to make sure that everything about the student is also deleted -
-    //We need to delete a lot of things or else it just will not work - 
-    //Because remember about referential integrity
-
-    if(mysqli_query($link, $sql))
-    {
-        //We have delete the student - now we need to go back - to that page...
-        echo  "Student deleted successfully";
-        //echo refresh_page();
-        //Now jump back to the page
-        //include "student_portal_home.php";
-        //Create a form that is going to jump us back.
-        //Or we can use an a href
-    }
-    else
-    {
-      echo   "Student could not get deleted";
-        //Now jump back to the page
-        //include "student_portal_home.php";
-    }
+    $form = new Form();
+    $input = new Input();
+    $out = "";
+        //create a back button - which is actually a form - 
+        $form->set_form($back_url, "POST", "");
+        //$label->set_label("Click to Register new Student", "First Name", "");
+        $input->set_input("submit", "back", "Back", "", "");
+        echo $form->get_form_wrapper($input->get_input());
+        //Above is the back button
+    return $out;
 }
+
+
 
 
 function refresh_page()

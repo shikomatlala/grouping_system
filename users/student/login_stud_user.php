@@ -16,6 +16,7 @@ $result = mysqli_query($link, $sql);//Array
 if(mysqli_num_rows($result) > 0)
 {
   echo "Youa are connected";
+  //From here we can jumpt to the studnet protal
 } else {
   include "err_stud_user_index.html";
 }
