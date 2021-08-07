@@ -23,14 +23,16 @@ function div($class, $content)
 
 function header_html()
 {
-    $out = "\n<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">\n";
-    $out .= "<head>
+    $out = "\n<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">";
+    $out .= "
+<head>
   <meta charset=\"utf-8\" />
   <title>Grouping System</title>
   <meta charset=\"UTF-8\" />
   <link rel=\"stylesheet\" href=\"matrix-login.css\" />
 </head>
-<body>\n";
+<body>
+    \n";
 
     return $out;
 }

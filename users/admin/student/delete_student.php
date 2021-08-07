@@ -1,7 +1,7 @@
 <?php
 include_once "../../../connect.php";
 
-echo "We are about to delete you... ";
+//echo "We are about to delete you... ";
 if(isset($_POST['delete_student']))
 {
     //Now we can move on to deleting this student
@@ -12,20 +12,23 @@ if(isset($_POST['delete_student']))
     if(mysqli_query($link, $sql))
     {
         //We have delete the student - now we need to go back - to that page...
-        echo "Student deleted successfully";
+        $_SESSION['crud_result'] = " $stud_number   deleted successfully";
         //Now jump back to the page
-        include "student_portal_home.php";
+        //include "student_portal_home.php";
         //Create a form that is going to jump us back.
         //Or we can use an a href
+        header("LOCATION: student_portal_home.php");
     }
     else
     {
-        echo "Student could not get deleted";
+        $_SESSION['crud_result'] =  "$stud_number could not get deleted";
+        header("LOCATION: student_portal_home.php");
         //Now jump back to the page
-        include "student_portal_home.php";
+        //include "student_portal_home.php";
         //We are going to delete you
+        //header("LOCATION: student_portal_home.php");
         //Another one
-        echo "";
+        //echo "";
     }
 }
 

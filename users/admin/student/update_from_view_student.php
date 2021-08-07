@@ -16,8 +16,7 @@ $input_wrapper = "";
 $first_name = "";
 $last_name = "";
 $address = "";
-$phone = "";
-
+$_SESSION['stud_number'] = "";
 //"student_portal_home.php"
 echo "<h1>Update Your Student Details</h1>\n<br><hr>";
 echo back_button("student_portal_home.php");
@@ -45,7 +44,6 @@ if(mysqli_num_rows($result)>0)
         $student->set_sex($row['gender'], $link);
         $student->set_id($row['id_nr'], $link);
         $student->set_phone($row['phone'], $link);
-        $phone = $row['phone'];
         $student->set_address($row['address']);
         $student->set_email($row['email']);
         $form->set_form("", "POST", "");
@@ -109,7 +107,7 @@ if(mysqli_num_rows($result)>0)
         $address = $student->get_address();
         $input_wrapper .= $label->get_label() . "<br>\n";
         $input_wrapper .= $input->get_input_text() . "<br><br>\n";
-        $input->set_input("submit","update", "Update", "","");
+        $input->set_input("submit","udpate", "Update", "","");
         $input_wrapper .= $input->get_input() ."<br>\n";
         //again what if you are other how are we going group you-- so then we should not have an other -
         //It should only have 2 sexs male or female
@@ -127,7 +125,7 @@ if(mysqli_num_rows($result)>0)
 echo $form->get_form_wrapper($input_wrapper);
 
 
-if(isset($_POST['update']) || isset($_POST['update_from_view']))
+if(isset($_POST['udpate']) || isset($_POST['update_from_view']))
 {
     //We can use this part here to update the student 
     //Validate the information if not valid then tell the student that something is entered wrong.
@@ -138,7 +136,7 @@ if(isset($_POST['update']) || isset($_POST['update_from_view']))
     
     if(validate_phone($_POST['phone'], $link, $stud_number) == 1)
     {
-        //$phone = $_POST['phone'];
+        $phone = $_POST['phone'];
         //echo "The numbers are not taken";  
         //set the student name and surname
         $student->set_firstname($_POST['first_name']);
@@ -147,6 +145,7 @@ if(isset($_POST['update']) || isset($_POST['update_from_view']))
         $student->set_address($_POST['address']);
         if($student->get_firstname() != "NULL")
         {
+            //echo "Phone is Valid";
             if($student->get_lastname() != "NULL")
             {
                 if($student->get_address() != "NULL")
@@ -173,7 +172,8 @@ if(isset($_POST['update']) || isset($_POST['update_from_view']))
                         back_button_with_info("student_portal_home.php", $stud_number, "Finish");
                         //This is hwo you can change the location
                         echo "alert(\"Successfully Updated!\") ";
-                        header("LOCATION: student_portal_home.php");
+                        $_SESSION['stud_number'] = $stud_number;
+                        header("LOCATION: view_student.php");
 
 
                     }

@@ -6,6 +6,7 @@ include_once "../student/student.php";
 include_once "../student/form.php";
 include_once "lecture_portal_header.php";
 //OK Now let us manege the lectures.
+back_button("../admin_home.html");
 echo $header_title;
 echo $create_lecture;
 echo "<p>You can create a lecture where students can apply to the lecturer<br>
@@ -70,7 +71,19 @@ if(isset($_POST['auto_create']))
 //Now we want to see all the course first and then we want to see all the modules
 //Now let us add things inside our form
 
-
+function back_button($back_url)
+{
+    $form = new Form();
+    $input = new Input();
+    $out = "";
+        //create a back button - which is actually a form - 
+        $form->set_form($back_url, "POST", "");
+        //$label->set_label("Click to Register new Student", "First Name", "");
+        $input->set_input("submit", "back", "Back", "", "");
+        echo $form->get_form_wrapper($input->get_input());
+        //Above is the back button
+    return $out;
+}
 
 
 ?>
