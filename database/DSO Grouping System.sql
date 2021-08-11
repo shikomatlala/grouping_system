@@ -287,7 +287,7 @@ INSERT INTO `group` (`group_name`, `group_type_id`) VALUES
 ('Group O', 1);
 
 
-CREATE TABLE group_member
+CREATE TABLE `group_member`
 (
  `group_member_id` INT(11) PRIMARY KEY AUTO_INCREMENT,
  `member_mark` DECIMAL(5,2) NOT NULL,

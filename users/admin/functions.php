@@ -26,7 +26,7 @@ function get_course_list($link, $action)
       $compile_select .= "\t". $select_course->get_option();
     }
   }
-  $label->set_label("click_course", "Course", "");
+  $label->set_label("click_course", "Courses Available", "");
   echo $label->get_label();
   $form->set_form($action, "POST", "");
   $input->set_input("submit", "click_course", "Select Course", "", "");
@@ -53,7 +53,24 @@ function get_course_name_clicked($link, $course)
     }
   }
   return $module_name;
+}
 
+function get_course_name_clicked_2($link, $course)
+{
+  $course_id = (int)$course;
+  $module_name = "";
+  $sql = "SELECT * \n"
+    . "FROM course\n"
+    . "WHERE course_id = $course_id";
+  $result = mysqli_query($link, $sql);
+  if(mysqli_num_rows($result)>0)
+  {
+    while($row = mysqli_fetch_assoc($result))
+    {
+      $module_name =  $row['course_name'];
+    }
+  }
+  return $module_name;
 }
 
 ?>
