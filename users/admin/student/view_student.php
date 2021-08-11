@@ -123,6 +123,8 @@ if(mysqli_num_rows($result)>0)
     //What can we update in the information we cannot update the  id numbe, or orther things, so we can only updat the names and phone number - and that is it - not more.
 }
 //All the Out put comes here
+
+
 echo back_button("student_portal_home.php") . "<br>";
 echo "<h1>Student Information</h1>\n";
 echo "<h2>" .  $stud_name . " | " . $stud_number . "</h2>\n<hr>";
@@ -219,12 +221,13 @@ else
 //Now we need to show all that the student has done.
 //Show all the available lectures that the student can register.
 echo "<h3><hr>AVAILABLE CLASSES TO ENROL </h3>\n<br>";
+$year = date('Y');
 //show all the classes -
 $sql = "
         SELECT * 
         FROM lecture, module
         WHERE lecture.module_code = module.module_code
-        AND `year` = 2021 
+        AND `year` = $year
         $where_statement";//Remember that we need classes that are current - therefore where the year and the semester is valid.
 //echo $sql;
 $result = mysqli_query($link, $sql);
