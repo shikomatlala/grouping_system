@@ -47,6 +47,7 @@ $result_course = mysqli_query($link, $sql);
 //Else help the student register for a course.
 if(mysqli_num_rows($result_course) > 0)
 {
+    $isEnrolled = true;
     echo stud_info($result, $link);
     echo "<h3>STUDENTS ACCADEMIC HISTORY</h3>\n<br>";
     //Select all the modules that the student has taken.
@@ -122,19 +123,67 @@ if(mysqli_num_rows($result_course) > 0)
     else
     {
         echo "This student has not enrolled for any classes";
+        $isEnrolled = false;
+        //If the student has not enrolled for any classes then we need to modufy the module tabe.
+        //If the student has not enrolled for any class we can raise a flag - 
     }
     //Now le us view all the available classes that the student can take
     //Now we need to show all that the student has done.
     //Show all the available lectures that the student can register.
     echo "<h3><hr>AVAILABLE CLASSES TO ENROL </h3>\n<br>";
+    $year = (int)date('Y');
+    echo "<h2>Available modules for the year " . $year . "</h2>";
     //show all the classes -
+    //Now we need to check the modules that the student has registered and then we can then register the student for the new year.
+    //Go through all that the student has done.
+    //Remember remember if the student has not taken any class - We need to show the student the classes which for the first semester.
+    //Firstly find the modules that the student has enroled. 
+    //Firstly how do we determine the semester? -- The semester is defined by the institution  - and not time.
+    //The semester is defined by the institution...
     $sql = "
             SELECT * 
             FROM lecture, module
             WHERE lecture.module_code = module.module_code
-            AND `year` = 2021 
+            AND `year` = $year
             $where_statement";//Remember that we need classes that are current - therefore where the year and the semester is valid.
     //echo $sql;
+    //If this student is not enrolled then we will show only first year modules - this means that we will edit the sql query here.
+    //The student can only take first year modules for this semester only. 
+    $ifrst_year_student = "";
+    $and_module_level = "";
+    if(!$isEnrolled)
+    {
+        //and module_level = 1;
+        $and_module_level = " AND module.module_level = 1";
+        $ifrst_year_student = "<h3>Apply for first year modules 1st Semester<h3><br>\n";
+    }
+    if($count_classes > 0 && $count_classes < 5)
+    {
+        //if this is the case the show only those first classes
+        //$sql .= " AND module.module_level = 1";
+        $and_module_level = " AND module.module_level = 1";
+        $ifrst_year_student = "<h3>Apply for first year modules<h3><br>\n";
+    }
+    echo "Count classes is " . $count_classes;
+    if($count_classes > 2 && $count_classes < 9)
+    {
+        //Now we show the student the modules that they are able to take.
+        //But why cant we say that a student cannot take some other modules because they are not yet qualified.
+        $and_module_level = " AND module.module_level <4";
+        //echo $sql .= " AND module.module_level = 2";
+        $ifrst_year_student = "<h3>Apply for first year modules 2nd Semester<h3><br>\n";
+    }
+    if($count_classes > 8 && $count_classes < 13)
+    {
+        //Now we show the student the modules that they are able to take.
+        //But why cant we say that a student cannot take some other modules because they are not yet qualified.
+        $and_module_level = " AND module.module_level <3";
+        //echo $sql .= " AND module.module_level = 2";
+        $ifrst_year_student = "<h3>Apply for 2nd year modules 1st Semester<h3><br>\n";
+    }
+    //We need to tell this student that they can do he following modules next semester - 
+    //we firslty need to found all of their modules -- How many modules do they have?
+    $sql .= $and_module_level;
     $result = mysqli_query($link, $sql);
     if((mysqli_num_rows($result) > 0))
     {
@@ -174,6 +223,8 @@ if(mysqli_num_rows($result_course) > 0)
         }
         $module_registration_table .= "\n\t</table>";
         
+        //if student is first year tell them that they are applying for first year modules
+        echo $ifrst_year_student;
         echo  $module_registration_table;
 
     }

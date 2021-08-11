@@ -174,8 +174,6 @@ if(isset($_POST['update']) || isset($_POST['update_from_view']))
                         //This is hwo you can change the location
                         echo "alert(\"Successfully Updated!\") ";
                         header("LOCATION: student_portal_home.php");
-
-
                     }
                 }
                 else

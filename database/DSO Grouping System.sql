@@ -78,10 +78,12 @@
   (
     `module_code` VARCHAR(10) PRIMARY KEY,
     `module_name` VARCHAR(50) NOT NULL,
+    `module_level` INT(2),
+    `module_group` INT(2),
     `credit` DECIMAL(5,4)
   );
 
-  -- FIRST SEMESTER
+  -- 3RD YEAR FIRST SEMESTER
   INSERT INTO `module` 	VALUES
   ('DSO34AT', 'Developement Software IIIB', 0.125),
   ('DSO34BT', 'Developement Software IIIA', 0.125),
@@ -96,7 +98,7 @@
   ('ISY23BT', 'Information Systems IIB', 0.125),
   ('SSF24BT', 'System Software IIB', 0.125),
   ('TPG201T', 'Technical Programming II', 0.250);
-  -- FIRST SEMESTER
+  -- 2ND YEAR FIRST SEMESTER
   INSERT INTO `module` 	VALUES
   ('DSO23AT', 'Development Software IIA', 0.125),
   ('ISY23AT', 'Information Systems IIA', 0.125),
@@ -111,7 +113,7 @@
   ('CMK10BT', 'Computing Skills IB',0.125),
   ('DSO17BT', 'Development Software IB',0.125);
 
-  -- FIRST SEMESTER
+  -- 1ST YEAR FIRST SEMESTER
   INSERT INTO `module` 	VALUES
   ('CFS10AT', 'Computing Fundamentals IA', 0.125),
   ('CGS10AT', 'Computing Systems IA', 0.125),
