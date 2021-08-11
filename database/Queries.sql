@@ -155,3 +155,7 @@ AND course_module.course_id = 1;
 SELECT * 
 FROM lecture_student, lecture
 WHERE lecture.lecture_id = lecture_student.lecture_id;
+
+
+-- Student course registration
+INSERT INTO 
