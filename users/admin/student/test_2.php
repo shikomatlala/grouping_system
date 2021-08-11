@@ -12,7 +12,9 @@ $input = new Input();
 $label = new Label();
 $inputs = "";
 
-echo date();
+echo "<h1>This the date time stamp"  . date('Y-m-d') .  "<br></h1>";
+
+echo "<br>This is the old date" . date('D');
 //Create a new form with button
 $form->set_form("", "POST", "");
 $input->set_input("hidden", "module", "Shiko_Matlala", "", "");
