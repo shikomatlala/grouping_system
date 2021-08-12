@@ -43,7 +43,8 @@ if(isset($_POST['auto_create']))
             $module_code = $row['module_code'];
             //Now we need to create an insert for all these modules so that we can move forward.
             //Now the user needs to specify the semester and the year.
-            $sql = " INSERT INTO `lecture` (`semester`, `year`, `module_code`) VALUES (1, 2021, \"$module_code\") ";
+            $year = (int)date('Y');
+            $sql = " INSERT INTO `lecture` (`semester`, `year`, `module_code`) VALUES (1, $year, \"$module_code\") ";
             //echo $sql;
             if(mysqli_query($link, $sql))
             {
