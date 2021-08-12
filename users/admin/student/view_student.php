@@ -131,7 +131,7 @@ if(mysqli_num_rows($result_course) > 0)
     //Now we need to show all that the student has done.
     //Show all the available lectures that the student can register.
     echo "<h3><hr>AVAILABLE CLASSES TO ENROL </h3>\n<br>";
-    $year = (int)date('Y');
+    $year = 2019;
     echo "<h2>Available modules for the year " . $year . "</h2>";
     //show all the classes -
     //Now we need to check the modules that the student has registered and then we can then register the student for the new year.
@@ -453,8 +453,6 @@ function reload_button()
 
 
 echo "\n</body>\n</html>";
-
-
 
 /*
     if(mysqli_num_rows($result)>0)

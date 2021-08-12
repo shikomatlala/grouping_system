@@ -22,38 +22,77 @@ echo get_course_list($link, "lecture_portal.php");
 //
 if(isset($_POST['click_course']) )//)
 {
-  echo $_POST['click_course'] . "**** " .  $_POST['course'] . " ||||";
+
+  //Put in place the year and the callender
+  //echo $_POST['click_course'] . "**** " .  $_POST['course'] . " ||||";
   //$_SESSION['isClicked'] = true;
   $_SESSION['course_sess'] = $_POST['course'];
-  echo "<br>" .  $_SESSION['course_sess'] . " <br>";
+  //Specify semester and year --
+  //echo "<br>" .  $_SESSION['course_sess'] . " <br>";
   //create a session for saving of this information to keep int fase
   //I am learning that I cannot have more than one form at a time - and yet use both those forms together - I do not know how one can be able to do this.
   echo "You can automatically create all lectures for " . get_course_name_clicked($link, $_SESSION['course_sess']) . " by clicking the button bellow";
   //Create a form for the user to click the button so that they can create the lecture
   //now what is automatic creation of lectures.
   //Create a form - remember that he purpose of the form is to make sure that we can get the course that we working with.
-  $form->set_form("create_lecture.php", "POST", "");
+  $semester_num_select = new Select();
+  $year_select = new Select();
+  $year_select_output = "";
   $inputs = "";
+  $compile_select = "";
+  
+  //Create Form 
+  $form->set_form("create_lecture.php", "POST", "");
+  //Create a select button - for semester - or a drop down.
+  $semester_num_select->set_select("semester", "semester", "");
+  $semester_num_select->set_option("1", "1st Semester");
+  $compile_select .= "\t". $semester_num_select->get_option();
+  $semester_num_select->set_option("2", "2nd Semester");
+  $compile_select .= "\t". $semester_num_select->get_option();
+  $semester_select = $semester_num_select->get_select($compile_select);  
+  //Create the Year Select
+  //But this should be created pragmatically so we need to check which have been done before
+  $compile_select = "";
+  $year_select->set_select("year", "year", "");
+  $year_select->set_option("2019", "2019", "");
+  $compile_select .= "\t". $year_select->get_option();
+  $year_select->set_option("2020", "2020", "");
+  $compile_select .= "\t". $year_select->get_option();
+  $year_select->set_option("2021", "2021", "");
+  $compile_select .= "\t". $year_select->get_option();
+  $year_select_output = $year_select->get_select($compile_select);  
+  //echo $final_select;
+
+  $label->set_label("semester", "Choose Year", "");
+  $inputs .= $label->get_label() . "<br>";
+  //$inputs .= $final_select  . "<br>";
+  //Hidden button
   $input->set_input("hidden", "course_id", $_SESSION['course_sess'], "", "");
   $inputs .= $input->get_input();
+  $inputs .= $year_select_output . "<br>";
+  $label->set_label("semester", "Choose Semester", "");
+  $inputs .= $label->get_label() . "<br>";
+  $inputs .= $semester_select . "<br>";
+  //Submit Button
   $input->set_input("submit", "auto_create", "Auto Create Lectures", "", "");
-  $inputs .= $input->get_input();
+  $inputs .= $input->get_input() . "<br>";
   echo $form->get_form_wrapper($inputs);
   $_SESSION['course_id'] = (int)$_SESSION['course_sess'];
 
-  print_r($_POST);
+  //print_r($_POST);
 
 
     //$_SESSION['course_sess'] = $_POST['course'];//
 
-  //Automatically create the lectures.
+    //Automatically create the lectures.
 
-  //Now create a form where the user can create lectuers for this module
-  //$form->
+    //Now create a form where the user can create lectuers for this module
+    //$form->
 }
 if(isset($_POST['auto_create']))
 {
   $course_id = $_SESSION['course_id'];
+  //We need to get the semester and tye year --
   $sql = "SELECT * \n"
     . "FROM module, course_module\n"
     . "WHERE module.module_code = course_module.module_code\n"

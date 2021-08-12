@@ -82,7 +82,36 @@
     `module_group` INT(2),
     `credit` DECIMAL(5,4)
   );
-
+  INSERT INTO `module` (`module_code`, `module_name`, `credit`, `module_level`, `module_group`) VALUES
+    -- 1ST YEAR FIRST SEMESTER
+  ('CFS10AT', 'Computing Fundamentals IA', '0.1250', 1, 4),
+  ('CGS10AT', 'Computing Systems IA', '0.1250', 1, 3),
+  ('DSO17AT', 'Development Software IA', '0.1250', 1, 1),
+  ('CMK10AT', 'Computing Skills IA', '0.1250', 1, 2),
+    -- 1ST YEAR
+    -- SECOND SEMESTER
+  ('DSO17BT', 'Development Software IB', '0.1250', 2, 1),
+  ('CMK10BT', 'Computing Skills IB', '0.1250', 2, 2),
+  ('CGS10BT', 'Computing Systems IB', '0.1250', 2, 3),
+  ('CFS10BT', 'Computing Fundamentals IB', '0.1250', 2, 4),
+    -- 2ND YEAR FIRST SEMESTER
+  ('DSO23AT', 'Development Software IIA', '0.1250', 3, 4),
+  ('TPG111T', 'Technical Programming I', '0.2500', 3, 1),
+  ('SSF24AT', 'System Software IIA', '0.1250', 3, 3),
+  ('ISY23AT', 'Information Systems IIA', '0.1250', 3, 4),
+    -- 2ND YEAR
+    -- SECOND SEMESTER
+  ('SSF24BT', 'System Software IIB', '0.1250', 4, 3),
+  ('ISY23BT', 'Information Systems IIB', '0.1250', 4, 4),
+  ('TPG201T', 'Technical Programming II', '0.2500', 4, 1),
+  ('DSO23BT', 'Development Software IIB', '0.1250', 4, 4),
+  -- 3RD YEAR FIRST SEMESTER
+  ('IDC30AT', 'Industrial Exposure IIIA', '0.1250', 5, 2),
+  ('ISY34AT', 'Information System IIIA', '0.1250', 5, 4),
+  ('ISY34BT', 'Information System IIIB', '0.1250', 5, 4),
+  ('DSO34BT', 'Developement Software IIIA', '0.1250', 5, 4),
+  ('DSO34AT', 'Developement Software IIIB', '0.1250', 5, 4);
+  /*
   -- 3RD YEAR FIRST SEMESTER
   INSERT INTO `module` 	VALUES
   ('DSO34AT', 'Developement Software IIIB', 0.125),
@@ -120,7 +149,7 @@
   ('CMK10AT', 'Computing Skills IA', 0.125),
   ('DSO17AT', 'Development Software IA', 0.125);
 
-
+  */
   CREATE TABLE `course_module`
   (
     `course_module_id` INT(5) PRIMARY KEY AUTO_INCREMENT,
