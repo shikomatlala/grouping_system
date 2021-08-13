@@ -63,6 +63,7 @@ if(isset($_POST['auto_create']))
 
             
         }
+        //header("LOCATION: lecture_portal.php, 7");
     }
 }
 

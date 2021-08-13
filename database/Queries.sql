@@ -295,3 +295,237 @@ AND lecture_student.stud_number  = 210181333;
 |218160767|Renata|Leitch|F|8610164233082|0721560405|218160767tut4life.ac.za|5 Tomahawk Dr,Los Angeles,Los Angeles,CA,90006
 |218154463|Rosenda|Boltz|F|9305021693083|0663080155|218154463tut4life.ac.za|59 Shady Ln #53,Milwaukee,Milwaukee,WI,53214
 |218145541|Livia|Suire|F|9608160149084|0627320193|218145541tut4life.ac.za|45 E Liberty St,Ridgefield Park,Bergen,NJ,7660
+
+
+-- Select the first year of lectures
+
+$sql = "SELECT year FROM  lecture WHERE year =(SELECT MIN(year) FROM lecture) GROUP BY year";
+
+
+SELECT * FROM `lecture`, `module`
+WHERE module.module_group = 1
+AND module.module_code = lecture.module_code
+AND lecture.year = 2019
+
+
+SELECT * 
+FROM lecture, module
+WHERE lecture.module_code = module.module_code
+AND module.module_group = (SELECT module.module_group FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152)
+
+
+
+SELECT * 
+FROM lecture, module
+WHERE lecture.module_code = module.module_code
+AND module.module_group = (SELECT module.module_group FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152)
+AND lecture.year <> (SELECT lecture.year FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152)
+
+
+
+SELECT * 
+FROM lecture, module
+WHERE lecture.module_code = module.module_code
+AND module.module_group = (SELECT module.module_group FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152)
+AND lecture.year = (SELECT lecture.year FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152) + 1
+
+
+SELECT * 
+FROM lecture, module
+WHERE lecture.module_code = module.module_code
+AND module.module_group = (SELECT module.module_group FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152)
+AND lecture.year = (SELECT lecture.year FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152) + 1
+AND module.module_level = (SELECT module.module_level FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152) + 1
+
+
+
+-- The pre-requisite code.
+SET @lect_id := 152;
+SELECT * 
+FROM lecture, module
+WHERE lecture.module_code = module.module_code
+AND module.module_group = (SELECT module.module_group FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152)
+AND lecture.year = (SELECT lecture.year FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152)
+AND module.module_level = (SELECT module.module_level FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152) + 1
+AND lecture.semester <> (SELECT lecture.semester FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = 152)
+
+
+
+-- Now we need to fix the issue of the year -- We need to make sure that we can move to the next year.
+167, 148
+171
+152 -- This is CFS10AT  Semester 1 - year 2019
+-- This query should give CFS10BT Semester 2. -- For the same year -- 
+SET @lect_id := 152;
+SELECT * 
+FROM lecture, module
+WHERE lecture.module_code = module.module_code
+AND module.module_group = (SELECT module.module_group FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id)
+AND lecture.year = (SELECT lecture.year FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id) 
+AND module.module_level = (SELECT module.module_level FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id) + (	SELECT CASE 
+																			WHEN module.module_level = 1 THEN 1
+																			ELSE 0
+																		 END AS nextyear
+																   	FROM `lecture`, `module`
+																	WHERE module.module_code = lecture.module_code
+																	AND lecture.lecture_id = @lect_id)
+AND lecture.semester <> (SELECT lecture.semester FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id)
+-- This query gives us the appropriate year -- But the issue here is that we cannot jump to the next year -- Now we need to be able to jump to the next year.
+-- We are now going to jump off to the next year -- We need to say if the semester is second semester, then jump to the next year.
+-- We are able to jump to the right year -- but we cannot move to the next module level
+SET @lect_id := 167;
+SELECT * 
+FROM lecture, module
+WHERE lecture.module_code = module.module_code
+AND module.module_group = (SELECT module.module_group FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id)
+AND lecture.year = (SELECT lecture.year FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id) + (SELECT 	CASE 
+																	WHEN semester = 2 THEN '1'
+																	ELSE '0'
+																END AS nextyear
+																FROM `lecture`, `module`
+																WHERE module.module_code = lecture.module_code
+																AND lecture.lecture_id = @lect_id)
+AND module.module_level = (SELECT module.module_level FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id) + (	SELECT CASE 
+																			WHEN module.module_level = 1 THEN 1
+																			ELSE 0
+																		 END AS nextyear
+																   	FROM `lecture`, `module`
+																	WHERE module.module_code = lecture.module_code
+																	AND lecture.lecture_id = @lect_id) 
+AND lecture.semester <> (SELECT lecture.semester FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id)
+
+
+-- Here we say that if the year module.module_level = current module level then add 1
+SET @lect_id := 152;
+SELECT * 
+FROM lecture, module
+WHERE lecture.module_code = module.module_code
+AND module.module_group = (SELECT module.module_group FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id)
+AND lecture.year = (SELECT lecture.year FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id) + (SELECT 	CASE 
+																	WHEN semester = 2 THEN '1'
+																	ELSE '0'
+																END AS nextyear
+																FROM `lecture`, `module`
+																WHERE module.module_code = lecture.module_code
+																AND lecture.lecture_id = @lect_id)
+AND module.module_level = (SELECT module.module_level FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id) + (	SELECT CASE 
+																			WHEN module.module_level = (SELECT module.module_level FROM `lecture`, `module`
+																										WHERE module.module_code = lecture.module_code
+																										AND lecture.lecture_id = @lect_id) THEN 1
+																			ELSE 0
+																		 END AS nextyear
+																   	FROM `lecture`, `module`
+																	WHERE module.module_code = lecture.module_code
+																	AND lecture.lecture_id = @lect_id) 
+AND lecture.semester <> (SELECT lecture.semester FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id)	
+
+
+
+SET @lect_id := 166;
+SELECT * 
+FROM lecture, module
+WHERE lecture.module_code = module.module_code
+AND module.module_group = (SELECT module.module_group FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id)
+AND lecture.year = (SELECT lecture.year FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id) + (SELECT 	CASE 
+																	WHEN semester = 2 THEN '1'
+																	ELSE '0'
+																END AS nextyear
+																FROM `lecture`, `module`
+																WHERE module.module_code = lecture.module_code
+																AND lecture.lecture_id = @lect_id)
+AND module.module_level = (SELECT module.module_level FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id) + (	SELECT CASE 
+																			WHEN module.module_level = (SELECT module.module_level FROM `lecture`, `module`
+																										WHERE module.module_code = lecture.module_code
+																										AND lecture.lecture_id = @lect_id) THEN 1
+																			ELSE 0
+																		 END AS nextyear
+																   	FROM `lecture`, `module`
+																	WHERE module.module_code = lecture.module_code
+																	AND lecture.lecture_id = @lect_id) 
+AND lecture.semester <> (SELECT lecture.semester FROM `lecture`, `module`
+							WHERE module.module_code = lecture.module_code
+							AND lecture.lecture_id = @lect_id)							
+
+-- I can use the case statement - We know what this is.
+
+-- How can we jump to the next year?
+-- If we are on semester 2 -- Then we can move on the next year.
+-- This can be done in the by PHP
+
+-- %We want to add 1, when the semester is second semester -- 
+SELECT 	CASE 
+			WHEN semester = 2 THEN '1'
+			ELSE '0'
+		END AS nextyear
+FROM `lecture`, `module`
+WHERE module.module_code = lecture.module_code
+AND lecture.lecture_id = 152
+
+
+SELECT 	CASE 
+			WHEN semester = 2 THEN 1
+			ELSE 0
+		END AS nextyear
+FROM `lecture`, `module`
+WHERE module.module_code = lecture.module_code
+AND lecture.lecture_id = 152
+
+-- This is CFS10AT - YEAR 2019, Semester 1
+SELECT * 
+FROM lecture, module
+WHERE lecture.module_code = module.module_code
+AND lecture.lecture_id = 152

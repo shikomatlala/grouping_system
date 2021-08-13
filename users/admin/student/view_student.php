@@ -20,7 +20,11 @@ $phone = "";
 $input_wrapper = "";
 $stud_number= (int)$_SESSION['stud_number'];
 $stud_name= "";
+//This and where statement is for modules to be registered, modules which have not been registered cannot appear on modules to be registered.
+$and_where_statement = "";
 //
+$rows_for_modules_to_register= "";
+//echo preresquisite_module_sql("155");
 echo $stud_number . " What is this now";
 //Get the student particulares
 //The best option here is to set a global variable carrying the student number
@@ -67,6 +71,7 @@ if(mysqli_num_rows($result_course) > 0)
         AND stud_number = $stud_number";
     $result = mysqli_query($link, $sql);
     $where_statement = "";
+    $module_registration_table = "";
     if(mysqli_num_rows($result)>0)
     {
         $class_table = "";
@@ -81,8 +86,22 @@ if(mysqli_num_rows($result_course) > 0)
         $class_table .= "\n\t</tr>";
         //echo "This student has taken lectures";
         //Le us now show those lectures/module/class
+        //This is where we are going to find our what the person has not enrolled for.
+
+        $module_registration_table = "";
+        //Table for available modules
+        $module_registration_table .= "\n\t<table>\n<tr>";
+        $module_registration_table .= "\n\t\t<th>Module Code</th>";
+        $module_registration_table .= "\n\t\t<th>Module Name</th>";
+        $module_registration_table .= "\n\t\t<th>Module Credit</th>";
+        $module_registration_table .= "\n\t\t<th>Semester</th>";
+        $module_registration_table .= "\n\t\t<th>Year</th>";
+        $module_registration_table .= "\n\t\t<th> </th>";//Enrol Module
+        $module_registration_table .= "\n\t</tr>";
+
         while($row = mysqli_fetch_assoc($result))
         {
+            //$module_registration_table .= "\n\t<table>\n<tr>";
             $count_classes +=1;
             $class_table .= "\n\t<tr>";
             $class_table .= "\n\t\t<td>" .$row['lecture_id'] . "</td>";
@@ -91,6 +110,7 @@ if(mysqli_num_rows($result_course) > 0)
             $class_table .= "\n\t\t<td>" .$row['module_name'] . "</td>";
             $class_table .= "\n\t\t<td>" .$row['semester'] . "</td>";
             $class_table .= "\n\t\t<td>" .$row['year'] . "</td>";
+            $and_where_statement .= " AND lecture_id <> " . (int)$row['lecture_id'] . " ";
 
             //Create the view Class Button - 
             $inputs = "";
@@ -104,6 +124,7 @@ if(mysqli_num_rows($result_course) > 0)
             $form_out = $form->get_form_wrapper($inputs);
             $class_table .= "\n\t\t<td>" . $form_out . "</td>";
             //$class_table .= "\n\t\t<td>" .$row['email'] . "</td>";
+
             // reg_date
             // lecture_id
             // stud_number
@@ -113,9 +134,52 @@ if(mysqli_num_rows($result_course) > 0)
             // year
             // prerequisite_module
             //Now the goal is to create a crud where we can view simple details about the module
+            //For each and every single module - we need to check the module the module that comes after it. or the module that opens up.
+            //Rows for table for available modules
+            //The question that I have with this is what happens when one modules gives us more than 1 module- so that we end up with duplica modules?
+            $preresquite_module_sql = preresquisite_module_sql((int)$row['lecture_id']);
+            $preresquite_module_result = mysqli_query($link, $preresquite_module_sql);
+            if(mysqli_num_rows($preresquite_module_result)>0)
+            {
 
+                //$module_registration_table .= "\n\t<table>\n<tr>";
+               while($preresquite_module_row = mysqli_fetch_assoc($preresquite_module_result)) 
+               {
+                    //$module_registration_table .= "\n\t<table>\n<tr>";
+                    $module_registration_table .= "\n\t<tr>";
+                    $module_registration_table .= "\n\t\t<td>" .$preresquite_module_row['module_code'] . "</td>";
+                    $module_registration_table .= "\n\t\t<td>" .$preresquite_module_row['module_name'] . "</td>";
+                    $module_registration_table .= "\n\t\t<td>" .$preresquite_module_row['credit'] . "</td>";
+                    $module_registration_table .= "\n\t\t<td>" .$preresquite_module_row['semester'] . "</td>";
+                    $module_registration_table .= "\n\t\t<td>" .$preresquite_module_row['year'] . "</td>";
+                    $rows_for_modules_to_register .= "\n\t<tr>";
+                    $rows_for_modules_to_register .= "\n\t\t<td>" .$preresquite_module_row['module_code'] . "</td>";
+                    $rows_for_modules_to_register .= "\n\t\t<td>" .$preresquite_module_row['module_name'] . "</td>";
+                    $rows_for_modules_to_register  .= "\n\t\t<td>" .$preresquite_module_row['credit'] . "</td>";
+                    $rows_for_modules_to_register .= "\n\t\t<td>" .$preresquite_module_row['semester'] . "</td>";
+                    $rows_for_modules_to_register .= "\n\t\t<td>" .$preresquite_module_row['year'] . "</td>";
+                    
+                    //Table data for available modules
+                    $inputs = "";
+                    $form->set_form("enrol_lecture.php", "POST", "");;
+                    $input->set_input("hidden", "lecture_id", $preresquite_module_row['lecture_id'], "", "");
+                    $inputs .= $input->get_input();
+                    $input->set_input("hidden", "stud_number", $stud_number, "", "");
+                    $inputs .= $input->get_input();
+                    $input->set_input("submit", "submit", "Enrol Module", "", "");
+                    $inputs .= $input->get_input();
+                    $form_out = $form->get_form_wrapper($inputs);
+                    $module_registration_table .= "\n\t\t<td>" . $form_out . "</td>";
+                    $rows_for_modules_to_register .= "\n\t\t<td>" . $form_out . "</td>";
+               }
+           
+            }
+
+
+            
 
         }
+        $module_registration_table .= "\n\t</table>";
         $class_table .= "\n\t</table>";
         echo "Total Classes Taken $count_classes <br><br>";
         echo $class_table;
@@ -127,63 +191,115 @@ if(mysqli_num_rows($result_course) > 0)
         //If the student has not enrolled for any classes then we need to modufy the module tabe.
         //If the student has not enrolled for any class we can raise a flag - 
     }
+    //echo "<hr>";
+    //echo $ifrst_year_student;
+    //echo "We are here<br>";
+    //echo  $module_registration_table;
+    //echo "<br><br><br><br><br><br><hr>";
+
     //Now le us view all the available classes that the student can take
     //Now we need to show all that the student has done.
     //Show all the available lectures that the student can register.
     echo "<h3><hr>AVAILABLE CLASSES TO ENROL </h3>\n<br>";
     $year = 2019;
-    echo "<h2>Available modules for the year " . $year . "</h2>";
+    //echo "<h2>Available modules for the year " . $year . "</h2>";
     //show all the classes -
     //Now we need to check the modules that the student has registered and then we can then register the student for the new year.
     //Go through all that the student has done.
     //Remember remember if the student has not taken any class - We need to show the student the classes which for the first semester.
     //Firstly find the modules that the student has enroled. 
     //Firstly how do we determine the semester? -- The semester is defined by the institution  - and not time.
+    //also make sure that the semester if the first semester for the first year.
+    //Find the least year 
+    // $sql = "SELECT * FROM  lecture WHERE year =(SELECT MIN(year) FROM lecture)";
+    $first_year = 0;
+    $first_year_first_semester = 0;
+
+    //$sql = "SELECT year FROM  lecture WHERE year =(SELECT MIN(year) FROM lecture)";
+    //$sql = "SELECT year FROM  lecture WHERE year =(SELECT MIN(year) FROM lecture) GROUP BY year";
+    $sql = "SELECT year, semester FROM lecture WHERE year =(SELECT MIN(year) FROM lecture) AND semester = (SELECT MIN(semester) FROM lecture) GROUP BY year, semester";
+    $result = mysqli_query($link, $sql);
+    if(mysqli_num_rows($result) > 0)
+    {
+        while($row = mysqli_fetch_assoc($result))
+        {
+            //now le us get the yera
+            $first_year = (int)$row['year'];
+            $first_year_first_semester  = (int)$row['semester'];
+        }
+    }
+    echo $first_year . " Year | Semester " . $first_year_first_semester ;
+    //Select the least year firstly - 
     //The semester is defined by the institution...
     $sql = "
             SELECT * 
             FROM lecture, module
             WHERE lecture.module_code = module.module_code
-            AND `year` = $year
-            $where_statement";//Remember that we need classes that are current - therefore where the year and the semester is valid.
+            AND `year` = $first_year
+            AND `semester` = $first_year_first_semester ";
+            //$where_statement";//Remember that we need classes that are current - therefore where the year and the semester is valid.
     //echo $sql;
     //If this student is not enrolled then we will show only first year modules - this means that we will edit the sql query here.
-    //The student can only take first year modules for this semester only. 
+    //The student can only take first year modules for this semester only.
+
+    //Module level 1 -- Year 1, Semester 1
+    //Module Level 2 -- Year 1, Semester 2
+    //Module Level 3 -- Year 2, Semester 1
+    //Module Level 4 -- Year 2, Semester 2
+    //Module Level 5 -- year 3, Semester 1
+    //This is a program - and the goal of this program is that all a student needs to have a credit of 2.8750 -- All comprising of different modules
+    //But here is the interesting part - a student cannot register for modules if they have not yet enrolled for a lesser module.
+    //Open up rather the modules that the person can taken and when they can take them.
+    //Find number of module groups we have
     $ifrst_year_student = "";
     $and_module_level = "";
-    if(!$isEnrolled)
+    if($isEnrolled)
     {
         //and module_level = 1;
         $and_module_level = " AND module.module_level = 1";
         $ifrst_year_student = "<h3>Apply for first year modules 1st Semester<h3><br>\n";
     }
-    if($count_classes > 0 && $count_classes < 5)
-    {
-        //if this is the case the show only those first classes
-        //$sql .= " AND module.module_level = 1";
-        $and_module_level = " AND module.module_level = 1";
-        $ifrst_year_student = "<h3>Apply for first year modules<h3><br>\n";
-    }
-    echo "Count classes is " . $count_classes;
-    if($count_classes > 2 && $count_classes < 9)
-    {
-        //Now we show the student the modules that they are able to take.
-        //But why cant we say that a student cannot take some other modules because they are not yet qualified.
-        $and_module_level = " AND module.module_level <4";
-        //echo $sql .= " AND module.module_level = 2";
-        $ifrst_year_student = "<h3>Apply for first year modules 2nd Semester<h3><br>\n";
-    }
-    if($count_classes > 8 && $count_classes < 13)
-    {
-        //Now we show the student the modules that they are able to take.
-        //But why cant we say that a student cannot take some other modules because they are not yet qualified.
-        $and_module_level = " AND module.module_level <3";
-        //echo $sql .= " AND module.module_level = 2";
-        $ifrst_year_student = "<h3>Apply for 2nd year modules 1st Semester<h3><br>\n";
-    }
+    /*
+            $ifrst_year_student = "";
+            $and_module_level = "";
+            if(!$isEnrolled)
+            {
+                //and module_level = 1;
+                $and_module_level = " AND module.module_level = 1";
+                $ifrst_year_student = "<h3>Apply for first year modules 1st Semester<h3><br>\n";
+            }
+            if($count_classes > 0 && $count_classes < 5)
+            {
+                //if this is the case the show only those first classes
+                //$sql .= " AND module.module_level = 1";
+                //What has this person not enrolled for?
+
+                $and_module_level = " AND module.module_level = 1";
+                $ifrst_year_student = "<h3>Apply for first year modules<h3><br>\n";
+            }
+            echo "Count classes is " . $count_classes;
+            if($count_classes > 2 && $count_classes < 9)
+            {
+                //Now we show the student the modules that they are able to take.
+                //But why cant we say that a student cannot take some other modules because they are not yet qualified.
+                $and_module_level = " AND module.module_level <4";
+                //echo $sql .= " AND module.module_level = 2";
+                $ifrst_year_student = "<h3>Apply for first year modules 2nd Semester<h3><br>\n";
+            }
+            if($count_classes > 8 && $count_classes < 13)
+            {
+                //Now we show the student the modules that they are able to take.
+                //But why cant we say that a student cannot take some other modules because they are not yet qualified.
+                $and_module_level = " AND module.module_level <3";
+                //echo $sql .= " AND module.module_level = 2";
+                $ifrst_year_student = "<h3>Apply for 2nd year modules 1st Semester<h3><br>\n";
+            }
+    */
     //We need to tell this student that they can do he following modules next semester - 
     //we firslty need to found all of their modules -- How many modules do they have?
+    //We do not need count classes we only need module level -- this is all that we need.
     $sql .= $and_module_level;
+    $sql .= $and_where_statement;
     $result = mysqli_query($link, $sql);
     if((mysqli_num_rows($result) > 0))
     {
@@ -221,10 +337,11 @@ if(mysqli_num_rows($result_course) > 0)
             $module_registration_table .= "\n\t\t<td>" . $form_out . "</td>";
             //echo "Class Name : " . $row['module_code'] .  "   " . $form_out . "<br><hr>";
         }
+        $module_registration_table .= $rows_for_modules_to_register;
         $module_registration_table .= "\n\t</table>";
         
         //if student is first year tell them that they are applying for first year modules
-        echo $ifrst_year_student;
+        //echo $ifrst_year_student;
         echo  $module_registration_table;
 
     }
@@ -275,9 +392,6 @@ else
             echo "<h3>Student Successully registered for: </h3><h2>" . get_course_name_clicked_2($link, $_POST['course_id']) . "</h2>\n";
             echo reload_button();
         }
-
-
-
     }
     //echo button($stud_number, "stud_number", "reg_course", "Register Course", "");
 }
@@ -449,6 +563,43 @@ function reload_button()
         echo $form->get_form_wrapper($input->get_input());
         //Above is the back button
     return $out;
+}
+
+function preresquisite_module_sql($lect_id)
+{
+    $out = "
+        SELECT * 
+        FROM lecture, module
+        WHERE lecture.module_code = module.module_code
+        AND module.module_group = (SELECT module.module_group FROM `lecture`, `module`
+                                    WHERE module.module_code = lecture.module_code
+                                    AND lecture.lecture_id = $lect_id)
+        AND lecture.year = (SELECT lecture.year FROM `lecture`, `module`
+                                    WHERE module.module_code = lecture.module_code
+                                    AND lecture.lecture_id = $lect_id) + (SELECT 	CASE 
+                                                                            WHEN semester = 2 THEN '1'
+                                                                            ELSE '0'
+                                                                        END AS nextyear
+                                                                        FROM `lecture`, `module`
+                                                                        WHERE module.module_code = lecture.module_code
+                                                                        AND lecture.lecture_id = $lect_id)
+        AND module.module_level = (SELECT module.module_level FROM `lecture`, `module`
+                                    WHERE module.module_code = lecture.module_code
+                                    AND lecture.lecture_id = $lect_id) + (	SELECT CASE 
+                                                                                    WHEN module.module_level = (SELECT module.module_level FROM `lecture`, `module`
+                                                                                                                WHERE module.module_code = lecture.module_code
+                                                                                                                AND lecture.lecture_id = $lect_id) THEN 1
+                                                                                    ELSE 0
+                                                                                END AS nextyear
+                                                                            FROM `lecture`, `module`
+                                                                            WHERE module.module_code = lecture.module_code
+                                                                            AND lecture.lecture_id = $lect_id) 
+        AND lecture.semester <> (SELECT lecture.semester FROM `lecture`, `module`
+                                    WHERE module.module_code = lecture.module_code
+                                    AND lecture.lecture_id = $lect_id)";
+                                    
+     return $out;
+
 }
 
 
