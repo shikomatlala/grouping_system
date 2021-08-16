@@ -14,6 +14,9 @@ include_once "lecture_portal_header.php";
 //We need to have the back button
 
 echo $header_title;
+
+echo back_button("lecture_portal.php");
+
 echo $create_lecture;
 if(isset($_POST['auto_create']))
 {
@@ -57,14 +60,24 @@ if(isset($_POST['auto_create']))
             {
                 echo "Error" . $sql . "<br>" . mysqli_error($link);
             }
-
             //Now let us break down this module to know if a few things about it.
             //We can use an array - and bouble sorting.
-
-            
         }
         //header("LOCATION: lecture_portal.php, 7");
     }
+}
+function back_button($back_url)
+{
+    $form = new Form();
+    $input = new Input();
+    $out = "";
+        //create a back button - which is actually a form - 
+        $form->set_form($back_url, "POST", "");
+        //$label->set_label("Click to Register new Student", "First Name", "");
+        $input->set_input("submit", "back", "Back", "", "");
+        echo $form->get_form_wrapper($input->get_input());
+        //Above is the back button
+    return $out;
 }
 
 ?>  
