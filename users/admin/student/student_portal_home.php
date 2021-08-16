@@ -246,7 +246,7 @@ echo $form->get_form_wrapper($input->get_input());
 
 // }
 
-
+//We should have a couple of queries in or I think we should make functions
 $student_table = "";
 $sql = "SELECT * \n"
 . "FROM student ORDER BY stud_number DESC\n";
