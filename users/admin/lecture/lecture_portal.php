@@ -19,6 +19,8 @@ $input = new Input();
 $_SESSION['course_id'] = 0;
 echo get_course_list($link, "lecture_portal.php");
 //$_SESSION['isClicked'] = false;
+//Let us view lectures.
+
 //
 if(isset($_POST['click_course']) )//)
 {
@@ -27,11 +29,20 @@ if(isset($_POST['click_course']) )//)
   //echo $_POST['click_course'] . "**** " .  $_POST['course'] . " ||||";
   //$_SESSION['isClicked'] = true;
   $_SESSION['course_sess'] = $_POST['course'];
+
+  //You can also view all the available classes for the year.
+  //In order to view course modules we need to know the know the course _id
+  $course_id = $_SESSION['course_sess'];
+  $label->set_label("view_course", "Click to view and Manage Course Modules", "");
+  echo $label->get_label() . "<br>";
+  echo button("", "", "$course_id", "course_id", "view_course", "View Course Modules", "view_course_module.php") . "<br>";
   //Specify semester and year --
   //echo "<br>" .  $_SESSION['course_sess'] . " <br>";
   //create a session for saving of this information to keep int fase
   //I am learning that I cannot have more than one form at a time - and yet use both those forms together - I do not know how one can be able to do this.
   echo "You can automatically create all lectures for " . get_course_name_clicked($link, $_SESSION['course_sess']) . " by clicking the button bellow";
+
+
   //Create a form for the user to click the button so that they can create the lecture
   //now what is automatic creation of lectures.
   //Create a form - remember that he purpose of the form is to make sure that we can get the course that we working with.
@@ -123,6 +134,24 @@ function back_button($back_url)
         //Above is the back button
     return $out;
 }
-
+//This button take information --- Let us now make use of it
+function button($data1, $data_name1, $data2, $data_name2, $button_name, $button_caption, $action)
+{
+    $form = new Form();
+    $input = new Input();
+    $inputs = "";
+    $out = "";
+        //create a back button - which is actually a form - 
+        $form->set_form($action, "POST", "");
+        $input->set_input("hidden", $data_name1, $data1, "", "");
+        $inputs .= $input->get_input() . "\n";
+        $input->set_input("hidden", $data_name2, $data2, "", "");
+        $inputs .= $input->get_input() . "\n";
+        $input->set_input("submit", $button_name, $button_caption, "", "");
+        $inputs .= $input->get_input() . "\n";
+        $out =  $form->get_form_wrapper($inputs);
+        //Above is the back button
+    return $out;
+}
 
 ?>

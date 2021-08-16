@@ -529,3 +529,51 @@ SELECT *
 FROM lecture, module
 WHERE lecture.module_code = module.module_code
 AND lecture.lecture_id = 152
+
+-- Here we want to view all lectures -- so that we can manage them.
+SELECT *
+FROM lecture, module, course, course_module
+WHERE lecture.module_code = module.module_code
+AND course_module.course_id = course.course_id
+AND module.module_code  = course_module.module_code
+AND course.course_id = 1
+
+--- Now we need to create order by clause.
+-- Order by date, year, semester 
+SELECT *
+FROM lecture, module, course, course_module
+WHERE lecture.module_code = module.module_code
+AND course_module.course_id = course.course_id
+AND module.module_code  = course_module.module_code
+AND course.course_id = 1
+ORDER BY lecture.year DESC
+
+-- View by year choose year
+SELECT *
+FROM lecture, module, course, course_module
+WHERE lecture.module_code = module.module_code
+AND course_module.course_id = course.course_id
+AND module.module_code  = course_module.module_code
+AND course.course_id = 1
+AND lecture.year = 2019
+ORDER BY lecture.year DESC
+
+
+
+lecture_id
+module_code
+semester
+year Descending 1
+prerequisite_module
+module_code
+module_name
+module_level
+module_group
+credit
+course_id
+course_name
+course_module_id
+date
+course_id
+module_code
+
