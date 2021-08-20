@@ -393,6 +393,9 @@ INSERT INTO `student` (`stud_number`, `first_name`, `last_name`, `gender`, `id_n
 (214548077, 'Royal', 'Ricketts', 'M', '8501255275082', '0737080094', '214548077tut4life.ac.za', '2215 Prosperity Dr,Lyndhurst,Bergen,NJ,7071'),
 (214556506, 'Tyree', 'Zapien', 'M', '9511065673083', '0613250333', '214556506tut4life.ac.za', '60 Old Dover Rd,Hialeah,Miami-Dade,FL,33014'),
 (214567358, 'Bryant', 'Barcia', 'M', '8309195268084', '0749310367', '214567358tut4life.ac.za', '80 Pittsford Victor Rd #9,Cleveland,Cuyahoga,OH,44103');
+
+
+-- These ones here are out
 INSERT INTO `student` (`stud_number`, `first_name`, `last_name`, `gender`, `id_nr`, `phone`, `email`, `address`) VALUES
 (214573579, 'Francisco', 'Spraggs', 'M', '8205275417082', '0724390809', '214573579tut4life.ac.za', '8728 S Broad St,Coram,Suffolk,NY,11727'),
 (214597509, 'Guadalupe', 'Stump', 'M', '9603095907084', '0658350089', '214597509tut4life.ac.za', '70295 Pioneer Ct,Brandon,Hillsborough,FL,33511'),
@@ -717,3 +720,17 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+18203 Lerato Makapane 8901010025086 F 885210566 leratomakapane@gmail.com
+
+Edit Edit
+Copy Copy
+Delete Delete
+22010
+Ephraim
+Sanyane
+7011275418082
+M
+775870538
+ephraimsanyane@gmail.com

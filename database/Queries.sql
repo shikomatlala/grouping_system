@@ -559,6 +559,14 @@ AND lecture.year = 2019
 ORDER BY lecture.year DESC
 
 
+-- Creat a query to show all the students that are doing a particular module
+SELECT * 
+FROM student, lecture_student, lecture, module
+WHERE student.stud_number = lecture_student.stud_number
+AND lecture.lecture_id = lecture_student.lecture_id
+AND module.module_code = lecture.module_code
+AND lecture.lecture_id = 1;
+
 
 lecture_id
 module_code
@@ -577,3 +585,93 @@ date
 course_id
 module_code
 
+
+
+
+
+
+
+
+
+
+
+
+
+stud_number Descending 1
+first_name
+last_name
+gender
+id_nr
+phone
+email
+address
+lecture_stud_id
+reg_date
+lecture_id
+stud_number
+lecture_id
+module_code
+semester
+year
+prerequisite_module
+module_code
+module_name
+module_level
+module_group
+credit
+
+
+
+
+
+staff_number
+first_name
+last_name
+id_nr
+sex
+phone
+email
+lecture_group_id
+group_name
+lecture_id
+staff_number
+lecture_id
+module_code
+semester
+year
+prerequisite_module
+module_code
+module_name
+module_level
+module_group
+credit
+
+
+
+SELECT * 
+FROM lecture, lecturer, lecture_student, student, lecture_group
+WHERE lecture.lecture_id = lecture_student.lecture_id
+AND lecture_student.stud_number = student.stud_number
+AND lecture_group.staff_number = lecturer.staff_number
+AND lecture_group.lecture_id = lecture.lecture_id
+
+
+-- Find the lecture group where the
+SELECT *
+FROM lecture, lecture_group, lecturer
+WHERE lecture.lecture_id = lecture_group.lecture_id
+AND lecturer.staff_number = lecture_group.staff_number
+
+-- Find the students in this lecture_group
+SELECT * 
+FROM student, group_member, lecture_group
+WHERE student.stud_number = group_member.stud_number
+AND lecture_group.lecture_group_id = group_member.lecture_group_id
+
+
+
+
+
+
+
+INSERT INTO lecture_group (group_name, lecture_id, staff_number) VALUES ($group_name, $lecturer_id, $staff_number)

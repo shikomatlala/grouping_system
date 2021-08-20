@@ -269,7 +269,7 @@ INSERT INTO `lecture_lecturer` (`staff_number`, `lecture_id`, `vanue`, `start_ti
 CREATE TABLE  `lecture_group`
 (
   `lecture_group_id` INT(11) PRIMARY KEY AUTO_INCREMENT,
-  `group_name` VARCHAR(10) NOT NULL,
+  `group_name` VARCHAR(30) NOT NULL,
   `lecture_id` INT(11) NOT NULL,
   `staff_number` INT(11) NOT NULL,
   FOREIGN KEY (`lecture_id`) REFERENCES `lecture` (`lecture_id`),
