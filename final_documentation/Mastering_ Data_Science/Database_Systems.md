@@ -1,6 +1,8 @@
 # -------------------
 # Database Systems
 # ---------------------
+
+easy equity
 Data
 Data consits of raw facts - The word *row* indicates that the facts have not yet been processed to reveal their meaning
 Row Data must be properly *formatted* for storage, processing, and presenting

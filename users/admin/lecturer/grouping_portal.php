@@ -1,26 +1,17 @@
 <?php
 include_once "../../../connect.php";
-//echo "Let us group these people";
-$header = "<h1>";
-$group_stud_div= "<div>\n
-                    \t<form action=\"manager_student.php\" action=\"POST\">\n
-                        \t\t<input type=\"submit\" name=\"group_studens\" value=\"Group Students\">\n
-                        \t\t<input type=\"submit\" name=\"add_students\" value=\"Add Students\">\n
-
-                      </form>
-                  <div>";
-
-$staff_number = (int)$_SESSION['staff_number'];
-$module_code;
-$stud_stats_div = "<div>\n\tStudents Stats\n\t<ul>\n";
-$student_list_crud = "<form action=\"manager_student.php\" action=\"POST\">\n";
-$count_students = 1;
-if(isset($_POST['module_code']))
-{
-  //echo $_POST['module_code'];
+include_once "../functions.php";
+include_once "../student/student.php";
+include_once "../student/form.php";
+include_once "../lecture/lecture_portal_header.php";
+  ///----
+  ///---
+  $count_students = 0;
+  $header = "";
   $header .= $_POST['module_code'] . "  Module</h1><hr>\n";
   $module_code = $_POST['module_code'];
-  //Let us see the students --
+  //Let us see the students
+  //Now we need to store the staff number somewhere.
   $header .= "<h3>Your Fellow Lecturers For this Module</h3>\n";
   $sql = "SELECT c.stud_number, first_name, last_name, phone, email\n"
       . "FROM lecture_group a, lecture b, lecture_student c, student d\n"
@@ -30,40 +21,56 @@ if(isset($_POST['module_code']))
       . "AND a.staff_number = 10023\n"
       . "AND b.module_code = \"DSO34BT\"";
   $result = mysqli_query($link, $sql);
-  //print_r($result);
-  if(mysqli_num_rows($result) > 0 )
-  {
-      while($row= mysqli_fetch_assoc($result))
+    if(mysqli_num_rows($result)>0)
+    {
+      $student_list = "";
+      $student_list .= "\n\t<table>\n\t<tr>";
+      $student_list .= "\n\t\t<th>Class List Number</th>";
+      $student_list .= "\n\t\t<th>Student Number</th>";
+      $student_list .= "\n\t\t<th>First Name</th>";
+      $student_list .= "\n\t\t<th>Last Name</th>";
+      $student_list .= "\n\t\t<th>Phone</th>";
+      $student_list .= "\n\t\t<th>Email</th>";
+      //$student_list .= "\n\t\t<th> </th>";//View Class
+      //$student_list .= "\n\t\t<th> </th>";//Udate
+      //$student_list .= "\n\t\t<th> </th>";//View Student - This is where we take you to the student home page - now we are going to do that - 
+      $student_list .= "\n\t</tr>";
+      
+      while($row = mysqli_fetch_assoc($result))
       {
-
-        $student_list_crud .= $row['stud_number'] . " ";
-        $student_list_crud .= $row['first_name'] . " ";
-        $student_list_crud .= $row['last_name'] . " ";
-        $student_list_crud .= $row['phone'] . " ";
-        $student_list_crud .= $row['email'] . " ";
-        $student_list_crud .= "<input type=\"text\" name=\"marks\" placeholder=\"Enter Mark\" > ";
-        $student_list_crud .= "<input type=\"submit\" name=\"" . $row['stud_number']. "\" value=\"SAVE\">\n";
-        $student_list_crud .= "<input type=\"submit\" name=\"" . $row['stud_number']. "\" value=\"REMOVE\">\n";
-        $student_list_crud .= "</form>\n";
-        $count_students++;
+          $count_students++;
+          //Show us everything about the classes in this course
+          $student_list .= "\n\t<tr>";
+          $student_list .= "\n\t\t<td>" . $count_students . "</td>";
+          $student_list .= "\n\t\t<td>" .$row['stud_number'] . "</td>";
+          $student_list .= "\n\t\t<td>" .$row['first_name'] . "</td>";
+          $student_list .= "\n\t\t<td>" .$row['last_name'] . "</td>";
+          $student_list .= "\n\t\t<td>" .$row['phone'] . "</td>";
+          $student_list .= "\n\t\t<td>" .$row['email'] . "</td>";
+          //$student_list .= "\n\t</tr>";
 
       }
-      $count_students--;
-      $stud_stats_div .="\t\t<li>Total Students: " . $count_students. " </li>\n";
-      $stud_stats_div .= "\t</ul>";
+      echo  back_button("timetable.php");
+      echo $student_list;
+    
+    }
+    else
+    {
+      echo include "timetable.php";
+    }
+    function back_button($back_url)
+    {
+        $form = new Form();
+        $input = new Input();
+        $out = "";
+            //create a back button - which is actually a form - 
+            $form->set_form($back_url, "POST", "");
+            //$label->set_label("Click to Register new Student", "First Name", "");
+            $input->set_input("submit", "back", "Back", "", "");
+            echo $form->get_form_wrapper($input->get_input());
+            //Above is the back button
+        return $out;
+    }
 
-      echo $header . "\n<hr>";
-      $header .= "<h3>Students in your class</h3>\n";
-      $stud_stats_div .= "</div><hr>\n";
-      echo $stud_stats_div . "\n";
-      echo $group_stud_div ."\n";
-      echo $student_list_crud . "\n";
-  }
-  else
-  {
-     echo include "timetable.php";
-  }
-
-}
 
 ?>

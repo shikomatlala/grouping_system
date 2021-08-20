@@ -1,9 +1,14 @@
 <?php
-//include_once "div_wrapper.php";
-
-
 include_once "../../../connect.php";
+//Back Button
+echo "<br><a href=\"../admin_home.html\">back</a>\n";
+//View the lectures modules
+//Show The lecturer his modules
+$sql = 
+/*
+echo "<br><br><br><br><br><br>";
 //Can we tell the lecturer his class today.
+//Back button to go back home.
 echo "<br><a href=\"../admin_home.html\">back</a>\n";
 $content = "<h1>Lecturer Portal</h1>\n";
 //Lect us call on the lectures Information
@@ -21,7 +26,7 @@ if(mysqli_num_rows($ary_result) > 0)
       $ul .= "<li>" . $row["phone"]  . "</li>\n";
       $ul .= "<li>" . $row["email"]  . "</li>\n";
   }
-  $ul.= "</ul>\n";
+  $ul.= "</ul>\n<br>";
 }
 $content .= $ul;
 //This is true

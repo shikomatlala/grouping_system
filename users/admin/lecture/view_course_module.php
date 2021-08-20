@@ -22,7 +22,10 @@ function view_lectures($link, $course_id)
     WHERE lecture.module_code = module.module_code
     AND course_module.course_id = course.course_id
     AND module.module_code  = course_module.module_code
-    AND course.course_id = $course_id";
+    AND course.course_id = $course_id
+    AND year >= 2021
+    AND semester = 1
+    ORDER BY year, semester";
     $course_name = get_course_name_clicked_2($link, $course_id);
     $student_table = "";
     $result = mysqli_query($link, $sql);
@@ -64,6 +67,7 @@ function view_lectures($link, $course_id)
             //1st Form Delete a Student - student number - this is all that we are going to need.
             //Set the form to delete a student.
             //Here we want to view the Lecture
+
             $inputs = "";
             $lecture_id = $row['lecture_id'];
             $form->set_form("view_lecture.php", "POST", "");
