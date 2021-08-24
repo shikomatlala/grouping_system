@@ -8,14 +8,24 @@ include_once "lecture_portal_header.php";
 //Now let us view all the classes for this available for this course.
 echo back_button("lecture_portal.php");
 echo "<h1>All classes for </h1><br><hr>";
+
 $course_id = (int)$_POST['course_id'];
 view_lectures($link, $course_id);
-
 function view_lectures($link, $course_id)
 {
     $form = new Form();
     $label = new Label();
     $input = new Input();
+    // $sql = "
+    // SELECT *
+    // FROM lecture, module, course, course_module
+    // WHERE lecture.module_code = module.module_code
+    // AND course_module.course_id = course.course_id
+    // AND module.module_code  = course_module.module_code
+    // AND course.course_id = $course_id
+    // AND year >= 2021
+    // AND semester = 1
+    // ORDER BY year, semester";
     $sql = "
     SELECT *
     FROM lecture, module, course, course_module
@@ -23,8 +33,6 @@ function view_lectures($link, $course_id)
     AND course_module.course_id = course.course_id
     AND module.module_code  = course_module.module_code
     AND course.course_id = $course_id
-    AND year >= 2021
-    AND semester = 1
     ORDER BY year, semester";
     $course_name = get_course_name_clicked_2($link, $course_id);
     $student_table = "";
@@ -72,6 +80,8 @@ function view_lectures($link, $course_id)
             $lecture_id = $row['lecture_id'];
             $form->set_form("view_lecture.php", "POST", "");
             $input->set_input("hidden", "lecture_id", $lecture_id, "", "");
+            $inputs .= $input->get_input();
+            $input->set_input("hidden", "course_id", $course_id, "", "");
             $inputs .= $input->get_input();
             $input->set_input("submit", "view_class", "View", "", "");
             $inputs .= $input->get_input();

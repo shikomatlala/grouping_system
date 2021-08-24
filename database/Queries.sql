@@ -675,3 +675,40 @@ AND lecture_group.lecture_group_id = group_member.lecture_group_id
 
 
 INSERT INTO lecture_group (group_name, lecture_id, staff_number) VALUES ($group_name, $lecturer_id, $staff_number)
+
+
+
+$sql = "SELECT * 
+FROM   lecture, module
+WHERE module.module_code = lecture.module_code
+AND lecture.lecture_id = $lecture_id";
+$result = mysqli_query($link, $sql);
+$lecturer_list = "";
+
+
+SELECT c.stud_number, first_name, last_name, phone, email
+FROM lecture_group a, lecture b, lecture_student c, student d
+WHERE a.lecture_id = b.lecture_id
+AND c.lecture_id = b.lecture_id
+AND d.stud_number = c.stud_number
+AND a.staff_number = 100001
+AND b.module_code = 'DSO34BT'
+
+
+
+lecture_group_id
+group_name
+lecture_id
+staff_number
+staff_number
+first_name
+last_name
+id_nr
+sex
+phone
+email
+address
+lecture_id
+module_code
+semester
+year

@@ -1,18 +1,29 @@
 <?php
 include_once "../../../connect.php";
+include_once "../functions.php";
+include_once "../student/student.php";
+include_once "../student/form.php";
+include_once "../lecture/lecture_portal_header.php";
 //Back Button
-echo "<br><a href=\"../admin_home.html\">back</a>\n";
+//==============================
+//Variables
+//=======================
+$form = new Form();
+$input = new Input();
+echo "<br><a href=\"../home/admin_home.html\">back</a>\n";
 //View the lectures modules
 //Show The lecturer his modules
-$sql = 
-/*
+
+
 echo "<br><br><br><br><br><br>";
 //Can we tell the lecturer his class today.
 //Back button to go back home.
-echo "<br><a href=\"../admin_home.html\">back</a>\n";
+echo "<br><a href=\"../home/admin_home.html\">back</a>\n";
 $content = "<h1>Lecturer Portal</h1>\n";
 //Lect us call on the lectures Information
-$str_sql = "SELECT * FROM lecturer WHERE staff_number = " . (int)$_SESSION['staff_number'];
+$str_sql = "SELECT * 
+            FROM lecturer 
+            WHERE staff_number = " . (int)$_SESSION['staff_number'];
 $ul = "<ul>\n";
 //$str_lecturer_information
 $ary_result = mysqli_query($link, $str_sql);
@@ -34,20 +45,98 @@ $content .= $ul;
 //These modules will come from the lecture_lecturer time table
 $staff_number = (int)$_SESSION['staff_number'];
 $form_link = "action=\"grouping_portal.php\" method=\"POST\">\n";
-$form = "<form " .$form_link;
-//echo $form;
+$form_ = "<form " .$form_link;
 
 //Lecture Details div.
-//echo header_html();
 echo div("control-group normal_text", $content);
 //Show the Form
 $form_div = "";
-$sql = "SELECT a.module_code , a.semester, a.year\n"
-    . "FROM lecture a, lecture_group b, lecturer c\n"
-    . "WHERE a.lecture_id = b.lecture_id\n  "
-    . "AND c.staff_number = b.staff_number\n"
-    . "AND c.staff_number = $staff_number\n"//Plus zero changes the string into an integer
-    . "ORDER BY a.module_code";
+//==================================================================================================================================================================
+//SHOW MODULES THAT THE LECTURER HAS BEEN ASSIGNED
+//==================================================================================================================================================================
+$lecturer_list = "";
+$count_lecturers = 0;
+$sql = "SELECT * 
+FROM lecture_group, lecturer, lecture
+WHERE lecture_group.lecture_id = lecture.lecture_id
+AND lecturer.staff_number = lecture_group.staff_number
+AND lecturer.staff_number = $staff_number";
+$result = mysqli_query($link, $sql);
+if(mysqli_num_rows($result)>0)
+{
+    $lecturer_list .= "\n\t<table>\n\t<tr>";
+    $lecturer_list .= "\n\t\t<th>List Count</th>";
+    $lecturer_list .= "\n\t\t<th>Class Number</th>";
+    $lecturer_list .= "\n\t\t<th>Module Code</th>";
+    $lecturer_list .= "\n\t\t<th>Group Name</th>";
+    $lecturer_list .= "\n\t\t<th>Year</th>";
+    $lecturer_list .= "\n\t\t<th>Semester</th>";
+    $lecturer_list .= "\n\t\t<th> </th>";//View Class
+    //$lecturer_list .= "\n\t\t<th> </th>";//Udate
+    //$lecturer_list .= "\n\t\t<th> </th>";//View Student - This is where we take you to the student home page - now we are going to do that - 
+    $lecturer_list .= "\n\t</tr>";
+    
+    while($row = mysqli_fetch_assoc($result))
+    {
+        $count_lecturers++;
+        //------------------
+        //Show us everything about the classes in this course
+        //------------------
+        $lecturer_list .= "\n\t<tr>";
+        $lecturer_list .= "\n\t\t<td>" . $count_lecturers . "</td>";
+        $lecturer_list .= "\n\t\t<td>" .$row['lecture_group_id'] . "</td>";
+        $lecturer_list .= "\n\t\t<td>" .$row['module_code'] . "</td>";
+        $lecturer_list .= "\n\t\t<td>" .$row['group_name'] . "</td>";
+        $lecturer_list .= "\n\t\t<td>" .$row['year'] . "</td>";
+        $lecturer_list .= "\n\t\t<td>" .$row['semester'] . "</td>";
+        //------------------
+        //View Class Button
+        //------------------
+        $inputs = "";
+        $form->set_form("grouping_portal.php", "POST", "");
+        $input->set_input("hidden", "module_code", $row['module_code'], "", "");
+        $inputs .= $input->get_input();
+        $input->set_input("hidden", "lecture_id", $row['lecture_id'], "", "");
+        $inputs .= $input->get_input();
+        $input->set_input("hidden", "staff_number", $staff_number, "", "");
+        $inputs .= $input->get_input();
+        $input->set_input("hidden", "lecture_group_id", $row['lecture_group_id'], "", "");
+        $inputs .= $input->get_input();
+        $input->set_input("submit", "view_class", "View Class", "", "");
+        $inputs .= $input->get_input();
+        $form_out = $form->get_form_wrapper($inputs);
+        $lecturer_list .= "\n\t\t<td>" . $form_out . "</td>";
+        
+    }
+
+}
+echo $lecturer_list;
+
+
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+
+
+
+
+
+
+
+/*
 $result = mysqli_query($link, $sql);
 if(mysqli_num_rows($result) > 0)
 {
@@ -124,7 +213,7 @@ else
 {
   echo "<p>You are not yet assigned any class</p>";
 }
-
+*/
 
 
 ?>

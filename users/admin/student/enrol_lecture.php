@@ -19,7 +19,34 @@ if(isset($_POST['submit']))
     $lecture_id = (int)$_POST['lecture_id'];
     $reg_date  = date('Y-m-d');
     echo "The registration date is:   " . $reg_date;
-    $sql = "INSERT INTO lecture_student (reg_date, lecture_id, stud_number) VALUES (\"$reg_date\", $lecture_id, $stud_number)";
+    //test if  the student has already registered for this class ID
+    $test_sql = "
+    SELECT * 
+    FROM lecture_student
+    WHERE lecture_student.lecture_id = $lecture_id
+    AND stud_number = $stud_number
+    ";
+    $test_result = mysqli_query($link, $test_sql);
+    if(mysqli_num_rows($ary_result) > 0)
+    {
+        header("LOCATION: view_student.php");
+    }
+    else
+    {
+        $sql = "INSERT INTO lecture_student (reg_date, lecture_id, stud_number) VALUES (\"$reg_date\", $lecture_id, $stud_number)";
+        if(mysqli_query($link, $sql)) //true / false
+        {
+            //We should then go back there --
+            //But for now we are going to say that you have successfully registered the student.
+            //echo "<h1>Student successfully enrolled for class</h1>";
+            header("LOCATION: view_student.php");
+            //This is where we need to test the modules that student can take.
+            //Check the module group, within the module group, check the student has is in the right level
+        }
+    }
+
+}
+
     //for every module - select its group_number
     //for every group_number select the module_number - 
     //Firstly find the module that we want to enrol - 
@@ -71,18 +98,5 @@ if(isset($_POST['submit']))
     //Get the module group of the currenly registered module
     //Now open the the group that is module is in.
 
-    //Now that we have the 
-    header("LOCATION: view_student.php");
-    //$modoule_group_number = ""
-    if(mysqli_query($link, $sql))
-    {
-        //We should then go back there --
-        //But for now we are going to say that you have successfully registered the student.
-        //echo "<h1>Student successfully enrolled for class</h1>";
-        header("LOCATION: view_student.php");
-        //This is where we need to test the modules that student can take.
-        //Check the module group, within the module group, check the student has is in the right level
-    }
-}
 
 ?>
