@@ -6,7 +6,7 @@ include_once "../student/student.php";
 include_once "../student/form.php";
 include_once "lecture_portal_header.php";
 //OK Now let us manege the lectures.
-back_button("../admin_home.html");
+back_button("../home/admin_home.html");
 echo $header_title;
 echo $create_lecture;
 echo "<p>You can create a lecture where students can apply to the lecturer<br>

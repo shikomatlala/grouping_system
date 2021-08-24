@@ -1,5 +1,5 @@
 <?php
-//include_once "../../connect.php";
+include_once "../../../connect.php";
 include_once "student/form.php";
 //Now lect us create a class for getting modules in a list
 //echo "list"

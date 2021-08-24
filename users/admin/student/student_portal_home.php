@@ -62,7 +62,7 @@ $input_wrapper = "";
 //End everything here
 
 //Got to Insert student
-back_button("../admin_home.html");
+back_button("../home/admin_home.html");
 echo "<h1>Student Management Portal</h1>\n<br><hr>";
 echo "<h3>Manage all students here</h3>\n<br>";
 $form->set_form("student_form.php", "POST", "");
