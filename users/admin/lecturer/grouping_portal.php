@@ -13,7 +13,8 @@ $header .= $_POST['module_code'] . "  Module</h1><hr>\n";
 $module_code = $_POST['module_code'];
 $header .= "<h3>Your Fellow Lecturers For this Module</h3>\n";
 
-
+//Create the group students 
+//
 $sql = "
       SELECT c.stud_number, first_name, last_name, phone, email
       FROM lecture_group a, lecture b, lecture_student c, student d
@@ -54,7 +55,10 @@ $sql = "
         //$student_list .= "\n\t</tr>";
 
     }
+
     echo  back_button("timetable.php");
+    //echo button("", "", "", "", "", "Group Students", "test_grouping.php");
+    echo jump_button("../../../test_grouping/test_grouping.php");
     echo $student_list;
   
   }
@@ -69,10 +73,43 @@ $sql = "
       $out = "";
           //create a back button - which is actually a form - 
           $form->set_form($back_url, "POST", "");
-          //$label->set_label("Click to Register new Student", "First Name", "");
           $input->set_input("submit", "back", "Back", "", "");
           echo $form->get_form_wrapper($input->get_input());
           //Above is the back button
       return $out;
   }
+  function jump_button($back_url)
+  {
+      $form = new Form();
+      $input = new Input();
+      $out = "";
+          //create a back button - which is actually a form - 
+          $form->set_form($back_url, "POST", "");
+          //$label->set_label("Click to Register new Student", "First Name", "");
+
+          $input->set_input("submit", "group_student", "Group Students", "", "");
+          echo $form->get_form_wrapper($input->get_input());
+          //Above is the back button
+      return $out;
+  }
+  function button($data1, $data_name1, $data2, $data_name2, $button_name, $button_caption, $action)
+{
+    $form = new Form();
+    $input = new Input();
+    $inputs = "";
+    $out = "";
+        //create a back button - which is actually a form - 
+        $form->set_form($action, "POST", "");
+        $input->set_input("hidden", $data_name1, $data1, "", "");
+        $inputs .= $input->get_input() . "\n";
+        $input->set_input("hidden", $data_name2, $data2, "", "");
+        $inputs .= $input->get_input() . "\n";
+        $input->set_input("submit", $button_name, $button_caption, "", "");
+        $inputs .= $input->get_input() . "\n";
+        $out =  $form->get_form_wrapper($inputs);
+        //Above is the back button
+    return $out;
+}
+
+
 ?>

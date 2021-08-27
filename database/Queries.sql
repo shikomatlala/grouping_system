@@ -857,3 +857,81 @@ CREATE OR REPLACE VIEW `stud_with_mods` AS
 SELECT * 
 FROM stud_with_mods
 WHERE count_modules = 5
+
+
+
+CREATE OR REPLACE VIEW `stud_with_dso34bt` AS
+	SELECT student.stud_number, student.first_name, student.last_name, student.gender, module.module_code
+	FROM module, student, lecture, lecture_student
+	WHERE lecture.module_code = module.module_code
+	AND lecture_student.lecture_id = lecture.lecture_id
+	AND student.stud_number = lecture_student.stud_number
+	AND module.module_code = 'DSO34BT'
+
+
+SELECT * FROM stud_with_mods_dso34bt;
+
+
+CREATE OR REPLACE VIEW `stud_group_level` AS
+	SELECT student.stud_number, student.first_name, student.last_name, student.gender, COUNT(module.module_code), SUM(module.credit) credit_score
+	FROM module, student, lecture, lecture_student
+	WHERE lecture.module_code = module.module_code
+	AND lecture_student.lecture_id = lecture.lecture_id
+	AND student.stud_number = lecture_student.stud_number
+	GROUP BY student.stud_number, student.first_name, student.last_name, student.gender
+	ORDER BY credit_score;
+
+
+
+	SELECT student.stud_number, student.first_name, student.last_name, student.gender, module.module_code,  COUNT(module.module_code), SUM(module.credit)
+	FROM module, student, lecture, lecture_student
+	WHERE lecture.module_code = module.module_code
+	AND lecture_student.lecture_id = lecture.lecture_id
+	AND student.stud_number = lecture_student.stud_number
+	GROUP BY student.stud_number, student.first_name, student.last_name, student.gender, module_code
+	
+
+
+CREATE OR REPLACE VIEW `stud_with_dso34bt` AS
+	SELECT student.stud_number AS stud_number, student.first_name, student.last_name, student.gender, module.module_code
+	FROM module, student, lecture, lecture_student
+	WHERE lecture.module_code = module.module_code
+	AND lecture_student.lecture_id = lecture.lecture_id
+	AND student.stud_number = lecture_student.stud_number
+	AND lecture.lecture_id = 77
+
+
+CREATE OR REPLACE VIEW `stud_ac_level` AS
+	SELECT student.stud_number, student.first_name, student.last_name, student.gender, module.module_code,  COUNT(module.module_code), SUM(module.credit)
+	FROM module, student, lecture, lecture_student
+	WHERE lecture.module_code = module.module_code
+	AND lecture_student.lecture_id = lecture.lecture_id
+	AND student.stud_number = lecture_student.stud_number
+	AND student.stud_number IN (SELECT stud_number FROM  stud_with_dso34bt)
+	GROUP BY student.stud_number, student.first_name, student.last_name, student.gender, module_code
+
+
+
+	SELECT * FROM `stud_ac_level`;
+
+
+
+CREATE OR REPLACE VIEW `stud_ac_level` AS
+	SELECT student.stud_number, student.first_name, student.last_name, student.gender, COUNT(module.module_code) module_count, SUM(module.credit) credit_score
+	FROM module, student, lecture, lecture_student
+	WHERE lecture.module_code = module.module_code
+	AND lecture_student.lecture_id = lecture.lecture_id
+	AND student.stud_number = lecture_student.stud_number
+	AND student.stud_number IN (SELECT stud_number FROM  stud_with_dso34bt)
+	GROUP BY student.stud_number, student.first_name, student.last_name, student.gender
+	ORDER BY credit_score;
+
+
+
+	SELECT student.stud_number, student.first_name, student.last_name, student.gender, module.module_code, semester, year,  COUNT(module.module_code), SUM(module.credit)
+	FROM module, student, lecture, lecture_student
+	WHERE lecture.module_code = module.module_code
+	AND lecture_student.lecture_id = lecture.lecture_id
+	AND student.stud_number = lecture_student.stud_number
+	AND student.stud_number = 211445496
+	GROUP BY student.stud_number, student.first_name, student.last_name, student.gender, module_code, semester, year
