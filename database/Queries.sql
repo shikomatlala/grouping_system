@@ -691,8 +691,7 @@ FROM lecture_group a, lecture b, lecture_student c, student d
 WHERE a.lecture_id = b.lecture_id
 AND c.lecture_id = b.lecture_id
 AND d.stud_number = c.stud_number
-AND a.staff_number = 100001
-AND b.module_code = 'DSO34BT'
+AND b.module_code = 'DSO34BT' AND b.module_code = 'DSO34AT'
 
 
 
@@ -712,3 +711,149 @@ lecture_id
 module_code
 semester
 year
+
+SELECT student.stud_number, student.first_name, student.last_name
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND student.stud_number = 210123745
+
+
+SELECT SUM(module.credit)
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND student.stud_number = 210123745
+
+
+
+-- group type level 1
+SELECT student.stud_number, student.first_name, student.last_name
+FROM student, lecture, lecture_student, module
+WHERE  (SELECT SUM(module.credit)
+				FROM module, student, lecture, lecture_student
+				WHERE lecture.module_code = module.module_code
+				AND lecture_student.lecture_id = lecture.lecture_id
+				AND student.stud_number = lecture_student.stud_number)  = (SELECT SUM(module.credit)
+																			FROM module, student, lecture, lecture_student
+																			WHERE lecture.module_code = module.module_code
+																			AND lecture_student.lecture_id = lecture.lecture_id
+																			AND student.stud_number = lecture_student.stud_number
+																			AND student.stud_number = 210123745)
+AND lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+GROUP BY student.stud_number, student.first_name, student.last_name
+
+
+
+
+SELECT SUM(module.credit)
+				FROM module, student, lecture, lecture_student
+				WHERE lecture.module_code = module.module_code
+				AND lecture_student.lecture_id = lecture.lecture_id
+				AND student.stud_number = lecture_student.stud_number
+
+
+
+SELECT student.stud_number, student.first_name, student.last_name, COUNT(module.module_code) num_modules
+FROM student, lecture, lecture_student, module
+WHERE num_modules > 7
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+GROUP BY student.stud_number, student.first_name, student.last_name
+
+
+
+
+
+SELECT student.stud_number, student.first_name, student.last_name, module.module_code, module_level
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND student.stud_number = 210123745
+
+210171728
+
+
+SELECT student.stud_number, student.first_name, student.last_name, module.module_code, module_level
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND module.module_level = 5
+
+
+SELECT student.stud_number, student.first_name, student.last_name, module.module_code
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND module.module_level = 5
+GROUP BY student.stud_number, student.first_name, student.last_name, module.module_code
+
+SELECT student.stud_number, student.first_name, student.last_name
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND module.module_level = 5
+GROUP BY student.stud_number, student.first_name, student.last_name, module.module_code
+
+
+SELECT DISTINCT(student.stud_number), student.first_name, student.last_name
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND module.module_level = 5
+GROUP BY student.stud_number, student.first_name, student.last_name, module.module_code
+
+
+
+SELECT student.stud_number, student.first_name, student.last_name
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND module.module_level = 5;
+
+CREATE OR REPLACE VIEW `stud_with_mods_dso34bt` AS
+	SELECT student.stud_number, student.first_name, student.last_name, student.gender, module.module_code
+	FROM module, student, lecture, lecture_student
+	WHERE lecture.module_code = module.module_code
+	AND lecture_student.lecture_id = lecture.lecture_id
+	AND student.stud_number = lecture_student.stud_number
+	AND module.module_level = 5
+
+SELECT *
+FROM stud_with_mods_dso34bt
+WHERE module_code = 'DSO34BT';
+
+SELECT stud_number
+FROM stud_with_mods_dso34bt
+WHERE module_code = 'DSO34BT';
+
+SELECT stud_number
+FROM stud_with_mods_dso34bt
+WHERE stud_number IN (SELECT stud_number
+						FROM stud_with_mods_dso34bt
+						WHERE module_code = 'DSO34BT')
+
+CREATE OR REPLACE VIEW `stud_with_mods` AS
+	SELECT student.stud_number, student.first_name, student.last_name, student.gender,  COUNT(module.module_code) AS count_modules
+	FROM module, student, lecture, lecture_student
+	WHERE lecture.module_code = module.module_code
+	AND lecture_student.lecture_id = lecture.lecture_id
+	AND student.stud_number = lecture_student.stud_number
+	AND module.module_level = 5
+	GROUP BY student.stud_number, student.first_name, student.last_name, student.gender
+
+
+
+SELECT * 
+FROM stud_with_mods
+WHERE count_modules = 5
