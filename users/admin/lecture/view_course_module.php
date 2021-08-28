@@ -33,6 +33,7 @@ function view_lectures($link, $course_id)
     AND course_module.course_id = course.course_id
     AND module.module_code  = course_module.module_code
     AND course.course_id = $course_id
+    AND lecture.module_code = 'DSO34BT'
     ORDER BY year, semester";
     $course_name = get_course_name_clicked_2($link, $course_id);
     $student_table = "";

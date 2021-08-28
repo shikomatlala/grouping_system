@@ -29,6 +29,27 @@ $complete_group_form = "";
 $num_groups = 0;
 $_group_cursor = 0;
 //-----------------------------------------------------------------
+//Create views
+//-----------------------------------------------------------------
+$sql = "CREATE OR REPLACE VIEW `stud_with_dso34bt` AS
+SELECT student.stud_number AS stud_number, student.first_name, student.last_name, student.gender, module.module_code
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND lecture.lecture_id = 77";
+mysqli_query($link,$sql);
+$sql = "CREATE OR REPLACE VIEW `stud_ac_level` AS
+SELECT student.stud_number, student.first_name, student.last_name, student.gender, COUNT(module.module_code) module_count, SUM(module.credit) credit_score
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND student.stud_number IN (SELECT stud_number FROM  stud_with_dso34bt)
+GROUP BY student.stud_number, student.first_name, student.last_name, student.gender
+ORDER BY credit_score";
+mysqli_query($link,$sql);
+//-----------------------------------------------------------------
 //Store all the students numbers inside an array
 //-----------------------------------------------------------------
 // $sql = "SELECT stud_number FROM student";
@@ -42,11 +63,8 @@ $_group_cursor = 0;
 // GROUP BY student.stud_number, student.first_name, student.last_name";
 
 
-for($i = 1; $i <= 5; $i++ )
-{
-    $sql = "SELECT * 
-    FROM stud_with_mods
-    WHERE count_modules = $i";
+  $sql = "SELECT * 
+    FROM stud_ac_level";
     $result = mysqli_query($link, $sql);
     if(mysqli_num_rows($result)>0)
     {
@@ -178,7 +196,7 @@ for($i = 1; $i <= 5; $i++ )
         $ul .= "</ul>\n";
     }
 
-}
+
 echo "The total number of students <array> size = " . $_group_cursor . "<br>";
 echo $ul;
 

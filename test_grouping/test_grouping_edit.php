@@ -12,6 +12,15 @@ include_once "student.php";
 //---------------------------------
 //variables
 //-----------------
+$sql = "CREATE OR REPLACE VIEW `stud_with_dso34bt` AS
+SELECT student.stud_number AS stud_number, student.first_name, student.last_name, student.gender, module.module_code
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND lecture.lecture_id = 77";
+
+
 $form = new Form();
 $input = new Input();
 $label = new Label();
