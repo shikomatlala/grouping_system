@@ -10,8 +10,8 @@ function get_course_list($link, $action)
   $form = new Form();
   $input = new Input();
   $compile_select = "";
-  $select_course->set_select("course", "course", "");
-  $select_course->set_select_more("course", "course", "", "", "onchange");
+  $select_course->set_select("course", "course", "input_");
+  $select_course->set_select_more("course", "course", "input_", "input_", "onchange");
   //Create a query to get the courses available in the database
   $sql = "SELECT * FROM `course`";
   $result = mysqli_query($link, $sql);
@@ -29,7 +29,7 @@ function get_course_list($link, $action)
   $label->set_label("click_course", "Courses Available", "");
   echo $label->get_label();
   $form->set_form($action, "POST", "");
-  $input->set_input("submit", "click_course", "Select Course", "", "");
+  $input->set_input("submit", "click_course", "Select Course", "", "submit_button");
   //Now le us show the user the moduels that they want to enrol -  after they have selected the course that they want to take.
   $final_select = "";
   $final_select = $select_course->get_select_more($compile_select);

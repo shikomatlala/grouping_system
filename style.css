@@ -1,0 +1,272 @@
+h1
+{
+  text-align: center;
+  background-color: rgb(1, 37, 83);
+  color:white;
+  font-family:Arial;
+  font-size: 30px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 14px 25px;
+  margin-top: 0px;
+  margin-bottom: -10px;
+}
+
+h2
+{
+  text-align: left;
+  background-color: rgb(228, 231, 231);
+  color:rgb(148, 148, 148);
+  font-family:Arial;
+  font-size: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px 25px;
+}
+h3
+{
+  background-color: white;
+  color:rgb(10, 56, 117);
+  font-family:Arial;
+  font-size: 14px;
+  display: block;
+  padding: 14px 25px;
+
+}
+
+p
+{
+  background-color: white;
+  color:rgb(10, 56, 117);
+  font-family:Arial;
+  font-size: 14px;
+  display: block;
+  padding: 1px 25px;
+
+}
+
+a:link, a:visited {
+  background-color: rgba(207, 233, 240, 0.377);
+  color: gray;
+  padding: 14px 25px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.admin_signin
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
+
+}
+input
+{
+  text-align:left;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-left: 10px;
+  margin-top: 4px;
+}
+
+.input_
+{
+  text-align:left;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-left: 10px;
+  margin-top: 4px;
+}
+
+.back_button
+{
+  background-color: gray; /* Green */
+  border: none;
+  color: rgb(255, 255, 255);
+  padding: 10px 10px;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+
+label
+{
+  color: gray;
+  font-size: 20px;
+
+
+}
+
+.submit_button
+{
+  background-color: #007cf0; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  text-align: center;
+  text-decoration: none;
+  border-style: none;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+
+
+.form_admin_portal
+{
+  text-align: center;
+  text-decoration: none;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.delete_button
+{
+  background-color: rgb(255, 0, 0);
+  color: white;
+  border-radius: 4px;
+  padding: 8px 10px;
+  border-style: none;
+  margin-top: 10px;
+}
+.form_update_student
+{
+  text-align:left;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.update_button
+{
+  background-color: rgb(0, 99, 16);
+  color: white;
+  border-radius: 4px;
+  padding: 8px 10px;
+  border-style: none;
+  margin-top: 10px;
+}
+
+.view_button
+{
+  background-color: rgb(143, 142, 142);
+  color: white;
+  border-radius: 4px;
+  padding: 8px 10px;
+  border-style: none;
+  margin-top: 10px;
+}
+
+table
+{
+  display:table-cell;
+  background-color: white;
+  font-family:arial;
+  margin-right: 20%;
+  border-style: none;
+  border-collapse:collapse;
+  border: none;
+}
+/*
+td,ul {
+  color: darkslategray;
+  font-family:Arial;
+  background-color: lightgray;
+  border-style: none;
+  background-color: white;
+  color:rgb(10, 56, 117);
+  font-family:Arial;
+  font-size: 14px;
+  padding: 1px 25px; 
+}
+*/
+td
+{
+  padding: 1px 25px;
+  height: 75%;
+}
+tr:nth-child(even){background-color: #f2f2f2;}
+/*tr:hover {background-color: #ddd;}*/
+table.center_table
+{
+  margin-left: auto;
+  margin-right: auto;
+}
+th
+{
+  font-family:Arial;
+  border-style: none;
+  background-color: rgb(200, 214, 255);
+  color:rgb(10, 56, 117);
+  font-family:Arial;
+  font-size: 14px;
+  padding: 1px 25px;
+  
+  border-collapse: collapse;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+text
+{
+  background-color: rgb(0, 99, 16);
+  color: white;
+  border-radius: 4px;
+  padding: 8px 10px;
+  border-style: none;
+  margin-top: 10px;
+  text-align:left;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+ul
+{
+  color: darkslategray;
+  font-family:Arial;
+  background-color: lightgray;
+  border-style: none;
+  background-color: white;
+  color:rgb(10, 56, 117);
+  font-family:Arial;
+  font-size: 14px;
+  padding: 1px 25px; 
+}
+
+label
+{
+  color: darkslategray;
+  font-family:Arial;
+  border-style: none;
+  background-color: white;
+  color:rgb(10, 56, 117);
+  font-family:Arial;
+  font-size: 14px;
+  padding: 1px 25px; 
+
+}
+
+
+
+
+
+
+

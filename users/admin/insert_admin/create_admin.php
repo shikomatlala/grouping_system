@@ -2,7 +2,7 @@
 include_once "../../../connect.php";
 include_once "form.php";
 include_once "student.php";
-
+echo header_html("../../../style.css");
 $form = new Form();
 $input = new Input();
 $label = new Label();
