@@ -1,7 +1,9 @@
 <?php
-include_once "../connect.php";
-include_once "form.php";
-include_once "student.php";
+include_once "../../../connect.php";
+include_once "../functions.php";
+include_once "../student/student.php";
+include_once "../student/form.php";
+include_once "../lecture/lecture_portal_header.php";
 //Now let us make a way of selecting all the students in the groups but instead of just selecting them we need to make sure that we display them in groups of 5.
 //Make a button to say that we awant to insert a specific number of students.
 //Create a form and this form is going to allow us to open antoher portal that will alow us to create groups for our students
@@ -12,6 +14,8 @@ include_once "student.php";
 //---------------------------------
 //variables
 //-----------------
+echo back_button("grouping_portal.php");
+echo "We are testing me";
 $form = new Form();
 $input = new Input();
 $label = new Label();
@@ -29,6 +33,27 @@ $complete_group_form = "";
 $num_groups = 0;
 $_group_cursor = 0;
 //-----------------------------------------------------------------
+//Create views
+//-----------------------------------------------------------------
+$sql = "CREATE OR REPLACE VIEW `stud_with_dso34bt` AS
+SELECT student.stud_number AS stud_number, student.first_name, student.last_name, student.gender, module.module_code
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND lecture.lecture_id = 77";
+mysqli_query($link,$sql);
+$sql = "CREATE OR REPLACE VIEW `stud_ac_level` AS
+SELECT student.stud_number, student.first_name, student.last_name, student.gender, COUNT(module.module_code) module_count, SUM(module.credit) credit_score
+FROM module, student, lecture, lecture_student
+WHERE lecture.module_code = module.module_code
+AND lecture_student.lecture_id = lecture.lecture_id
+AND student.stud_number = lecture_student.stud_number
+AND student.stud_number IN (SELECT stud_number FROM  stud_with_dso34bt)
+GROUP BY student.stud_number, student.first_name, student.last_name, student.gender
+ORDER BY credit_score";
+mysqli_query($link,$sql);
+//-----------------------------------------------------------------
 //Store all the students numbers inside an array
 //-----------------------------------------------------------------
 // $sql = "SELECT stud_number FROM student";
@@ -42,11 +67,8 @@ $_group_cursor = 0;
 // GROUP BY student.stud_number, student.first_name, student.last_name";
 
 
-for($i = 1; $i <= 5; $i++ )
-{
-    $sql = "SELECT * 
-    FROM stud_with_mods
-    WHERE count_modules = $i";
+  $sql = "SELECT * 
+    FROM stud_ac_level";
     $result = mysqli_query($link, $sql);
     if(mysqli_num_rows($result)>0)
     {
@@ -83,21 +105,42 @@ for($i = 1; $i <= 5; $i++ )
     //-----------------------------------------------------------------
     echo "Number of students"  . count($_SESSION['student_num']);
 
-    $num_groups = (int)count($_SESSION['student_num'])/(int)$_POST['num_groups'];
-    $_tot_reminder = fmod((int)count($_SESSION['student_num']),(int)$_POST['num_groups']);
-    echo "The total number of groups is: = " . (int)$num_groups . " <br>";
-    echo "The remainder " . $_tot_reminder . "<br>";
 
+    $student_table = "";
     if(isset($_POST['submit_num_groups']))
     {
+        $num_groups = (int)count($_SESSION['student_num'])/(int)$_POST['num_groups'];
+        $_tot_reminder = fmod((int)count($_SESSION['student_num']),(int)$_POST['num_groups']);
+        echo "The total number of groups is: = " . (int)$num_groups . " <br>";
+        echo "The remainder " . $_tot_reminder . "<br>";
 
         //Create a loop to display all the number of loops -- with group names
-        $ul = "<ul>\n";
-        //$num_groups = count($_SESSION['student_num'])/(int)$_POST['num_groups'] -1;
+
         if((int)$num_groups  <= 26 && (int)$num_groups > 0 )
         {
             for($x =0; $x < (int)$num_groups; $x++)
             {
+
+                $ul = "<ul>\n";
+                //====================================
+                //CREATE A TABLE TO DISPLAY GROUP NAMES
+                //====================================
+                $student_table .= "\n\t<table>";
+                $student_table .= "\n\t\t<tr><th>GROUP NAME</th></tr>";//First Header
+                //=====================================
+                
+                //====================================
+                //TABLE DATA - This first is the table name
+                //====================================
+                $group_name = chr($x + 65);
+                $student_table .= "\n\t\t\t<tr><td>" . $group_name  . "</td></tr>";
+                $student_table .= "\n\t\t<table>\n\t<tr>";
+                $student_table .= "\n\t\t\t<th>Student Number</th>";
+                $student_table .= "\n\t\t\t<th>First Name</th>";
+                $student_table .= "\n\t\t\t<th>Last Name</th>";
+                $student_table .= "\n\t\t\t<th>Gender</th>";
+                $student_table .= "\n\t\t\t<th>Group Name</th>";
+                $student_table .= "\n\t\t\t</tr>";
                 $ul .= "\t<li>Group " . chr($x + 65) . "</li>\n";
                 //Now we need to disppaly all the people in the groups --  This means we need to 
                 //Now we need to make a list within a list.
@@ -105,13 +148,19 @@ for($i = 1; $i <= 5; $i++ )
                 
                 for($y = 0; $y < (int)$_POST['num_groups']; $y++)
                 {
-
                     $sql = "SELECT * FROM student WHERE stud_number = " . $_SESSION['student_num'][$_group_cursor];
                     $result = mysqli_query($link, $sql);
                     if(mysqli_num_rows($result)>0)
                     {
                         while($row = mysqli_fetch_assoc($result))
                         {
+                            $student_table .= "\n\t\t\t<tr>";
+                            $student_table .= "\n\t\t\t<td>" .$row['stud_number'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['first_name'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['last_name'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['gender'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" . $group_name . "</td>";
+                            $student_table .= "\n\t\t\t</tr>";
                             $ul .= "\t\t<li>" . $row['stud_number'] . "  " . $row['first_name'] . "  " . $row['last_name'] . "  " .$row['gender'] . " </li>\n";
                         }
                     }
@@ -125,36 +174,73 @@ for($i = 1; $i <= 5; $i++ )
                     {
                         while($row = mysqli_fetch_assoc($result))
                         {
+                            $student_table .= "\n\t\t\t<tr>";
+                            $student_table .= "\n\t\t\t<td>" .$row['stud_number'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['first_name'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['last_name'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['gender'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" . $group_name . "</td>";
+                            $student_table .= "\n\t\t\t</tr>";
                             $ul .= "\t\t<li>" . $row['stud_number'] . "  " . $row['first_name'] . "  " . $row['last_name'] . "  " .$row['gender'] . " </li>\n";
-                            
                         }
                     }
                 }
+                $student_table .= "\n\t</tr>";
                 $_remainder_counter++;
                 $ul .= "\t</ol>\n";
             }
+            $student_table .= "\n\t</table>";
+      
         }
         if((int)$num_groups> 26 )
         {
-            $_group_cursor = 0;
-            for($x =1; $x <= (int)$num_groups; $x++)
+            for($x =0; $x < (int)$num_groups; $x++)
             {
-                $ul .= "\t<li>Group " . $x. "</li>\n";
-                $ul  .= "\t<ol>\n";
 
+                $ul = "<ul>\n";
+                //====================================
+                //CREATE A TABLE TO DISPLAY GROUP NAMES
+                //====================================
+                $student_table .= "\n\t<table>";
+                $student_table .= "\n\t\t<tr><th>GROUP NAME</th></tr>";//First Header
+                //=====================================
+                
+                //====================================
+                //TABLE DATA - This first is the table name
+                //====================================
+                $group_name = $x+1;
+                $student_table .= "\n\t\t\t<tr><td>" . $group_name  . "</td></tr>";
+                $student_table .= "\n\t\t<table>\n\t<tr>";
+                $student_table .= "\n\t\t\t<th>Student Number</th>";
+                $student_table .= "\n\t\t\t<th>First Name</th>";
+                $student_table .= "\n\t\t\t<th>Last Name</th>";
+                $student_table .= "\n\t\t\t<th>Gender</th>";
+                $student_table .= "\n\t\t\t<th>Group Name</th>";
+                $student_table .= "\n\t\t\t</tr>";
+                $ul .= "\t<li>Group " . chr($x + 65) . "</li>\n";
+                //Now we need to disppaly all the people in the groups --  This means we need to 
+                //Now we need to make a list within a list.
+                $ul  .= "\t<ol>\n";
+                
                 for($y = 0; $y < (int)$_POST['num_groups']; $y++)
                 {
-
                     $sql = "SELECT * FROM student WHERE stud_number = " . $_SESSION['student_num'][$_group_cursor];
                     $result = mysqli_query($link, $sql);
                     if(mysqli_num_rows($result)>0)
                     {
                         while($row = mysqli_fetch_assoc($result))
                         {
-                            $ul .= "\t\t<li>" . $row['stud_number'] . "  " . $row['first_name'] . "  " . $row['last_name'] . "  " .$row['gender'] . " </li>\n"; 
+                            $student_table .= "\n\t\t\t<tr>";
+                            $student_table .= "\n\t\t\t<td>" .$row['stud_number'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['first_name'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['last_name'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['gender'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" . $group_name . "</td>";
+                            $student_table .= "\n\t\t\t</tr>";
+                            $ul .= "\t\t<li>" . $row['stud_number'] . "  " . $row['first_name'] . "  " . $row['last_name'] . "  " .$row['gender'] . " </li>\n";
                         }
                     }
-                    $_group_cursor++;  
+                    $_group_cursor++;
                 } 
                 if($_remainder_counter < $_tot_reminder)
                 {
@@ -164,26 +250,84 @@ for($i = 1; $i <= 5; $i++ )
                     {
                         while($row = mysqli_fetch_assoc($result))
                         {
+                            $student_table .= "\n\t\t\t<tr>";
+                            $student_table .= "\n\t\t\t<td>" .$row['stud_number'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['first_name'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['last_name'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" .$row['gender'] . "</td>";
+                            $student_table .= "\n\t\t\t<td>" . $group_name . "</td>";
+                            $student_table .= "\n\t\t\t</tr>";
                             $ul .= "\t\t<li>" . $row['stud_number'] . "  " . $row['first_name'] . "  " . $row['last_name'] . "  " .$row['gender'] . " </li>\n";
-                            
                         }
                     }
                 }
+                $student_table .= "\n\t</tr>";
                 $_remainder_counter++;
-                
                 $ul .= "\t</ol>\n";
-                
             }
+            $student_table .= "\n\t</table>";
+            // $_group_cursor = 0;
+            // for($x =1; $x <= (int)$num_groups; $x++)
+            // {
+            //     $ul .= "\t<li>Group " . $x. "</li>\n";
+            //     $ul  .= "\t<ol>\n";
+
+            //     for($y = 0; $y < (int)$_POST['num_groups']; $y++)
+            //     {
+
+            //         $sql = "SELECT * FROM student WHERE stud_number = " . $_SESSION['student_num'][$_group_cursor];
+            //         $result = mysqli_query($link, $sql);
+            //         if(mysqli_num_rows($result)>0)
+            //         {
+            //             while($row = mysqli_fetch_assoc($result))
+            //             {
+            //                 $ul .= "\t\t<li>" . $row['stud_number'] . "  " . $row['first_name'] . "  " . $row['last_name'] . "  " .$row['gender'] . " </li>\n"; 
+            //             }
+            //         }
+            //         $_group_cursor++;  
+            //     } 
+            //     if($_remainder_counter < $_tot_reminder)
+            //     {
+            //         $sql = "SELECT * FROM student WHERE stud_number = " . $_SESSION['student_num'][$_array_size + $_remainder_counter - $_remainder_counter];
+            //         $result = mysqli_query($link, $sql);
+            //         if(mysqli_num_rows($result)>0)
+            //         {
+            //             while($row = mysqli_fetch_assoc($result))
+            //             {
+            //                 $ul .= "\t\t<li>" . $row['stud_number'] . "  " . $row['first_name'] . "  " . $row['last_name'] . "  " .$row['gender'] . " </li>\n";
+                            
+            //             }
+            //         }
+            //     }
+            //     $_remainder_counter++;
+                
+            //     $ul .= "\t</ol>\n";
+                
+            // }
         }
-        $ul .= "</ul>\n";
+        //$ul .= "</ul>\n";
     }
 
-}
+//tHE BACK BUTTON
+
 echo "The total number of students <array> size = " . $_group_cursor . "<br>";
-echo $ul;
+echo $student_table;
+//echo $ul;
 
 
-
+function back_button($back_url)
+{
+    $form = new Form();
+    $input = new Input();
+    $out = "";
+        //create a back button - which is actually a form - 
+        $form->set_form($back_url, "POST", "");
+        //$label->set_label("Click to Register new Student", "First Name", "");
+        $input->set_input("submit", "back", "Back", "", "");
+        echo $form->get_form_wrapper($input->get_input());
+        //Above is the back button
+    return $out;
+}
 
 
 function button($data1, $data_name1, $data2, $data_name2, $button_name, $button_caption, $action)

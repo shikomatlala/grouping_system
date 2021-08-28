@@ -393,7 +393,7 @@ if(isset($_POST['search_student']))
  
       $input->set_input("hidden", "stud_number", $stud_number, "", "");
       $inputs .= $input->get_input();
-      $input->set_input("submit", "submit", "Delete", "", "");
+      $input->set_input("submit", "delete_student", "Delete", "", "");
       $inputs .= $input->get_input();
       $form_out = $form->get_form_wrapper($inputs);
       $student_serach .= "\n\t\t<td>" . $form_out . "</td>";

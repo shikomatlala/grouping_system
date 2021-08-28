@@ -7,8 +7,29 @@ if(isset($_POST['delete_student']))
     //Now we can move on to deleting this student
     //Le us delete you dude.
     $stud_number = (int)$_POST['stud_number'];
-    $sql = "DELETE FROM student WHERE stud_number = $stud_number";
+    $sql = "";
+    $sql = "DELETE FROM group_member WHERE stud_number=$stud_number";
+    if(mysqli_query($link, $sql))
+    {
+        //We have delete the student - now we need to go back - to that page...
+        $_SESSION['crud_result'] = " $stud_number   deleted successfully";
+    }   //Or we can use an a href
 
+    $sql = "DELETE FROM student_course_registation WHERE stud_number=$stud_number";
+    if(mysqli_query($link, $sql))
+    {
+        //We have delete the student - now we need to go back - to that page...
+        $_SESSION['crud_result'] = " $stud_number   deleted successfully";
+    }  
+
+    $sql = "DELETE FROM lecture_student WHERE stud_number=$stud_number";
+    if(mysqli_query($link, $sql))
+    {
+        //We have delete the student - now we need to go back - to that page...
+        $_SESSION['crud_result'] = " $stud_number   deleted successfully";
+    }  
+
+    $sql = "DELETE FROM student WHERE stud_number = $stud_number";
     if(mysqli_query($link, $sql))
     {
         //We have delete the student - now we need to go back - to that page...

@@ -58,7 +58,7 @@ $sql = "
 
     echo  back_button("timetable.php");
     //echo button("", "", "", "", "", "Group Students", "test_grouping.php");
-    echo jump_button("../../../test_grouping/test_grouping.php");
+    echo jump_button("test_grouping.php");
     echo $student_list;
   
   }
