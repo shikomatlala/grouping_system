@@ -178,6 +178,7 @@ table
 {
   margin-left: auto;
   margin-right: auto;
+  border-collapse:collapse;
   /* display:table-cell; */
   /* background-color: white;
   font-family:arial;
@@ -211,6 +212,7 @@ tr:hover {background-color: #ddd;}
   margin-left: auto;
   margin-right: auto;
 } 
+*/
 th
 {
   font-family:Arial;
@@ -224,7 +226,14 @@ th
   border-collapse: collapse;
   padding-top: 12px;
   padding-bottom: 12px;
-}   */
+}   
+tr:nth-child(even){background-color: #f2f2f2;}
+td
+{
+  color: darkslategray;
+  font-family:Arial;
+
+}
 
 text
 {
