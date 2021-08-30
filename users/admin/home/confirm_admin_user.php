@@ -1,6 +1,6 @@
 <?php
 include "../../../connect.php";
-
+echo header_html("../../../style.css");
 
 $username = (int)$_POST['username'];
 $password = $_POST['password'];

@@ -47,56 +47,5 @@ if(isset($_POST['submit']))
 
 }
 
-    //for every module - select its group_number
-    //for every group_number select the module_number - 
-    //Firstly find the module that we want to enrol - 
-                // echo $lecture_id;
-                // //Using the lecture_id get the module group -:
-                // $sql_module_group = "SELECT module_group, module_level\n"
-                // . "FROM lecture, module\n"
-                // . "WHERE lecture.module_code =  module.module_code\n"
-                // . "AND lecture_id = $lecture_id";
-                // //After we get the module group - We want to check the module level that the student has already take - 
-                // echo "<br>";
-                // $result = mysqli_query($link, $sql_module_group);
-                // $module_group = 0;
-                // $module_level = 0;
-                // if(mysqli_num_rows($result) > 0)
-                // {
-                //     $row =  mysqli_fetch_assoc($result);
-                //     $module_group = (int)$row['module_group'];
-                //     $module_level = $row['module_level'];
-                //     echo  "Module Group " .$row['module_group'] . " Level " . $row['module_level'] . " stud number $stud_number   lecture_id  $lecture_id";
-                // }
-                // //Now lect us find group that iw 
-                // //AND lecture_student.stud_number  = $stud_number
-                // $modules_int_this_group = "
-                //         SELECT *
-                //         FROM module, lecture_student, lecture
-                //         WHERE module.module_code = lecture.module_code
-                //         AND lecture_student.lecture_stud_id = lecture.lecture_id
-                //         AND module.module_group = $module_group
-
-                // ";
-                // $result = mysqli_query($link, $modules_int_this_group);
-                // if(mysqli_num_rows($result) > 0)
-                // {
-                //     //Show us those modules
-                //     echo "<br><hr>Module Code | Module Name | Lecture ID | Module Level ";
-                //     while($row = mysqli_fetch_assoc($result))
-                //     {
-                //         echo "<br>";
-                //         echo $row['module_code'] . "  |  ";
-                //         echo $row['module_name'] . "  |  ";
-                //         echo $row['lecture_id'] . "  |  ";
-                //         echo $row['module_level'] . "  |  ";
-                
-                //     }
-                // }    
-    //Go to group one - 
-
-    //Get the module group of the currenly registered module
-    //Now open the the group that is module is in.
-
 
 ?>

@@ -5,6 +5,7 @@
 //Check if the username is correct
 //Confirm that their passwords match
 include "../../../connect.php";
+echo header_html("../../../style.css");
 
 $staff_number_int = (int)$_POST['staff_number'];//Make sure that we cast all the variables to their rightful datatypes
 $id_number_str = $_POST['id_number'];

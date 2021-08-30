@@ -5,6 +5,7 @@
 
 include_once "form.php";
 include_once "../../../connect.php";
+echo header_html("../../../style.css");
 include_once "student.php";
 
 //Form objects
@@ -19,9 +20,9 @@ $address = "";
 $phone = "";
 
 //"student_portal_home.php"
-echo "<h1>Update Your Student Details</h1>\n<br><hr>";
+echo "<h1>UPDATE STUDENT DETAILS</h1>\n<br>";
 echo back_button("student_portal_home.php");
-echo "<h3>Enter The Following Details and then Submit</h3>\n<br>";
+echo "<p>Enter the following details and then update</p>\n";
 //Now let us go forth to update the student information- remember at this point we need to reselect the student first.
 //So we need to create a select statement where the get the students information and then using that information we need to select the student.
 $stud_number = (int)$_POST['stud_number'];
@@ -50,19 +51,19 @@ if(mysqli_num_rows($result)>0)
         $student->set_email($row['email']);
         $form->set_form("", "POST", "");
         //This the Student Number
-        $label->set_label("stud_num", "<hr>Student Number:  ", "");
+        $label->set_label("stud_num", "Student Number: &nbsp", "");
         $input_wrapper .= $label->get_label() . "";
         $label->set_label("stud_num", $row['stud_number'], "");
         $input_wrapper .= $label->get_label() . "<br>\n";
         $input->set_input("hidden", "stud_number", $row['stud_number'], "", "");
         $input_wrapper .= $input->get_input();
         //ID Number
-        $label->set_label("id_nr", "ID Number:  ", "");
+        $label->set_label("id_nr", "ID Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "");
         $input_wrapper .= $label->get_label() . "";
         $label->set_label("id_nr", $row['id_nr'], "");
         $input_wrapper .= $label->get_label() . "<br>\n";
         //Show the Gender
-        $label->set_label("id_nr", "Sex:  ", "");
+        $label->set_label("id_nr", "Sex: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "");
         $input_wrapper .= $label->get_label() . "";
         $gender = "";
         if($row['gender'] == "M")
@@ -80,21 +81,21 @@ if(mysqli_num_rows($result)>0)
         $label->set_label("id_nr", $gender, "");
         $input_wrapper .= $label->get_label() . "<br>\n";
         //Email
-        $label->set_label("email", "Email Address:  ", "");
+        $label->set_label("email", "Email Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "");
         $input_wrapper .= $label->get_label() . "";
         $label->set_label("email", $row['email'], "");
         $input_wrapper .= $label->get_label() . "<br><hr>\n";
         //first _name
-        $label->set_label("first_name", "First Name:", "");
+        $label->set_label("first_name", "First Name", "");
         $input->set_input("text", "first_name",$student->get_firstname(), "First Name", "");
         $input_wrapper .= $label->get_label() . "<br>\n";
-        $input_wrapper .= $input->get_input_text() . "<br>\n";
+        $input_wrapper .= $input->get_input_text() . "<br><br>\n";
         $first_name = $student->get_firstname();
         //Last Name
-        $label->set_label("last_name", "Last Name:", "");
+        $label->set_label("last_name", "Last Name", "");
         $input->set_input("text", "last_name", $student->get_lastname(), "Last Name", "");
         $input_wrapper .= $label->get_label() . "<br>\n";
-        $input_wrapper .= $input->get_input_text() . "<br>\n";
+        $input_wrapper .= $input->get_input_text() . "<br><br>\n";
         $last_name = $student->get_lastname();
 
         //Gender
@@ -102,14 +103,14 @@ if(mysqli_num_rows($result)>0)
         $label->set_label("phone", "Phone", "");
         $input->set_input("text", "phone", $row['phone'], "Phone Number", "");
         $input_wrapper .= $label->get_label() . "<br>\n";
-        $input_wrapper .= $input->get_input_text() . "<br>\n";
+        $input_wrapper .= $input->get_input_text() . "<br><br>\n";
         //first _name
         $label->set_label("address", "Home Address", "");
         $input->set_input("text", "address", $student->get_address(), "Home Address", "");
         $address = $student->get_address();
         $input_wrapper .= $label->get_label() . "<br>\n";
         $input_wrapper .= $input->get_input_text() . "<br><br>\n";
-        $input->set_input("submit","update", "Update", "","");
+        $input->set_input("submit","update", "Update", "","update_button");
         $input_wrapper .= $input->get_input() ."<br>\n";
         //again what if you are other how are we going group you-- so then we should not have an other -
         //It should only have 2 sexs male or female
@@ -124,7 +125,8 @@ if(mysqli_num_rows($result)>0)
 //Now the goal is to make sure that we take all these things here and then work with them.
 //How are we going to update this information, remember in order of us to update this information - firslty we must set this information - but 
 //Then we we set this information we must make sure that this information
-echo $form->get_form_wrapper($input_wrapper);
+
+echo "<hr><h2>Current Information</h2>" . $form->get_form_wrapper($input_wrapper);
 
 
 if(isset($_POST['update']) || isset($_POST['update_from_view']))
@@ -244,7 +246,7 @@ function back_button($back_url)
         //create a back button - which is actually a form - 
         $form->set_form($back_url, "POST", "");
         //$label->set_label("Click to Register new Student", "First Name", "");
-        $input->set_input("submit", "back", "Back", "", "");
+        $input->set_input("submit", "back", "Back", "", "back_button");
         echo $form->get_form_wrapper($input->get_input());
         //Above is the back button
     return $out;
@@ -260,7 +262,7 @@ function back_button_with_info($back_url, $info, $button_name)
     //$label->set_label("Click to Register new Student", "First Name", "");
     $input->set_input("hidden", "stud_number", $info, "", "");
     $inputs .= $input->get_input();
-    $input->set_input("submit", $button_name, "Back", "", "");
+    $input->set_input("submit", $button_name, "Back", "", "back_button");
     $inputs .= $input->get_input();
     echo $form->get_form_wrapper($inputs);
     //Above is the back button

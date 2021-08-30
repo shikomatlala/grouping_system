@@ -7,6 +7,7 @@ include_once "form.php";
 include_once "../../../connect.php";
 include_once "student.php";
 include_once "../functions.php";
+echo header_html("../../../style.css");
 
 //Form objects & variables
 $form = new Form();
@@ -25,7 +26,6 @@ $and_where_statement = "";
 //
 $rows_for_modules_to_register= "";
 //echo preresquisite_module_sql("155");
-echo $stud_number . " What is this now";
 //Get the student particulares
 //The best option here is to set a global variable carrying the student number
 if(isset($_POST['view_student']))
@@ -119,7 +119,7 @@ if(mysqli_num_rows($result_course) > 0)
             $where_statement .= " AND lecture_id <> " . (int)$row['lecture_id'] . " \n";
             $input->set_input("hidden", "lecture_id", $row['lecture_id'], "", "");
             $inputs .= $input->get_input();
-            $input->set_input("submit", "submit", "Class Details", "", "");
+            $input->set_input("submit", "submit", "Class Details", "", "submit_button");
             $inputs .= $input->get_input();
             $form_out = $form->get_form_wrapper($inputs);
             $class_table .= "\n\t\t<td>" . $form_out . "</td>";
@@ -166,11 +166,13 @@ if(mysqli_num_rows($result_course) > 0)
                     $inputs .= $input->get_input();
                     $input->set_input("hidden", "stud_number", $stud_number, "", "");
                     $inputs .= $input->get_input();
-                    $input->set_input("submit", "submit", "Enrol Module", "", "");
+                    $input->set_input("submit", "submit", "Enrol Module", "", "update_button");
                     $inputs .= $input->get_input();
                     $form_out = $form->get_form_wrapper($inputs);
                     $module_registration_table .= "\n\t\t<td>" . $form_out . "</td>";
                     $rows_for_modules_to_register .= "\n\t\t<td>" . $form_out . "</td>";
+                    $module_registration_table .= "\n\t</tr>";
+                    $rows_for_modules_to_register .= "\n\t<tr>";
                }
            
             }
@@ -181,26 +183,23 @@ if(mysqli_num_rows($result_course) > 0)
         }
         $module_registration_table .= "\n\t</table>";
         $class_table .= "\n\t</table>";
-        echo "Total Classes Taken $count_classes <br><br>";
+        echo "<p>Total Classes Taken $count_classes </p>";
+        echo "<div class=\"center_table\">";
         echo $class_table;
+        echo "</div>";
     }
     else
     {
-        echo "This student has not enrolled for any classes";
+        echo "<h3>NB: This student has not enrolled for any classes</h3>";
         $isEnrolled = false;
         //If the student has not enrolled for any classes then we need to modufy the module tabe.
         //If the student has not enrolled for any class we can raise a flag - 
     }
-    //echo "<hr>";
-    //echo $ifrst_year_student;
-    //echo "We are here<br>";
-    //echo  $module_registration_table;
-    //echo "<br><br><br><br><br><br><hr>";
 
     //Now le us view all the available classes that the student can take
     //Now we need to show all that the student has done.
     //Show all the available lectures that the student can register.
-    echo "<h3><hr>AVAILABLE CLASSES TO ENROL </h3>\n<br>";
+    echo "<h2>AVAILABLE CLASSES TO ENROL </h2>\n<br>";
     $year = 2019;
     //echo "<h2>Available modules for the year " . $year . "</h2>";
     //show all the classes -
@@ -228,7 +227,7 @@ if(mysqli_num_rows($result_course) > 0)
             $first_year_first_semester  = (int)$row['semester'];
         }
     }
-    echo $first_year . " Year | Semester " . $first_year_first_semester ;
+    //echo $first_year . " Year | Semester " . $first_year_first_semester ;
     //Select the least year firstly - 
     //The semester is defined by the institution...
     $sql = "
@@ -242,11 +241,6 @@ if(mysqli_num_rows($result_course) > 0)
     //If this student is not enrolled then we will show only first year modules - this means that we will edit the sql query here.
     //The student can only take first year modules for this semester only.
 
-    //Module level 1 -- Year 1, Semester 1
-    //Module Level 2 -- Year 1, Semester 2
-    //Module Level 3 -- Year 2, Semester 1
-    //Module Level 4 -- Year 2, Semester 2
-    //Module Level 5 -- year 3, Semester 1
     //This is a program - and the goal of this program is that all a student needs to have a credit of 2.8750 -- All comprising of different modules
     //But here is the interesting part - a student cannot register for modules if they have not yet enrolled for a lesser module.
     //Open up rather the modules that the person can taken and when they can take them.
@@ -257,44 +251,9 @@ if(mysqli_num_rows($result_course) > 0)
     {
         //and module_level = 1;
         $and_module_level = " AND module.module_level = 1";
-        $ifrst_year_student = "<h3>Apply for first year modules 1st Semester<h3><br>\n";
+        $ifrst_year_student = "<h3>Apply for first year modules 1st Semester</h3><br>\n";
     }
-    /*
-            $ifrst_year_student = "";
-            $and_module_level = "";
-            if(!$isEnrolled)
-            {
-                //and module_level = 1;
-                $and_module_level = " AND module.module_level = 1";
-                $ifrst_year_student = "<h3>Apply for first year modules 1st Semester<h3><br>\n";
-            }
-            if($count_classes > 0 && $count_classes < 5)
-            {
-                //if this is the case the show only those first classes
-                //$sql .= " AND module.module_level = 1";
-                //What has this person not enrolled for?
 
-                $and_module_level = " AND module.module_level = 1";
-                $ifrst_year_student = "<h3>Apply for first year modules<h3><br>\n";
-            }
-            echo "Count classes is " . $count_classes;
-            if($count_classes > 2 && $count_classes < 9)
-            {
-                //Now we show the student the modules that they are able to take.
-                //But why cant we say that a student cannot take some other modules because they are not yet qualified.
-                $and_module_level = " AND module.module_level <4";
-                //echo $sql .= " AND module.module_level = 2";
-                $ifrst_year_student = "<h3>Apply for first year modules 2nd Semester<h3><br>\n";
-            }
-            if($count_classes > 8 && $count_classes < 13)
-            {
-                //Now we show the student the modules that they are able to take.
-                //But why cant we say that a student cannot take some other modules because they are not yet qualified.
-                $and_module_level = " AND module.module_level <3";
-                //echo $sql .= " AND module.module_level = 2";
-                $ifrst_year_student = "<h3>Apply for 2nd year modules 1st Semester<h3><br>\n";
-            }
-    */
     //We need to tell this student that they can do he following modules next semester - 
     //we firslty need to found all of their modules -- How many modules do they have?
     //We do not need count classes we only need module level -- this is all that we need.
@@ -331,18 +290,20 @@ if(mysqli_num_rows($result_course) > 0)
             $inputs .= $input->get_input();
             $input->set_input("hidden", "stud_number", $stud_number, "", "");
             $inputs .= $input->get_input();
-            $input->set_input("submit", "submit", "Enrol Module", "", "");
+            $input->set_input("submit", "submit", "Enrol Module", "", "update_button");
             $inputs .= $input->get_input();
             $form_out = $form->get_form_wrapper($inputs);
             $module_registration_table .= "\n\t\t<td>" . $form_out . "</td>";
-            //echo "Class Name : " . $row['module_code'] .  "   " . $form_out . "<br><hr>";
+            $module_registration_table .= "\n\t</tr>";
         }
         $module_registration_table .= $rows_for_modules_to_register;
         $module_registration_table .= "\n\t</table>";
         
         //if student is first year tell them that they are applying for first year modules
         //echo $ifrst_year_student;
+        echo "<div class=\"center_table\">";
         echo  $module_registration_table;
+        echo "</div>";
 
     }
     //But also we need to make sure that we do not allow the student to take two similar classes
@@ -357,9 +318,9 @@ else
 {
     echo stud_info($result, $link);
     echo "<h3>Student has not registered a course</h3>\n<br>";
-    echo "Click button to register for a course\n";
+    echo "<p>Click button to register for a course</p>\n";
     //Now le us show the courses that are available to the student.
-    echo "<br>Courses Available for registration<br><br>";
+    //echo "<bCourses Available for registration<br><br>";
     echo get_course_list($link, "");
     //Show the course that got clicked
     //Now that we have create a course select let us allow the register indeed for the course.
@@ -372,9 +333,8 @@ else
     {
         //Now le us show the person the course that they want to take.
         //echo $_POST['course'];
-        echo "<br>You have chosen to register for the following course.<br><br>";
+        echo "<p>You have chosen to register for the following course.</p>";
         echo "<h2>" .  get_course_name_clicked($link, $_POST['course']) . "</h2>";
-        echo $_POST['course'];
         $reg_course_id = (int)$_POST['course'];
         //OK The following button will allow the person to register for a course....
         //echo button($stud_number, "stud_number", "reg_course", "Register Course", "");
@@ -389,7 +349,7 @@ else
         //echo $sql;
         if(mysqli_query($link, $sql))
         {
-            echo "<h3>Student Successully registered for: </h3><h2>" . get_course_name_clicked_2($link, $_POST['course_id']) . "</h2>\n";
+            echo "<p><hr>Student Successully registered for: " . get_course_name_clicked_2($link, $_POST['course_id']) ."</p>\n";
             echo reload_button();
         }
     }
@@ -430,19 +390,19 @@ function stud_info($result, $link)
             $student->set_email($row['email']);
             //Labels to show the students information - 
             //This the Student Number
-            $label->set_label("stud_num", "Student Number:  ", "");
+            $label->set_label("stud_num", "Student Number:", "");
             $input_wrapper .= $label->get_label() . "";
             $label->set_label("stud_num", $row['stud_number'], "");
             $input_wrapper .= $label->get_label() . "<br>\n";
             $input->set_input("hidden", "stud_number", $row['stud_number'], "", "");
             $input_wrapper .= $input->get_input();
             //ID Number
-            $label->set_label("id_nr", "ID Number:  ", "");
+            $label->set_label("id_nr", "ID Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "");
             $input_wrapper .= $label->get_label() . "";
             $label->set_label("id_nr", $row['id_nr'], "");
             $input_wrapper .= $label->get_label() . "<br>\n";
             //Show the Gender
-            $label->set_label("id_nr", "Sex:  ", "");
+            $label->set_label("id_nr", "Sex:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "");
             $input_wrapper .= $label->get_label() . "";
             $gender = "";
             if($row['gender'] == "M")
@@ -460,29 +420,29 @@ function stud_info($result, $link)
             $label->set_label("id_nr", $gender, "");
             $input_wrapper .= $label->get_label() . "<br>\n";
             //Email
-            $label->set_label("email", "Email Address:  ", "");
+            $label->set_label("email", "Email Address:&nbsp;&nbsp;&nbsp;", "");
             $input_wrapper .= $label->get_label();
             $label->set_label("email", $row['email'], "");
             $input_wrapper .= $label->get_label() . "<br>\n";
             //first _name
-            $label->set_label("first_name", "First Name:  ", "");
+            $label->set_label("first_name", "First Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "");
             $input_wrapper .= $label->get_label();
             $label->set_label("first_name", $row['first_name'], "");
             $input_wrapper .= $label->get_label() . "<br>\n";
             $stud_name = $row['first_name'] . " ";
             //Last Name
-            $label->set_label("last_name", "Last Name:  ", "");
+            $label->set_label("last_name", "Last Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "");
             $input_wrapper .= $label->get_label();
             $label->set_label("last_name", $row['last_name'], "");
             $input_wrapper .= $label->get_label() . "<br>\n";
             $stud_name .= $row['last_name'];
             //You cannot edit your gender because if you do it will mess up your ID 
-            $label->set_label("phone", "Phone:   ", "");
+            $label->set_label("phone", "Phone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "");
             $input_wrapper .= $label->get_label();
             $label->set_label("phone", $row['phone'], "");
             $input_wrapper .= $label->get_label() . "<br>\n";
             //first _name
-            $label->set_label("address", "Home Address:   ", "");
+            $label->set_label("address", "Home Address:&nbsp;&nbsp;", "");
             $input_wrapper .= $label->get_label();
             $label->set_label("address", $row['address'], "");
             $input_wrapper .= $label->get_label() . "<br>\n";
@@ -495,12 +455,13 @@ function stud_info($result, $link)
         //What can we update in the information we cannot update the  id numbe, or orther things, so we can only updat the names and phone number - and that is it - not more.
     }
     //All the Out put comes here
-    echo back_button("student_portal_home.php") . "<br>";
+  
     echo "<h1>Student Information</h1>\n";
     echo "<h2>" .  $stud_name . " | " . $stud_number . "</h2>\n<hr>";
+    echo back_button("student_portal_home.php");
 
     //echo "<h3>Information for student : $stud_number</h3>\n<br>";
-    echo "<h3>PERSONAL DETAILS</h3>\n<br>";
+    echo "<h3>PERSONAL DETAILS</h3>";
 
     echo $input_wrapper;
     ///The input button
@@ -510,7 +471,7 @@ function stud_info($result, $link)
     $input_wrapper .= $input->get_input(). "<br>\n";
     $input->set_input("hidden","phone", $phone, "","");
     $input_wrapper .= $input->get_input(). "<br>\n";
-    $input->set_input("submit","submit", "Update Details", "","");
+    $input->set_input("submit","submit", "Update Details", "","update_button");
     $input_wrapper .= $input->get_input() ."<br>\n";
 
     echo $form->get_form_wrapper($input_wrapper) . "<hr>";
@@ -525,7 +486,7 @@ function back_button($back_url)
         //create a back button - which is actually a form - 
         $form->set_form($back_url, "POST", "");
         //$label->set_label("Click to Register new Student", "First Name", "");
-        $input->set_input("submit", "back", "Back", "", "");
+        $input->set_input("submit", "back", "Back", "", "back_button");
         echo $form->get_form_wrapper($input->get_input());
         //Above is the back button
     return $out;
@@ -543,7 +504,7 @@ function button($data1, $data_name1, $data2, $data_name2, $button_name, $button_
         $inputs .= $input->get_input() . "\n";
         $input->set_input("hidden", $data_name2, $data2, "", "");
         $inputs .= $input->get_input() . "\n";
-        $input->set_input("submit", $button_name, $button_caption, "", "");
+        $input->set_input("submit", $button_name, $button_caption, "", "submit_button");
         $inputs .= $input->get_input() . "\n";
         $out =  $form->get_form_wrapper($inputs);
         //Above is the back button
@@ -559,7 +520,7 @@ function reload_button()
         //create a back button - which is actually a form - 
         $form->set_form("", "POST", "");
         //$label->set_label("Click to Register new Student", "First Name", "");
-        $input->set_input("submit", "refresh", "Refresh", "", "");
+        $input->set_input("submit", "refresh", "Refresh", "", "submit_button");
         echo $form->get_form_wrapper($input->get_input());
         //Above is the back button
     return $out;
@@ -604,111 +565,3 @@ function preresquisite_module_sql($lect_id)
 
 
 echo "\n</body>\n</html>";
-
-/*
-    if(mysqli_num_rows($result)>0)
-    {
-
-        while($row = mysqli_fetch_assoc($result))
-        {
-            //Get the students details - 
-            //Let us work with see how this is going to turn out.
-            //Show the person their information that they cannot change - 
-            //
-            $_SESSION['stud_number'] = $row['stud_number'];
-            $stud_number = $row['stud_number'] . "</td>";
-            $student->set_firstname($row['first_name']);
-            $student->set_lastname($row['last_name']);
-            $student->set_sex($row['gender'], $link);
-            $student->set_id($row['id_nr'], $link);
-            $student->set_phone($row['phone'], $link);
-            $phone = $row['phone'];
-            $student->set_address($row['address']);
-            $student->set_email($row['email']);
-            //Labels to show the students information - 
-            //This the Student Number
-            $label->set_label("stud_num", "Student Number:  ", "");
-            $input_wrapper .= $label->get_label() . "";
-            $label->set_label("stud_num", $row['stud_number'], "");
-            $input_wrapper .= $label->get_label() . "<br>\n";
-            $input->set_input("hidden", "stud_number", $row['stud_number'], "", "");
-            $input_wrapper .= $input->get_input();
-            //ID Number
-            $label->set_label("id_nr", "ID Number:  ", "");
-            $input_wrapper .= $label->get_label() . "";
-            $label->set_label("id_nr", $row['id_nr'], "");
-            $input_wrapper .= $label->get_label() . "<br>\n";
-            //Show the Gender
-            $label->set_label("id_nr", "Sex:  ", "");
-            $input_wrapper .= $label->get_label() . "";
-            $gender = "";
-            if($row['gender'] == "M")
-            {
-                $gender = "Male";
-            }
-            elseif($row['gender'] == "F")
-            {
-                $gender = "Female";
-            }
-            else
-            {
-                $gender = "Other";
-            }
-            $label->set_label("id_nr", $gender, "");
-            $input_wrapper .= $label->get_label() . "<br>\n";
-            //Email
-            $label->set_label("email", "Email Address:  ", "");
-            $input_wrapper .= $label->get_label();
-            $label->set_label("email", $row['email'], "");
-            $input_wrapper .= $label->get_label() . "<br>\n";
-            //first _name
-            $label->set_label("first_name", "First Name:  ", "");
-            $input_wrapper .= $label->get_label();
-            $label->set_label("first_name", $row['first_name'], "");
-            $input_wrapper .= $label->get_label() . "<br>\n";
-            $stud_name = $row['first_name'] . " ";
-            //Last Name
-            $label->set_label("last_name", "Last Name:  ", "");
-            $input_wrapper .= $label->get_label();
-            $label->set_label("last_name", $row['last_name'], "");
-            $input_wrapper .= $label->get_label() . "<br>\n";
-            $stud_name .= $row['last_name'];
-            //You cannot edit your gender because if you do it will mess up your ID 
-            $label->set_label("phone", "Phone:   ", "");
-            $input_wrapper .= $label->get_label();
-            $label->set_label("phone", $row['phone'], "");
-            $input_wrapper .= $label->get_label() . "<br>\n";
-            //first _name
-            $label->set_label("address", "Home Address:   ", "");
-            $input_wrapper .= $label->get_label();
-            $label->set_label("address", $row['address'], "");
-            $input_wrapper .= $label->get_label() . "<br>\n";
-            //again what if you are other how are we going group you-- so then we should not have an other -
-            //It should only have 2 sexs male or female
-        }
-        //Firstly we need to validate the information - 
-        //And then after we validate the information we need update the information
-        //Now how do we validate the information
-        //What can we update in the information we cannot update the  id numbe, or orther things, so we can only updat the names and phone number - and that is it - not more.
-    }
-    //All the Out put comes here
-    echo back_button("student_portal_home.php") . "<br>";
-    echo "<h1>Student Information</h1>\n";
-    echo "<h2>" .  $stud_name . " | " . $stud_number . "</h2>\n<hr>";
-
-    //echo "<h3>Information for student : $stud_number</h3>\n<br>";
-    echo "<h3>PERSONAL DETAILS</h3>\n<br>";
-
-    echo $input_wrapper;
-    ///The input button
-    $input_wrapper = ""; 
-    $form->set_form("update_from_view_student.php", "POST", "");
-    $input->set_input("hidden","stud_number", $stud_number, "","");
-    $input_wrapper .= $input->get_input(). "<br>\n";
-    $input->set_input("hidden","phone", $phone, "","");
-    $input_wrapper .= $input->get_input(). "<br>\n";
-    $input->set_input("submit","submit", "Update Details", "","");
-    $input_wrapper .= $input->get_input() ."<br>\n";
-
-    echo $form->get_form_wrapper($input_wrapper) . "<hr>"; */
-?>
