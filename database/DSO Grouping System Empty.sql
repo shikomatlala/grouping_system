@@ -12,9 +12,10 @@
 	  `last_name` VARCHAR(20) NOT NULL,
     `gender` CHAR(1) NOT NULL,
     `id_nr` CHAR(13) NOT NULL,
-    `phone` CHAR(10) NOT NULL UNIQUE,
+    `phone` CHAR(10),
     `email` VARCHAR(70) NOT NULL UNIQUE,
-    `address` VARCHAR(300)
+    `address` VARCHAR(300),
+    `password` VARCHAR(255)
   );
 
 
@@ -27,9 +28,6 @@
     `stud_number` INT(11) UNIQUE,
     FOREIGN KEY (`stud_number`)  REFERENCES `student` (`stud_number`)
   );
-
-
-
 
 
   CREATE TABLE `course`
@@ -159,6 +157,7 @@ CREATE TABLE `lecture`
   `module_code` VARCHAR(10) NOT NULL,
   `semester` INT(1) NOT NULL,
   `year` INT(4) NOT NULL,
+  `password` VARCHAR(255),
   FOREIGN KEY (`module_code`) REFERENCES `module` (`module_code`)
 );
 
@@ -187,23 +186,12 @@ CREATE TABLE  `lecture_group`
 );
 
 
-CREATE TABLE `group_type`
-(
-  `group_type_id` INT(11) PRIMARY KEY AUTO_INCREMENT,
-  `group_type_name` VARCHAR(40) NOT NULL,
-  `total_credit` DECIMAL(4,3) NOT NULL,
-  `lecture_group_id` INT(11) NOT NULL,
-  FOREIGN KEY (`lecture_group_id`) REFERENCES `lecture_group` (`lecture_group_id`)
-);
-
-
-
 CREATE TABLE `group`
 (
   `group_id` INT(11) PRIMARY KEY AUTO_INCREMENT,
   `group_name` VARCHAR(40) NOT NULL,
-  `group_type_id` INT(11) NOT NULL,
-  FOREIGN KEY (`group_type_id`) REFERENCES `group_type` (`group_type_id`)
+  `lecture_group_id` INT(11) NOT NULL,
+  FOREIGN KEY (`lecture_group_id`) REFERENCES `lecture_group` (`lecture_group_id`)
 );
 
 CREATE TABLE `group_member`
@@ -212,7 +200,7 @@ CREATE TABLE `group_member`
  `member_mark` DECIMAL(5,2) NOT NULL,
  `stud_number` INT(11) NOT NULL,
  `group_id` INT(11),
- `lecture_group_id` INT(11) NOT NULL,
+ `lecture_group_id` INT(11),
  FOREIGN KEY(`group_id`) REFERENCES `group`(`group_id`),
  FOREIGN KEY(`stud_number`) REFERENCES `student`(`stud_number`),
  FOREIGN KEY(`lecture_group_id`) REFERENCES `lecture_group`(`lecture_group_id`)

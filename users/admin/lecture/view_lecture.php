@@ -4,9 +4,11 @@ include_once "../functions.php";
 include_once "../student/student.php";
 include_once "../student/form.php";
 include_once "lecture_portal_header.php";
+echo header_html("../../../style.css");
+
 //Back button 
 $course_id = (int)$_POST['course_id'];
-echo button("", "", $course_id , "course_id", "submit", "Back", "view_course_module.php");
+
 
 //Get the module cede
 //Now the goal is to view the spefici module
@@ -154,12 +156,14 @@ if(mysqli_num_rows($result)>0)
 
 //Lecture_ and Lecturers
 $cours_details .= "\t\n</ul>";
-echo "<hr><h1>Class Details | $module_code</h1>\n";
+echo "<h1>Module Details | $module_code</h1><br><hr>\n";
+echo button("", "", $course_id , "course_id", "submit", "Back", "view_course_module.php") . "\n";
+echo "<h2>Module Details</h2>";
 echo $cours_details;
 $lecturer_list .= "\n\t</table>";
 
 //Class lecturers will appear here
-echo "<hr><h1>Class Lecturers<h1>\n";
+echo "<h1>Class Lecturers<h1>";
 echo "<h3>Total Count: " . $count_lecturers . "\n<h3>";
 echo "<hr>" . $lecturer_list;
 //Show lectures that are not assigned this class yet.
@@ -172,7 +176,7 @@ $sql = "SELECT *
 FROM lecturer
 WHERE staff_number <> 1 " . $where_clause;
 $result = mysqli_query($link, $sql);
-
+$available_lecturers = "";
 if(mysqli_num_rows($result)>0)
 {
     $available_lecturers = "";
@@ -213,7 +217,7 @@ if(mysqli_num_rows($result)>0)
         $inputs .= $input->get_input();
         $input->set_input("hidden", "group_name", $group_name, "", "");
         $inputs .= $input->get_input();
-        $input->set_input("submit", "assing_class", "Assign Class", "", "");
+        $input->set_input("submit", "assing_class", "Assign Class", "", "update_button");
         $inputs .= $input->get_input();
         $form_out = $form->get_form_wrapper($inputs);
         $available_lecturers .= "\n\t\t<td>" . $form_out . "</td>";
@@ -224,7 +228,7 @@ if(mysqli_num_rows($result)>0)
 }
 else
 {
-    echo "No Classes Found";
+    echo "<p>No available Lecturers found<p>";
 }
 ///------------------------
 ///--------------------------
@@ -244,7 +248,7 @@ function back_button($back_url)
         //create a back button - which is actually a form - 
         $form->set_form($back_url, "POST", "");
         //$label->set_label("Click to Register new Student", "First Name", "");
-        $input->set_input("submit", "back", "Back", "", "");
+        $input->set_input("submit", "back", "Back", "back_button", "back_button");
         echo $form->get_form_wrapper($input->get_input());
         //Above is the back button
     return $out;
@@ -262,7 +266,7 @@ function button($data1, $data_name1, $data2, $data_name2, $button_name, $button_
         $inputs .= $input->get_input() . "\n";
         $input->set_input("hidden", $data_name2, $data2, "", "");
         $inputs .= $input->get_input() . "\n";
-        $input->set_input("submit", $button_name, $button_caption, "", "");
+        $input->set_input("submit", $button_name, $button_caption, "", "back_button");
         $inputs .= $input->get_input() . "\n";
         $out =  $form->get_form_wrapper($inputs);
         //Above is the back button

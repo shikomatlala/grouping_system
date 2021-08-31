@@ -144,38 +144,46 @@ if(isset($_POST['update']) || isset($_POST['update_from_view']))
         //echo "The numbers are not taken";  
         //set the student name and surname
         $student->set_firstname($_POST['first_name']);
-        echo $fist_name;
+        //echo $fist_name;
         $student->set_lastname($_POST['last_name']);
         $student->set_address($_POST['address']);
+        $str_phone = $_POST['phone'];
+        $student->set_phone($str_phone, $link);
+        $phone = $_POST['phone'];
+        echo $phone;
         if($student->get_firstname() != "NULL")
         {
             if($student->get_lastname() != "NULL")
             {
                 if($student->get_address() != "NULL")
                 {
-                    //We can now insert the student.
-                    //Let us go ahead and update the student. the student.
-                    // Tjovo
-                    $lastname = $student->get_lastname();
-                    $firstname = $student->get_firstname();
-                    $address = $student->get_address();
-                    //echo "We are good";
-                    $sql = "
-                            UPDATE student
-                            SET             first_name = '$firstname', 
-                                            last_name = '$lastname',
-                                            phone = '$phone',
-                                            address = '$address'
-
-                            WHERE stud_number = $stud_number";
-                    if(mysqli_query($link, $sql))
+                    if($student->get_phone() !="NULL")
                     {
-                        //We need to go back -- but as we go back I want us to make sure that we carry with us some basic information
-                        //We can use a form which will help us carry all this basic infomation.
-                        back_button_with_info("student_portal_home.php", $stud_number, "Finish");
-                        //This is hwo you can change the location
-                        echo "alert(\"Successfully Updated!\") ";
-                        header("LOCATION: student_portal_home.php");
+                        //We can now insert the student.
+                        //Let us go ahead and update the student. the student.
+                        // Tjovo
+                        $lastname = $student->get_lastname();
+                        $firstname = $student->get_firstname();
+                        $address = $student->get_address();
+                        $phone = $student->get_phone();
+                        //echo "We are good";
+                        $sql = "
+                                UPDATE student
+                                SET             first_name = '$firstname', 
+                                                last_name = '$lastname',
+                                                phone = '$phone',
+                                                address = '$address'
+
+                                WHERE stud_number = $stud_number";
+                        if(mysqli_query($link, $sql))
+                        {
+                            //We need to go back -- but as we go back I want us to make sure that we carry with us some basic information
+                            //We can use a form which will help us carry all this basic infomation.
+                            back_button_with_info("student_portal_home.php", $stud_number, "Finish");
+                            //This is hwo you can change the location
+                            echo "alert(\"Successfully Updated!\") ";
+                            header("LOCATION: student_portal_home.php");
+                        }
                     }
                 }
                 else

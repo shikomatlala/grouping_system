@@ -4,22 +4,29 @@ include_once "../functions.php";
 include_once "../student/student.php";
 include_once "../student/form.php";
 include_once "../lecture/lecture_portal_header.php";
+echo header_html("../../../style.css");
 //Back Button
 //==============================
 //Variables
 //=======================
 $form = new Form();
 $input = new Input();
-echo "<br><a href=\"../home/admin_home.html\">back</a>\n";
+$_SESSION['mod_code'] = 0;
+$_SESSION['lect_id'] =0;
+$_SESSION['class_id'] = 0;
+$_SESSION['staff_num'] = 0;
+//$_SESSION('staff_number') = 
+//echo "<br><a href=\"../home/admin_home.html\">back</a>\n";
 //View the lectures modules
 //Show The lecturer his modules
 
 
-echo "<br><br><br><br><br><br>";
+//echo "<br><br><br><br><br><br>";
 //Can we tell the lecturer his class today.
 //Back button to go back home.
-echo "<br><a href=\"../home/admin_home.html\">back</a>\n";
-$content = "<h1>Lecturer Portal</h1>\n";
+//echo "<br><a href=\"../home/admin_home.html\">back</a>\n";
+$content = "<h1>Lecturer Portal</h1><br><hr>\n";
+$content .= back_button("../home/admin_home.php");
 //Lect us call on the lectures Information
 $str_sql = "SELECT * 
             FROM lecturer 
@@ -39,6 +46,7 @@ if(mysqli_num_rows($ary_result) > 0)
   }
   $ul.= "</ul>\n<br>";
 }
+$content .= "<h2>Lecturer Peronal Details</h2>";
 $content .= $ul;
 //This is true
 //Le us give the lecturer the modules that he teaches
@@ -48,6 +56,7 @@ $form_link = "action=\"grouping_portal.php\" method=\"POST\">\n";
 $form_ = "<form " .$form_link;
 
 //Lecture Details div.
+//echo 
 echo div("control-group normal_text", $content);
 //Show the Form
 $form_div = "";
@@ -60,7 +69,9 @@ $sql = "SELECT *
 FROM lecture_group, lecturer, lecture
 WHERE lecture_group.lecture_id = lecture.lecture_id
 AND lecturer.staff_number = lecture_group.staff_number
-AND lecturer.staff_number = $staff_number";
+AND lecturer.staff_number = $staff_number
+AND year = 2021
+ORDER BY year DESC";
 $result = mysqli_query($link, $sql);
 if(mysqli_num_rows($result)>0)
 {
@@ -102,7 +113,7 @@ if(mysqli_num_rows($result)>0)
         $inputs .= $input->get_input();
         $input->set_input("hidden", "lecture_group_id", $row['lecture_group_id'], "", "");
         $inputs .= $input->get_input();
-        $input->set_input("submit", "view_class", "View Class", "", "");
+        $input->set_input("submit", "view_class", "View Class", "", "submit_button");
         $inputs .= $input->get_input();
         $form_out = $form->get_form_wrapper($inputs);
         $lecturer_list .= "\n\t\t<td>" . $form_out . "</td>";
@@ -110,26 +121,22 @@ if(mysqli_num_rows($result)>0)
     }
 
 }
+echo "<h2>You Module List</h2>";
 echo $lecturer_list;
 
-
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-
+function back_button($back_url)
+{
+    $form = new Form();
+    $input = new Input();
+    $out = "";
+        //create a back button - which is actually a form - 
+        $form->set_form($back_url, "POST", "");
+        //$label->set_label("Click to Register new Student", "First Name", "");
+        $input->set_input("submit", "back", "Back", "back_button", "back_button");
+        $out =  $form->get_form_wrapper($input->get_input());
+        //Above is the back button
+    return $out;
+}
 
 
 

@@ -15,7 +15,7 @@ if(isset($_POST['submit']))
       if(mysqli_num_rows($result) > 0)
       {
 
-          include "admin_home.html";
+          include "admin_home.php";
           $_SESSION['staff_number'] = $username;
           //echo $_SESSION['staff_number'];
       }
