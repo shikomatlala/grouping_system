@@ -5,11 +5,15 @@ include_once "../functions.php";
 include_once "../student/student.php";
 include_once "../student/form.php";
 include_once "lecture_portal_header.php";
+echo header_html("../../../style.css");
 //OK Now let us manege the lectures.
-back_button("../home/admin_home.html");
+
 echo $header_title;
+back_button("../home/admin_home.php");
 echo $create_lecture;
+echo "\n<div class=\"container2\" >\n";
 echo "<p>You can create a lecture where students can apply to the lecturer<br>
+
 creating a lecturer will require you to also have lecturers who will be available to give the lecture<br>Select the create lecture button to create a lecture.</p>";
 //Lec us nwo create a user can create a lecturer -
 $form = new Form();
@@ -22,8 +26,10 @@ echo get_course_list($link, "lecture_portal.php");
 //Let us view lectures.
 
 //
+//echo "<div class=\container2\" >";
 if(isset($_POST['click_course']) )//)
 {
+
 
   //Put in place the year and the callender
   //echo $_POST['click_course'] . "**** " .  $_POST['course'] . " ||||";
@@ -40,7 +46,8 @@ if(isset($_POST['click_course']) )//)
   //echo "<br>" .  $_SESSION['course_sess'] . " <br>";
   //create a session for saving of this information to keep int fase
   //I am learning that I cannot have more than one form at a time - and yet use both those forms together - I do not know how one can be able to do this.
-  echo "You can automatically create all lectures for " . get_course_name_clicked($link, $_SESSION['course_sess']) . " by clicking the button bellow";
+  echo "<h2>Auto Create Lectures</h2>";
+  echo "<p>You can automatically create all lectures for<p>" . get_course_name_clicked($link, $_SESSION['course_sess']) . " by clicking the button bellow";
 
 
   //Create a form for the user to click the button so that they can create the lecture
@@ -55,7 +62,7 @@ if(isset($_POST['click_course']) )//)
   //Create Form 
   $form->set_form("create_lecture.php", "POST", "");
   //Create a select button - for semester - or a drop down.
-  $semester_num_select->set_select("semester", "semester", "");
+  $semester_num_select->set_select("semester", "semester", "input_");
   $semester_num_select->set_option("1", "1st Semester");
   $compile_select .= "\t". $semester_num_select->get_option();
   $semester_num_select->set_option("2", "2nd Semester");
@@ -64,7 +71,7 @@ if(isset($_POST['click_course']) )//)
   //Create the Year Select
   //But this should be created pragmatically so we need to check which have been done before
   $compile_select = "";
-  $year_select->set_select("year", "year", "");
+  $year_select->set_select("year", "year", "input_");
   $year_select->set_option("2019", "2019", "");
   $compile_select .= "\t". $year_select->get_option();
   $year_select->set_option("2020", "2020", "");
@@ -85,20 +92,10 @@ if(isset($_POST['click_course']) )//)
   $inputs .= $label->get_label() . "<br>";
   $inputs .= $semester_select . "<br>";
   //Submit Button
-  $input->set_input("submit", "auto_create", "Auto Create Lectures", "", "");
+  $input->set_input("submit", "auto_create", "Auto Create Lectures", "", "update_button");
   $inputs .= $input->get_input() . "<br>";
   echo $form->get_form_wrapper($inputs);
   $_SESSION['course_id'] = (int)$_SESSION['course_sess'];
-
-  //print_r($_POST);
-
-
-    //$_SESSION['course_sess'] = $_POST['course'];//
-
-    //Automatically create the lectures.
-
-    //Now create a form where the user can create lectuers for this module
-    //$form->
 }
 if(isset($_POST['auto_create']))
 {
@@ -129,7 +126,7 @@ function back_button($back_url)
         //create a back button - which is actually a form - 
         $form->set_form($back_url, "POST", "");
         //$label->set_label("Click to Register new Student", "First Name", "");
-        $input->set_input("submit", "back", "Back", "", "");
+        $input->set_input("submit", "back", "Back", "", "back_button");
         echo $form->get_form_wrapper($input->get_input());
         //Above is the back button
     return $out;
@@ -147,11 +144,13 @@ function button($data1, $data_name1, $data2, $data_name2, $button_name, $button_
         $inputs .= $input->get_input() . "\n";
         $input->set_input("hidden", $data_name2, $data2, "", "");
         $inputs .= $input->get_input() . "\n";
-        $input->set_input("submit", $button_name, $button_caption, "", "");
+        $input->set_input("submit", $button_name, $button_caption, "", "submit_button");
         $inputs .= $input->get_input() . "\n";
         $out =  $form->get_form_wrapper($inputs);
         //Above is the back button
     return $out;
 }
+
+echo "</div>";
 
 ?>

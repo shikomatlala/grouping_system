@@ -9,7 +9,7 @@ if($link == false){
     die ("ERROR: Could not connect " . mysqli_connect_error());
 }
 //One of the things that we can do is to make sure that we create a script that purely hold functions -- but the issue is that we have a lot of moving parts.
-
+//$_SESSION('staff_number') = 0
 function div($class, $content)
 {
     $out = "";
@@ -26,14 +26,17 @@ function header_html($style_link)
 <head>
   <meta charset=\"utf-8\" />
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+  <link rel=\"stylesheet\" href=\"$style_link\" />
   <title>Grouping System</title>
   <meta charset=\"UTF-8\" />
-  <link rel=\"stylesheet\" href=\"$style_link\" />
+
 </head>
 <body>
     \n";
 
     return $out;
 }
+
+//<link rel=\"stylesheet\" href=\"$style_link\" />
 
 ?>

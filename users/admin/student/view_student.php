@@ -82,7 +82,7 @@ if(mysqli_num_rows($result_course) > 0)
         $class_table .= "\n\t\t<th>Module Name</th>";
         $class_table .= "\n\t\t<th>Semester</th>";
         $class_table .= "\n\t\t<th>Year</th>";
-        $class_table .= "\n\t\t<th> </th>";//Class Details
+        //$class_table .= "\n\t\t<th> </th>";//Class Details
         $class_table .= "\n\t</tr>";
         //echo "This student has taken lectures";
         //Le us now show those lectures/module/class
@@ -113,16 +113,16 @@ if(mysqli_num_rows($result_course) > 0)
             $and_where_statement .= " AND lecture_id <> " . (int)$row['lecture_id'] . " ";
 
             //Create the view Class Button - 
-            $inputs = "";
-            //$stud_number = $row['stud_number'];
-            $form->set_form("view_lecture.php", "POST", "");
-            $where_statement .= " AND lecture_id <> " . (int)$row['lecture_id'] . " \n";
-            $input->set_input("hidden", "lecture_id", $row['lecture_id'], "", "");
-            $inputs .= $input->get_input();
-            $input->set_input("submit", "submit", "Class Details", "", "submit_button");
-            $inputs .= $input->get_input();
-            $form_out = $form->get_form_wrapper($inputs);
-            $class_table .= "\n\t\t<td>" . $form_out . "</td>";
+            // $inputs = "";
+            // //$stud_number = $row['stud_number'];
+            // $form->set_form("view_lecture.php", "POST", "");
+            // $where_statement .= " AND lecture_id <> " . (int)$row['lecture_id'] . " \n";
+            // $input->set_input("hidden", "lecture_id", $row['lecture_id'], "", "");
+            // $inputs .= $input->get_input();
+            // $input->set_input("submit", "submit", "Class Details", "", "submit_button");
+            // $inputs .= $input->get_input();
+            // $form_out = $form->get_form_wrapper($inputs);
+            // $class_table .= "\n\t\t<td>" . $form_out . "</td>";
             //$class_table .= "\n\t\t<td>" .$row['email'] . "</td>";
 
             // reg_date

@@ -3,6 +3,7 @@
 include_once "../../../connect.php";
 include_once "student.php";
 include_once "form.php";
+echo header_html("../../../style.css");
 $student = new Student();
 $form = new Form();
 $input = new Input();
@@ -11,14 +12,13 @@ $student->set_link($link);
 echo "<h1>Insert a New Student</h1>\n<br><hr>";
 echo "<h3>Enter The Following Details and then Submit</h3>\n<br>";
 //create a back button - which is actually a form - 
-$form->set_form("../home/admin_portal.html", "POST", "");
+$form->set_form("../home/admin_portal.php", "POST", "");
 //$label->set_label("Click to Register new Student", "First Name", "");
-$input->set_input("submit", "back", "Back", "", "");
+$input->set_input("submit", "back", "Back", "", "back_button");
 echo $form->get_form_wrapper($input->get_input());
 //what do we need to insert this student -- well we just need to know the current studen stumber - but ai its going to take us time-- wel
 //Create an error list - if we can do so we will be ale to know how to work with out erros - or we can push the person back and then just change a few things to the class -
 //$status_stud_name = "";
-echo "We are here";
 if(isset($_POST['insert_admin']))
 {
   //echo "Now in here";
@@ -79,22 +79,22 @@ if(isset($_POST['insert_admin']))
       $label->set_label("first_name", $student->get_stud_name_status($student->get_firstname()), "");
       $input->set_input("text", "first_name",$student->get_firstname(), "First Name", "");
       $input_wrapper .= $label->get_label() . "<br>\n";
-      $input_wrapper .= $input->get_input_text() . "<br>\n";
+      $input_wrapper .= $input->get_input_text() . "<br><br>\n";
       //Last Name
       $label->set_label("last_name", $student->get_stud_surn_status($student->get_lastname()), "");
       $input->set_input("text", "last_name", $student->get_lastname(), "Last Name", "");
       $input_wrapper .= $label->get_label() . "<br>\n";
-      $input_wrapper .= $input->get_input_text() . "<br>\n";
+      $input_wrapper .= $input->get_input_text() . "<br><br>\n";
       //first _name
       $label->set_label("id_nr", $student->get_id_status($student->get_id()), "");
       $input->set_input("text", "id_nr", $student->get_id(), "ID Number", "");
       $input_wrapper .= $label->get_label() . "<br>\n";
-      $input_wrapper .= $input->get_input_text() . "<br>\n";
+      $input_wrapper .= $input->get_input_text() . "<br><br>\n";
       //first _name
       $label->set_label("sex", $student->validate_sex($student->get_id(), $student->get_sex()), "");
       $input_wrapper .= $label->get_label() . "<br>\n";
       $select = new Select();
-      $select->set_select("sex","sex", "");
+      $select->set_select("sex","sex", "input_");
       $select->set_option("M", "Male");
       $gender_option = "\t".$select->get_option();
       $select->set_option("F","Female");
@@ -102,18 +102,18 @@ if(isset($_POST['insert_admin']))
       $select->set_option("O","Other");
       $gender_option .= "\t".$select->get_option();
       $select_output = $select->get_select($gender_option);
-      $input_wrapper.= $select_output;
+      $input_wrapper.= $select_output . "<br>";
       //first _name
       $label->set_label("phone", $student->get_phone_status($student->get_phone()), "");
       $input->set_input("text", "phone", $student->get_phone(), "Phone Number", "");
       $input_wrapper .= $label->get_label() . "<br>\n";
-      $input_wrapper .= $input->get_input_text() . "<br>\n";
+      $input_wrapper .= $input->get_input_text() . "<br><br>\n";
       //first _name
       $label->set_label("address", "Home Address", "");
       $input->set_input("text", "address", $student->get_address(), "Home Address", "");
       $input_wrapper .= $label->get_label() . "<br>\n";
       $input_wrapper .= $input->get_input_text() . "<br><br>\n";
-      $input->set_input("submit","insert_admin", "Insert Admin", "","");
+      $input->set_input("submit","insert_admin", "Insert Admin", "","update_button");
       $input_wrapper .= $input->get_input() ."<br>\n";
       echo $form->get_form_wrapper($input_wrapper);
     }
@@ -151,7 +151,7 @@ function back_button($back_url)
         //create a back button - which is actually a form - 
         $form->set_form($back_url, "POST", "");
         //$label->set_label("Click to Register new Student", "First Name", "");
-        $input->set_input("submit", "back", "Back", "", "");
+        $input->set_input("submit", "back", "Back", "", "back_button");
         echo $form->get_form_wrapper($input->get_input());
         //Above is the back button
     return $out;

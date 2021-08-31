@@ -6,7 +6,7 @@
 include_once "form.php";
 include_once "../../../connect.php";
 include_once "student.php";
-
+echo header_html("../../../style.css");
 //Form objects
 $form = new Form();
 $input = new Input();
@@ -246,7 +246,7 @@ function back_button($back_url)
         //create a back button - which is actually a form - 
         $form->set_form($back_url, "POST", "");
         //$label->set_label("Click to Register new Student", "First Name", "");
-        $input->set_input("submit", "back", "Back", "", "");
+        $input->set_input("submit", "back", "Back", "", "back_button");
         echo $form->get_form_wrapper($input->get_input());
         //Above is the back button
     return $out;

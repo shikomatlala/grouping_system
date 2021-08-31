@@ -23,7 +23,7 @@ $input_wrapper = "";
 
 echo "<h1>STUDENT MANAGEMENT PORTAL</h1>";
 echo "<h2>List of all student</h2><hr>";
-back_button("../home/admin_home.html") . "<br>";
+back_button("../home/admin_home.php") . "<br>";
 echo "<p>Click bellow to register a new student</p>";
 $form->set_form("student_form.php", "POST", "");
 //$label->set_label("Click to Register new Student", "First Name", "");

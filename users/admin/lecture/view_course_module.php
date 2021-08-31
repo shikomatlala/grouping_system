@@ -4,10 +4,11 @@ include_once "../functions.php";
 include_once "../student/student.php";
 include_once "../student/form.php";
 include_once "lecture_portal_header.php";
+echo header_html("../../../style.css");
 //When we are here  we needt o have a view of all the classes for this course --
 //Now let us view all the classes for this available for this course.
-echo back_button("lecture_portal.php");
-echo "<h1>All classes for </h1><br><hr>";
+
+//echo "<h1>All classes for </h1><br><hr>";
 
 $course_id = (int)$_POST['course_id'];
 view_lectures($link, $course_id);
@@ -39,6 +40,7 @@ function view_lectures($link, $course_id)
     $student_table = "";
     $result = mysqli_query($link, $sql);
     echo "<br><h1>List of all $course_name  classes</h1><br><hr>";
+    echo back_button("lecture_portal.php");
     //echo "<br>" .  $_SESSION['activity'] . "<br>";
     $count_students = 0;
     if(mysqli_num_rows($result)>0)
@@ -84,7 +86,7 @@ function view_lectures($link, $course_id)
             $inputs .= $input->get_input();
             $input->set_input("hidden", "course_id", $course_id, "", "");
             $inputs .= $input->get_input();
-            $input->set_input("submit", "view_class", "View", "", "");
+            $input->set_input("submit", "view_class", "View", "", "submit_button");
             $inputs .= $input->get_input();
             $form_out = $form->get_form_wrapper($inputs);
             $student_table .= "\n\t\t<td>" . $form_out . "</td>";
@@ -98,6 +100,7 @@ function view_lectures($link, $course_id)
     }
 }
 
+
 function back_button($back_url)
 {
     $form = new Form();
@@ -106,7 +109,7 @@ function back_button($back_url)
         //create a back button - which is actually a form - 
         $form->set_form($back_url, "POST", "");
         //$label->set_label("Click to Register new Student", "First Name", "");
-        $input->set_input("submit", "back", "Back", "", "");
+        $input->set_input("submit", "back", "Back", "", "back_button");
         echo $form->get_form_wrapper($input->get_input());
         //Above is the back button
     return $out;
