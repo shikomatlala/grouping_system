@@ -1,6 +1,6 @@
-  CREATE DATABASE grouping_system_;
+  CREATE DATABASE grouping_system;
 
-  USE grouping_system_;
+  USE grouping_system;
 
 
 

@@ -2,7 +2,7 @@
     class Database {
         private $host = 'localhost';
         private $db_name = 'grouping_system';
-        private $username = 'root';
+        private $username = 'mariadb.sys';
         private $password = '';
         private $conn;
         //METHO TO CONNECT
